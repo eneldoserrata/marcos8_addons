@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mipf_module_category" model="ir.module.category">
+            <field name="name">Impresoras fiscales</field>
+            <field name="sequence" eval="1"/>
+        </record>
+
+        <record id="ipf_module_user" model="res.groups">
+            <field name="name">Usuario</field>
+            <field name="category_id" ref="mipf_module_category"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        </record>
+
+        <record id="ipf_module_account" model="res.groups">
+            <field name="name">Contable</field>
+            <field name="category_id" ref="mipf_module_category"/>
+            <field name="implied_ids" eval="[(4, ref('ipf_module_user'))]"/>
+        </record>
+
+        <record id="ipf_module_manager" model="res.groups">
+            <field name="name">Administrador</field>
+            <field name="category_id" ref="mipf_module_category"/>
+            <field name="implied_ids" eval="[(4, ref('ipf_module_user')), (4, ref('ipf_module_account'))]"/>
+        </record>
+
+        <record id="user_ipf_printer_rule" model="ir.rule">
+            <field name="name">Acceso a impresoras para usuarios ifp rule</field>
+            <field ref="model_mipf_printer_config" name="model_id"/>
+            <field name="domain_force">[('user_ids','child_of',user.id)]</field>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4, ref('ipf_module_user'))]"/>
+            <field name="global" eval="1"/>
+        </record>
+
+        <record id="user_ipf_printer_manager_rule" model="ir.rule">
+            <field name="name">Acceso a impresoras para manager ifp rule</field>
+            <field ref="model_mipf_printer_config" name="model_id"/>
+            <field name="domain_force">[]</field>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+            <field name="groups" eval="[(4, ref('ipf_module_manager'))]"/>
+            <field name="global" eval="1"/>
+        </record>
+    </data>
+</openerp>

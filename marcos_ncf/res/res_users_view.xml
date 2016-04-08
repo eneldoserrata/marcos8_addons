@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+        <record id="marcos_view_users_form" model="ir.ui.view">
+            <field name="name">marcos.res.users.simplified.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_form"/>
+            <field name="arch" type="xml">
+                <field name="active" position="after">
+                    <field name="shop_ncf_config_id"/>
+                    <field name="short_pwd" password="True"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="marcos_view_users_simple_form" model="ir.ui.view">
+            <field name="name">marcos.res.users.simplified.form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_simple_form"/>
+            <field name="arch" type="xml">
+                <field name="fax" position="after">
+                    <field name="short_pwd" password="True"/>
+                </field>
+            </field>
+        </record>
+
+    </data>
+</openerp>

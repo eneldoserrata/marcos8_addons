@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="marcos_ipf_module.assets_backend" name="marcos_ipf assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/marcos_ipf_module/static/src/js/marcos_ipf.js"></script>
+                <script type="text/javascript" src="/marcos_ipf_module/static/src/js/bootbox.min.js"></script>
+            </xpath>
+        </template>
+
+    </data>
+</openerp>

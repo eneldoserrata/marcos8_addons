@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="monthly_book_wizard_form" model="ir.ui.view">
+            <field name="name">Monthly book wizard form</field>
+            <field name="model">monthly.book.mwizard</field>
+            <field name="arch" type="xml">
+                <form string="Generar libro de ventas mensual">
+                    <group>
+                        <field name="period_id" options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                    <footer>
+                        <button name="generate_monthly_book" string="Generar libro mensual" type="object" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Salir" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="monthly_book_wizard_action" model="ir.actions.act_window">
+            <field name="name">Generar libro mensual</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">monthly.book.mwizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="monthly_book_wizard_form"></field>
+        </record>
+
+        <record id="daily_book_wizard_form" model="ir.ui.view">
+            <field name="name">daily book wizard form</field>
+            <field name="model">daily.book.mwizard</field>
+            <field name="arch" type="xml">
+                <form string="Generar libro de ventas mensual">
+                    <group>
+                        <field name="ipf_id" options="{'no_create': True, 'no_open': True}"/>
+                        <field name="day">
+                            <p class="oe_grey"> Formato de fecha mm/dd/yyyy</p>
+                        </field>
+                    </group>
+                    <footer>
+                        <widget type="ipf_button_dailybookwizard"/>
+                        or
+                        <button special="cancel" string="Salir" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="daily_book_wizard_action" model="ir.actions.act_window">
+            <field name="name">Generar libro diario</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">daily.book.mwizard</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="daily_book_wizard_form"></field>
+        </record>
+
+
+        <menuitem id="daily_book_wizard_menu" name="Generar libro diario" parent="books_menu" action="daily_book_wizard_action" sequence="4" groups="ipf_module_user,ipf_module_account,ipf_module_manager"/>
+        <menuitem id="monthly_book_wizard_menu" name="Generar libro mensual" parent="books_menu" action="monthly_book_wizard_action" sequence="5" groups="ipf_module_account,ipf_module_manager"/>
+
+
+
+    </data>
+</openerp>

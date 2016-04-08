@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">
+
+        <record id="payment_acquirer_azulform" model="payment.acquirer">
+            <field name="name">Servicios Digitales Banco Popular</field>
+            <field name="provider">Azul Form</field>
+            <field name="company_id" ref="base.main_company"/>
+            <field name="view_template_id" ref="azulform_acquirer_button"/>
+            <field name="environment">test</field>
+            <field name="pre_msg"><![CDATA[
+<p>You will be redirected to the Azul website after cliking on the payment button.</p>]]></field>
+            <field name="azulform_url_test">https://pruebas.azul.com.do/WebServices/JSON/default.aspx</field>
+            <field name="azulform_auth1_test">testeCom</field>
+            <field name="azulform_auth2_test">Pru3b@14</field>
+            <field name="azulform_channel_test">EC</field>
+            <field name="azulform_store_test">39036610012</field>
+            <field name="azulform_posinputmode_test">E-Commerce </field>
+        </record>
+
+        <!--<function model="payment.acquirer" name="_migrate_azulform_account"/>-->
+    </data>
+</openerp>
+

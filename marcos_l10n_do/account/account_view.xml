@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="marcos_account_view_account_position_form">
+            <field name="name">marcos.account.fiscal.position.form</field>
+            <field name="model">account.fiscal.position</field>
+            <field name="inherit_id" ref="account.view_account_position_form"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="fiscal_type"/>
+                    <field name="for_supplier"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Account Tax -->
+        <record id="marcos_view_account_tax_form" model="ir.ui.view">
+            <field name="name">marcos_view.account.tax.form</field>
+            <field name="model">account.tax</field>
+            <field name="inherit_id" ref="account.view_tax_form"/>
+            <field name="arch" type="xml">
+                <field name="price_include" position="after">
+                    <field name="exempt"/>
+                    <field name="itbis"/>
+                    <field name="retention"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Tax Codes -->
+        <record id="marcos_view_tax_code_search" model="ir.ui.view">
+            <field name="name">marcos_account.tax.code.search</field>
+            <field name="model">account.tax.code</field>
+            <field name="inherit_id" ref="account.view_tax_code_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="field[@name='company_id']" position="after">
+                    <group expand="0" string="Group By...">
+                        <filter string="Parent" icon="terp-personal" domain="[]" context="{'group_by':'parent_id'}"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="marcos_sequence_view" model="ir.ui.view">
+            <field name="name">marcos_ir_sequence</field>
+            <field name="model">ir.sequence</field>
+            <field name="inherit_id" ref="base.sequence_view"/>
+            <field name="arch" type="xml">
+                <field name="implementation" position="after">
+                    <field name="ncf_limit"/>
+                    <field name="user_id"/>
+                    <field name="ncf_notify"/>
+                </field>
+            </field>
+        </record>
+
+
+        <record id="marcos_view_account_journal_form" model="ir.ui.view">
+            <field name="name">marcos_account.journal.form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+
+                <field name="group_invoice_lines" position="after">
+                    <field name="nc_payment" invisible="1"/>
+                    <field name="ncf_required" attrs="{'invisible': [('type','not in',['purchase','purchase_refund'])]}"/>
+                    <field name="ipf_payment_type"
+                           attrs="{'invisible':[('type', 'in', ['sale','sale_refund','purchase','purchase_refund','general','situation' ])]}"/>
+                    <field name="ncf_special"
+                           attrs="{'invisible':[('type', 'in', ['sale','sale_refund','cash','purchase_refund','general','situation', 'bank' ])]}"/>
+                    <field name="special_partner" attrs="{'invisible':[('ncf_special', '!=', 'gasto')]}"/>
+                    <field name="special_product" attrs="{'invisible':[('ncf_special', '!=', 'gasto')]}"/>
+                    <field name="is_cjc"
+                           attrs="{'invisible':[('type', 'in', ['sale','sale_refund', 'purchase', 'purchase_refund','general','situation', 'bank' ])]}"/>
+                    <field name="informal_journal_id" attrs="{'invisible':[('is_cjc','=',False)]}"/>
+                    <field name="gastos_journal_id" attrs="{'invisible':[('is_cjc','=',False)]}"/>
+                    <field name="purchase_journal_id" attrs="{'invisible':[('is_cjc','=',False)]}"/>
+                    <field name="pay_to" attrs="{'invisible':[('is_cjc','=',False)]}"/>
+                    <field name="active"/>
+                </field>
+
+
+            </field>
+        </record>
+
+        <!--<record id="marcos_view_account_list" model="ir.ui.view">-->
+            <!--<field name="name">marcos_account.account.list</field>-->
+            <!--<field name="model">account.account</field>-->
+            <!--<field name="inherit_id" ref="account.view_account_form"/>-->
+             <!--<field name="arch" type="xml">-->
+                <!--<field name="active" position="after">-->
+                <!--</field>-->
+             <!--</field>-->
+        <!--</record>-->
+
+    </data>
+</openerp>

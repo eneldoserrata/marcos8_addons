@@ -1,0 +1,16 @@
+id,name,group_id:id,model_id:id,perm_read,perm_write,perm_create,perm_unlink
+acccess_ipf_config_user,access.ipf.config.user,ipf_module_user,model_mipf_printer_config,1,0,0,0
+acccess_ipf_daily_user,access.ipf.daily.config.user,ipf_module_user,model_mipf_daily_book,1,1,1,1
+acccess_ipf_monthly_user,access.ipf.daily.monthly.user,ipf_module_user,model_mipf_monthly_book,1,0,1,1
+acccess_ipf_config_account,access.ipf.config.account,ipf_module_account,model_mipf_printer_config,1,0,0,0
+acccess_ipf_daily_account,access.ipf.daily.config.account,ipf_module_account,model_mipf_daily_book,1,0,1,1
+acccess_ipf_monthly_account,access.ipf.monthly.config.account,ipf_module_account,model_mipf_monthly_book,1,0,1,1
+acccess_ipf_fiscalyear_account,access.ipf.monthly.fiscalyear.account,ipf_module_account,account.model_account_fiscalyear,1,1,1,1
+acccess_ipf_period_account,access.ipf.monthly.period.account,ipf_module_account,account.model_account_period,1,1,1,1
+acccess_ipf_subsidiary_manager,access.ipf.subsidiary.manager,ipf_module_manager,model_mipf_subsidiary,1,1,1,1
+acccess_ipf_config_manager,access.ipf.config.manager,ipf_module_manager,model_mipf_printer_config,1,1,1,1
+acccess_ipf_daily_manager,access.ipf.daily.config.manager,ipf_module_manager,model_mipf_daily_book,1,1,1,1
+acccess_ipf_monthly_manager,access.ipf.monthly.config.manager,ipf_module_manager,model_mipf_monthly_book,1,1,1,1
+acccess_ipf_users_manager,access.ipf.monthly.users.manager,ipf_module_manager,base.model_res_users,1,1,1,1
+acccess_ipf_mail_manager,access.ipf.monthly.mail.manager,ipf_module_manager,mail.model_mail_mail,1,1,1,1
+acccess_ipf_mail_alias_manager,access.ipf.monthly._alias.manager,ipf_module_manager,mail.model_mail_alias,1,1,1,1

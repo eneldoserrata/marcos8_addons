@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="marcos_wizard_pos_refund_order" model="ir.ui.view">
+            <field name="name">marcos_wizard_pos_refund_order</field>
+            <field name="model">pos.cancel.order</field>
+            <field name="arch" type="xml">
+                <form string="Pay Order">
+                    <group>
+                        <field name="manager" password="True"/>
+                    </group>
+                    <footer>
+                        <button name="check" string="Cancelar order" type="object" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Salir" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="marcos_action_pos_refund_order" model="ir.actions.act_window">
+            <field name="name">Refund orden</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.cancel.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="marcos_wizard_pos_refund_order"></field>
+            <field name="context">{'refund': True}</field>
+        </record>
+
+        <record id="marcos_wizard_pos_cancel_order" model="ir.ui.view">
+            <field name="name">marcos_wizard_pos_cancel_order</field>
+            <field name="model">pos.cancel.order</field>
+            <field name="arch" type="xml">
+                <form string="Pay Order">
+                    <group>
+                        <field name="why" required="1"/>
+                        <field name="manager" password="True"/>
+                    </group>
+                    <footer>
+                        <button name="check" string="Cancelar order" type="object" class="oe_highlight"/>
+                        or
+                        <button special="cancel" string="Salir" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="marcos_action_pos_cancel_order" model="ir.actions.act_window">
+            <field name="name">Cancelar orden</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">pos.cancel.order</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="marcos_wizard_pos_cancel_order"></field>
+        </record>
+
+
+        <record model="ir.ui.view" id="marcos_pos_session_opening_form_view">
+            <field name="name">marcos.pos.session.opening.form.view</field>
+            <field name="model">pos.session.opening</field>
+            <field name="inherit_id" ref="point_of_sale.pos_session_opening_form_view"/>
+            <field name="arch" type="xml">
+                <field name="pos_config_id" position="replace">
+                    <field name="pos_config_id" on_change="on_change_config(pos_config_id)"
+                           options="{'no_create': True}" domain="[('state','=','active')]"
+                           class="oe_inline" readonly="0"/>
+                </field>
+            </field>
+        </record>
+
+        <!--pos_payment-->
+        <record id="marcos_pos_payment_option_wizard_form" model="ir.ui.view"   >
+            <field name="name">marcos.pos.payment.option.wizard.form</field>
+            <field name="model">pos.payment</field>
+            <field name="arch" type="xml">
+                <form string="Aplicar pagos">
+                    <group>
+                        <div class="oe_button_box oe_right" attrs="{'invisible':[('open_credit','=',0)]}">
+                            <button name="apply_payment" type="object" class="oe_inline oe_stat_button" icon='fa-money' context="{'nc': True}">
+                                <field name="open_credit" widget="statinfo"/>
+                            </button>
+                        </div>
+                    </group>
+
+                    <field name="is_credit_note" invisible="1"/>
+                    <field name="journal_type" invisible="1"/>
+                    <group>
+                        <field name="journal_type" invisible="1"/>
+
+                        <field name="journal_id" widget="selection" required="1"/>
+
+                        <field name="amount" required="1" string="Monto a pagar"/>
+
+                        <field name="payment_name"
+                               attrs="{'required':[('journal_type','=','bank')]}"/>
+
+                    </group>
+
+                    <footer>
+                        <button name="apply_payment" type="object" string="Pagar" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="marcos_pos_payment_option_action_wizard" model="ir.actions.act_window">
+            <field name="name">Pagar</field>
+            <field name="res_model">pos.payment</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="marcos_pos_payment_option_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+        <record id="marcos_pos_refund_option_wizard_form" model="ir.ui.view">
+            <field name="name">marcos.pos.refund.option.wizard.form</field>
+            <field name="model">pos.payment</field>
+            <field name="arch" type="xml">
+                <form string="Aplicar pagos">
+                    <field name="is_credit_note" invisible="1"/>
+                    <field name="journal_type" invisible="1"/>
+                    <group>
+                        <field name="refund_money" attrs="{'invisible': [('is_credit_note','=',False)]}"/>
+
+                        <field name="journal_id" widget="selection"
+                               attrs="{'invisible':[('refund_money','=',False)], 'required':[('refund_money','=',True)]}"/>
+
+                        <field name="amount"
+                               attrs="{'invisible':[('refund_money','=',False)], 'required':[('refund_money','=',True)]}"/>
+
+                        <field name="payment_name"
+                               attrs="{'required':[('journal_type','=','bank'), ('refund_money','=',True)], 'invisible':[('refund_money','=',False)]}"/>
+
+                        <field name="manager_pwd" password="1"
+                               attrs="{'invisible':[('refund_money','=',False)], 'required':[('refund_money','=',True)]}"/>
+
+                    </group>
+                    <footer>
+                        <button name="apply_payment" type="object" string="Aceptar" class="oe_highlight"/>
+                        <button special="cancel" string="Cancelar" class="oe_link"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="marcos_pos_refund_option_action_wizard" model="ir.actions.act_window">
+            <field name="name">Crear nota de crédito</field>
+            <field name="res_model">pos.payment</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="marcos_pos_refund_option_wizard_form"/>
+            <field name="target">new</field>
+        </record>
+
+
+
+        <record id="marcos_view_confirm_print_fiscal_invoice" model="ir.ui.view">
+            <field name="name">marcos.view.confirm.print.fiscal.invoice</field>
+            <field name="model">pos.payment</field>
+            <field name="arch" type="xml">
+                <form string="Confirmar Impresión">
+                    <h1>Imprimir factura</h1>
+
+                    <div class="oe_button_box oe_right">
+                        <widget type="ipf_button_post_invoice"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>
+

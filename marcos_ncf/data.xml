@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<openerp>
+    <data noupdate="1">
+
+
+        <record id="shop_ncf_config_0" model="shop.ncf.config">
+            <field name="name">Principal</field>
+            <field name="final" ref="marcos_l10n_do.account_journal_cf_consumidor_final"/>
+            <field name="fiscal" ref="marcos_l10n_do.account_journal_cf_credito_fiscal"/>
+            <field name="special" ref="marcos_l10n_do.account_journal_cf_regimenes_especiales"/>
+            <field name="gov" ref="marcos_l10n_do.account_journal_cf_regimenes_gubernamental"/>
+            <field name="nc" ref="marcos_l10n_do.account_journal_cf_nota_credito"/>
+            <field name="nd" ref="marcos_l10n_do.account_journal_cf_nota_debito"/>
+        </record>
+
+
+    </data>
+</openerp>

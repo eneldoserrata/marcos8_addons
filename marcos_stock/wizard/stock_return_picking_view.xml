@@ -1,0 +1,25 @@
+<openerp>
+    <data>
+
+
+         <!--Inherit Form View to Modify it -->
+        <record id="marcos_stock_view_stock_return_picking_form" model="ir.ui.view">
+            <field name="name">marcos_stock_view_stock_return_picking_form</field>
+            <field name="model">stock.return.picking</field>
+            <field name="inherit_id" ref="stock_account.view_stock_return_picking_form_inherit"/>
+            <field name="arch" type="xml">
+                <field name="invoice_state" position="replace">
+
+                    <field name="invoice_state" string="Solicitar nota de crédito"/>
+                    <field name="afecta"
+                           attrs="{'invisible': [('invoice_state','=','none')], 'required': [('invoice_state','!=','none')]}"/>
+
+                </field>
+
+            </field>
+        </record>
+
+
+
+    </data>
+</openerp>

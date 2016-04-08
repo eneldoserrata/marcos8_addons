@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- vim:fdl=1: -->
+<templates id="template" xml:space="preserve">
+
+    <t t-name="ComposeMessageTopButton">
+        <li t-att-title='_t("Compose new Message")'>
+            <a href="#">
+                  <i id="oe_topbar_mailbutton_icon" class="fa fa-envelope-o"/>
+            </a>
+        </li>
+    </t>
+</templates>

@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="report_voucher">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="report.external_layout">
+                        <div class="page">
+                            <div class="col-xs-12">
+                                <style type="text/css">
+                                    .datagrid table {
+                                    border-collapse: collapse;
+                                    text-align: left;
+                                    width: 100%;
+                                    }
+
+                                    .datagrid {
+                                    font: normal 12px/150% Arial, Helvetica, sans-serif;
+                                    background: #fff;
+                                    overflow: hidden;
+                                    border: 1px solid #ddd;
+                                    -webkit-border-radius: 11px;
+                                    -moz-border-radius: 11px;
+                                    border-radius: 11px;
+                                    }
+
+                                    .datagrid table td, .datagrid table th {
+                                    padding: 0px 20px;
+                                    }
+
+                                    .datagrid table thead th {
+                                    background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05,
+                                    #DDDDDD), color-stop(1, #DDDDDD));
+                                    background: -moz-linear-gradient(center top, #DDDDDD 5%, #DDDDDD 100%);
+                                    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DDDDDD',
+                                    endColorstr='#DDDDDD');
+                                    background-color: #DDDDDD;
+                                    color: #000000;
+                                    font-size: 13px;
+                                    font-weight: bold;
+                                    border-left: 0px solid #000000;
+                                    }
+
+                                    .datagrid table thead th:first-child {
+                                    border: none;
+                                    }
+
+                                    .datagrid table tbody td {
+                                    color: #000000;
+                                    font-size: 12px;
+                                    border-bottom: 1px solid #DDDDDD;
+                                    font-weight: normal;
+                                    }
+
+                                    .datagrid table tbody td:first-child {
+                                    border-left: none;
+                                    }
+
+                                    .datagrid table tbody tr:last-child td {
+                                    border-bottom: none;
+                                    }
+
+                                </style>
+
+                                <div t-if="o.state in ['draft','proforma']" style="text-align: center;">
+                                    <h4>
+                                        <strong>
+                                            <span>RECIBO PROVISIONAL:</span>
+                                            <span t-field="o.number"></span>
+                                        </strong>
+                                    </h4>
+                                </div>
+                                <div t-if="o.state == 'posted'" style="text-align: center;">
+                                    <h4>
+                                        <strong>
+                                            <span>RECIBO DE INGRESO:</span>
+                                            <span t-field="o.number"></span>
+                                        </strong>
+                                    </h4>
+                                </div>
+                                <div t-if="o.state == 'cancel'" style="text-align: center;">
+                                    <h4>
+                                        <strong>
+                                            <span>RECIBO CANCELADO:</span>
+                                            <span t-field="o.number"></span>
+                                        </strong>
+                                    </h4>
+                                </div>
+
+                                <div class="datagrid">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <h6>
+                                                        <strong>FECHA</strong>
+                                                    </h6>
+                                                    <h5>
+                                                        <strong>
+                                                            <span t-esc="formatLang(o.date , date=True)"/>
+                                                        </strong>
+                                                    </h5>
+                                                </td>
+                                                <td>
+                                                    <h6>
+                                                        <strong>HEMOS RECIBIDO DE</strong>
+                                                    </h6>
+                                                    <h5>
+                                                        <strong>
+                                                            <span t-field="o.partner_id"/>
+                                                        </strong>
+                                                    </h5>
+                                                </td>
+                                                <td>
+                                                    <h6>
+                                                        <strong>MONTO</strong>
+                                                    </h6>
+                                                    <h5>
+                                                        <strong>
+                                                            <span t-field="o.amount"
+                                                                  t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                                        </strong>
+                                                    </h5>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="datagrid">
+                                     <p>
+                                        <h4>Facturas pagadas</h4>
+                                    </p>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Referencia</th>
+                                                <th>Monto del documento</th>
+                                                <th>Balance</th>
+                                                <th>Pagado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="get_lines(o.line_cr_ids)" t-as="l">
+                                                <td class="text-right">
+                                                    <span t-esc="formatLang(l['date_due'], date=True)"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="l['name']"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="formatLang(l['amount_original'])"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="formatLang(l['amount_unreconciled'])"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="formatLang(l['amount'])"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="datagrid" t-if="o.line_dr_ids">
+                                    <p>
+                                        <h4>Notas de crédito aplicadas</h4>
+                                    </p>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Fecha</th>
+                                                <th>Referencia</th>
+                                                <th>Monto del documento</th>
+                                                <th>Balance</th>
+                                                <th>Pagado</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr t-foreach="get_lines(o.line_dr_ids)" t-as="l">
+                                                <td class="text-right">
+                                                    <span t-esc="formatLang(l['date_due'], date=True)"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="l['name']"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="formatLang(l['amount_original'])"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="formatLang(l['amount_unreconciled'])"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="formatLang(l['amount'])"/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <div class="datagrid">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <h6>
+
+                                                        <strong>Valor en letras:</strong>
+                                                        <span t-esc="fill_stars(o.amount_in_word)"/>
+
+                                                    </h6>
+                                                </td>
+                                                <td>
+                                                    <h6>
+                                                        <div t-if="o.writeoff_amount">
+                                                            <strong>Sobrante del recibo acreditado a la cuenta</strong>
+                                                            <span t-field="o.writeoff_amount"/>
+                                                        </div>
+                                                    </h6>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+
+        <report
+                id="marcos_report_account_voucher"
+                model="account.voucher"
+                string="Recibo"
+                report_type="qweb-pdf"
+                name="marcos_report.report_voucher"
+                file="marcos_report.report_voucher"
+                />
+
+
+
+    </data>
+</openerp>
+

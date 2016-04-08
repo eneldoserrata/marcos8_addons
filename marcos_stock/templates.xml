@@ -1,0 +1,76 @@
+<openerp>
+    <data>
+
+
+        <record id="marcos_stock_view_stock_invoice_onshipping" model="ir.ui.view">
+            <field name="name">marcos_stock_view_stock_invoice_onshipping</field>
+            <field name="model">stock.invoice.onshipping</field>
+            <field name="inherit_id" ref="stock_account.view_stock_invoice_onshipping"/>
+            <field name="arch" type="xml">
+
+                <field name="group" position="replace"/>
+                <field name="invoice_date" position="replace"/>
+
+            </field>
+        </record>
+
+
+        <record id="marcos_view_picking_form" model="ir.ui.view">
+            <field name="name">marcos_stock_picking_invoice_link.stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock_account.view_picking_inherit_form2"/>
+            <field name="arch" type="xml">
+
+                <field name="picking_type_id" position="replace"/>
+
+
+                <field name="partner_id" position="after">
+                    <field name="refund_type" invisible="1"/>
+                    <field name="picking_type_id"/>
+                    <field name="src_usage" invisible="1"/>
+                    <field name="dest_usage" invisible="1"/>
+                </field>
+
+                <xpath expr="//button[@string='Reverse Transfer']" position="replace">
+                    <button name="%(stock.act_stock_return_picking)d" string="Reverse Transfer" type="action" groups="base.group_user"
+                            attrs="{'invisible': [('state','=','done'),('afecta','!=',False),('invoice_id','!=',False)]}"/>
+                </xpath>
+
+                <xpath expr="//button[@string='Create Invoice']" position="replace">
+
+                    <button name="%(stock_account.action_stock_invoice_onshipping)d" string="Pedir nota de crédito"
+                            attrs="{'invisible': ['|','|',('state','&lt;&gt;','done'),('afecta','=',False),('invoice_state','=','invoiced')]}"
+                            type="action" class="oe_highlight" groups="base.group_user"/>
+
+                   <button name="%(stock_account.action_stock_invoice_onshipping)d" string="Crear factura"
+                           attrs="{'invisible': ['|','|',('state','&lt;&gt;','done'),('invoice_state','&lt;&gt;','2binvoiced'),('refund_type','in',['out_invoice','in_invoice','out_refund','in_refund'])]}"
+                           type="action" class="oe_highlight" groups="base.group_user"/>
+
+                </xpath>
+
+
+                <field name="invoice_state" position="after">
+                    <field name="afecta" string="Afecta" groups="account.group_account_invoice"
+                           context="{'form_view_ref': invoice_view_xmlid}"/>
+                </field>
+
+            </field>
+        </record>
+
+        <record id="marcos_view_location_form" model="ir.ui.view">
+            <field name="name">marcos.view_location_form</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='localization']" position="after">
+                    <xpath expr="//group[@name='localization']" position="after">
+                    <group string="Accounting Information" attrs="{'invisible':[('usage','not in',('internal'))]}">
+                        <field name="property_stock_valuation_account_id"/>
+                    </group>
+                </xpath>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

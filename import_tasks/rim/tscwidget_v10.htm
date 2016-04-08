@@ -1,0 +1,289 @@
+<style type="text/css">
+div#tsc-container {
+  width:650px;
+  overflow:hidden;
+}
+#tsc-container img {
+  border: 0 none;
+  height: auto;
+  max-width: 100%;
+  margin:10px;
+}
+#tyresizecalc {
+ 	float:left;
+ 	margin:20px 10px;
+ 	overflow:hidden;
+ 	border:2px solid #aaa;
+   padding: 10px;
+}
+#result {
+	float: left;
+	margin:0 20px 10px 0;
+}
+#result_wrapper {
+	margin-bottom: 20px;	
+	clear: both;
+}
+table.tsc-tbl {
+    border: 2px solid #aaa;
+    /* cell spacing off */
+    border-collapse: collapse;
+    border-spacing: 0;
+    max-width: 100%;
+    margin:20px 10px;
+    width: 100%;
+    caption-side: top;
+}
+table.tsc-tbl caption {
+   font-weight:bold;
+   margin:5px 0;
+}
+table.tsc-tbl td, table.tsc-tbl th {
+    border: 1px solid #bbb;
+    padding: 3px 5px;
+    text-align: left;
+}
+table.tsc-tbl th {
+    background-color: #dedede;
+}
+table.tsc-tbl td.difference, table.tsc-tbl td.optsizes {
+    font-weight: bold;
+}
+table.tsc-tbl td.difference {
+    text-align: right;
+}
+.orig_size td {
+	background-color: #666;
+	text-align: center;
+	color: #fff;
+}
+#result_clear {
+	clear: both;	
+}
+#tyreinfo {
+	width: 180px;
+	float:left;
+	margin: 0 0 20px 5px;
+}
+#tyreinfo table th {
+	text-align: left;	
+}
+table.tsc-tbl tr:nth-child(even) {
+background-color: #efefef;
+}
+/* To target all odd rows use the following */
+table.tsc-tbl tr:nth-child(odd) {
+background-color: #fff;
+}
+div#tyresizecalc #form1 select {
+    border-left:2px inset #ddd;
+    border-top:2px inset #ddd;
+    border-right: 1px solid #bbb;
+    border-bottom: 1px solid #bbb;
+    border-radius: 3px;
+	-moz-border-radius: 3px;
+   -webkit-border-radius: 3px;
+    vertical-align: middle;
+    width: 65px !important;
+    display: inline-block;
+    line-height: 32px;
+    margin: 5px 0 5px 0;
+    padding: 2px 2px;
+}
+div#tyresizecalc #form1 fieldset legend {
+   font-weight:bold;
+   padding:5px;
+   font-variant:small-caps;
+}
+input#tsc-submit {
+   display:block;
+	font-weight: bold;
+	height: 32px;
+   margin: 10px auto 0;
+   cursor:pointer;
+}
+</style>
+<script type="text/javascript">
+/* <![CDATA[ */
+/*
+ * @copyright (C) 2013 - http://www.tyresizecalculator.com, All rights reserved.
+*/
+(function($){
+$(document).ready(function() {
+	$("#result_wrapper").hide();
+	$("#loading").hide(); 
+
+   resultTable = function(serverData) {
+
+   $("#result *").remove();
+	$("#loading").hide();  
+
+   if(serverData.success==0) {
+      $("#result_wrapper").show();
+      var err = "<p><strong>Sorry, no tyres found that could fit. Try to change some of the input parameters. Thank You.</strong></p>";
+		$(err).appendTo("#result");
+   } else {
+		var table = "<table class=\"tsc-tbl\" id=\"tsc-result\"><tbody></tbody></table>";
+		$(table).appendTo("#result");
+		var header = "<tr><th>Optional<br />Size</th><th>Side<br />wall<br />(mm)</th><th>Diam<br />eter<br />(mm)</th><th>Diff<br />%</th></tr>";
+		$(header).appendTo("#result tbody");
+      var minimum = Math.abs(serverData.data[0].perc);
+     	$.each(serverData.data, function(entryIndex, entry) {
+         var width = entry.width;
+			var ar = entry.ar;
+			var diam = entry.diam;
+         var nd = parseFloat(entry.nd).toFixed(2);
+			var perc = entry.perc;
+			if (Math.abs(perc)<minimum) minimum = Math.abs(perc);
+		      var sidewall = width*ar/100;
+			   var tblrow = '<tr><td class="optsizes">' + width + "/" + ar + "R" + diam +  "</td><td>" + sidewall + "</td><td>" + nd + '</td><td class="difference">' + perc + "</td></tr>";
+				$(tblrow).appendTo("#result tbody");
+		});   // END  	$.each(serverData.data
+		$("#result_wrapper").show();
+   }  // END if(response.success==0) {...
+   };  // END function resultTable(data) {...
+	$("#tsc-submit").click(function(e) {
+      e.preventDefault();
+		$("#loading").show();
+		var $arr = { width:$("#width option:selected").html(),
+					    ar:$("#ar option:selected").html(),
+					    wheel:$("#wheel option:selected").html(),
+					    newwheel:$("#newwheel option:selected").html(),
+					    task:'calculate'
+		           };
+		var d = Math.round( ($arr["wheel"]*25.4 + 2*$arr["width"]*$arr["ar"]/100)) ;
+		var s = $arr["width"]*$arr["ar"]/100;
+		/*  Small table - Original tyre size  */
+		$("#tyreinfo > *").remove();
+		var tbl = "<table id=\"tsc-origsize\" class=\"tsc-tbl\"><tbody></tbody></table>";
+		$(tbl).appendTo("#tyreinfo");
+		var tbl_c = "<tr class=\"orig_size\"><th>Original Size</th><td>" + $arr["width"] + "/" + $arr["ar"] + "R" + $arr["wheel"] + "</td></tr><tr><th>Wheel<br />Diameter</th><td>" + $arr["wheel"] + "\"</td></tr><tr><th>Thread<br />Width<br />(mm)</th><td>" + $arr["width"] + "</td><tr><th>Sidewall<br />(mm)</th><td>" + s + "</td></tr><tr><th>Diameter<br />(mm)</th><td>" + d + "</td></tr>";
+		$(tbl_c).appendTo("#tyreinfo tbody");
+		$.ajax({
+         type: 'GET',
+         url: 'http://www.tyresizecalculator.com/index.php?option=com_tsc',
+         data: $arr,
+         dataType: 'jsonp',
+         jsonpCallback: "resultTable"
+      });
+	}); // END $("#subm").click(function(e) {...
+}); // END $(document).ready(function()...
+})(jQuery);
+/* ]]> */
+</script>
+
+<div id="tsc-container">
+<p><strong>Tyre Size Calculator helps you determine tyre size when you place larger wheels.</strong></p>
+<p>Enter the original tyre size and the new wheel size into the form below.</p>
+<p>The calculator will make a list of optional tyre sizes for the new wheel.</p>
+<img src="http://www.tyresizecalculator.com/images/articles/tyre-size.jpg" alt="Tyre Size Calculator" title="Tyre Size Calculator" id="tyre_size" />
+<div id="tyresizecalc">
+<p>Powered by <a href="http://www.tyresizecalculator.com" target="_blank">Tyre Size Calculator</a></p>
+<form id="form1" name="form1" method="post" action="">
+<fieldset>
+<legend>original tyre size</legend>
+<div id="tsc-originalsize">
+<select name="width" id="width">
+<option value="125">125</option>
+<option value="135">135</option>
+<option value="145">145</option>
+<option value="155">155</option>
+<option value="165">165</option>
+<option value="175">175</option>
+<option value="185">185</option>
+<option value="195" selected="selected">195</option>
+<option value="205">205</option>
+<option value="215">215</option>
+<option value="220">220</option>
+<option value="225">225</option>
+<option value="230">230</option>
+<option value="235">235</option>
+<option value="245">245</option>
+<option value="255">255</option>
+<option value="265">265</option>
+<option value="275">275</option>
+<option value="285">285</option>
+<option value="295">295</option>
+<option value="305">305</option>
+<option value="315">315</option>
+<option value="325">325</option>
+<option value="335">335</option>
+<option value="345">345</option>
+<option value="355">355</option>
+</select>
+<span style"font-size:+0.4">&nbsp;<strong>/</strong></span>
+<select name="ar" id="ar">
+<option value="25">25 </option>
+<option value="30">30 </option>
+<option value="35">35 </option>
+<option value="40">40 </option>
+<option value="45">45 </option>
+<option value="50">50 </option>
+<option value="55">55</option>
+<option value="60">60 </option>
+<option value="65" selected="selected">65</option>
+<option value="70">70 </option>
+<option value="75">75 </option>
+<option value="80">80 </option>
+<option value="85">85 </option>
+</select>
+<span><strong>R</strong></span>
+<select name="wheel" id="wheel">
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15" selected="selected">15</option>
+<option value="16">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+</select>
+</div>
+</fieldset>
+<fieldset>
+<legend>new wheel size</legend>
+<div id="tsc-newwheelsize">
+<select name="newwheel" id="newwheel">
+<option value="12">12</option>
+<option value="13">13</option>
+<option value="14">14</option>
+<option value="15">15</option>
+<option value="16" selected="selected">16</option>
+<option value="17">17</option>
+<option value="18">18</option>
+<option value="19">19</option>
+<option value="20">20</option>
+<option value="21">21</option>
+<option value="22">22</option>
+<option value="23">23</option>
+</select></td>
+</div>
+</fieldset>
+<input type="submit" value="Calculate" id="tsc-submit" name="tsc-submit" />
+<div style="margin-top:10px" id="loading"><span>WAIT...</span></div>
+</form>
+</div> <!-- tyresizecalc -->
+<div style="clear:both"></div>
+
+<div id="result_wrapper0">
+<div id="result_wrapper">
+    <div id="result">
+    </div>
+    <div id="tyreinfo">
+    </div>
+    <div id="result_clear">
+    </div>
+</div>
+</div><!-- #result_wrapper0 -->
+
+<div style="clear:both"></div>
+<div id="txtStatus">&nbsp;</div>
+<p><strong>Note:</strong><br />
+The optional tyres have a diameter in the range of -3% to +4% of the difference between the outer tyre diameter and the wheel diameter (D-W). This formula is used by leading tyre manufacturers</p>
+<p>Tyre interchangeability is not always possible, so be sure to consult your car manufacturer's manual before changing your tyres. This is for informative purposes only.</p>
+</div>  <!-- end <div id="tsc-container"> -->
+<div style="clear:both"></div>

@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="marcos_rim_view_location_form_inherit" model="ir.ui.view">
+            <field name="name">marcos_rim.stock.location.form.inherit</field>
+            <field name="model">stock.location</field>
+            <field name="inherit_id" ref="stock.view_location_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//separator[@string='Additional Information']" position="before">
+                    <group col="8">
+                        <group string="Auto print barcode configuration" colspan="4">
+                            <field name="qc_location"/>
+                            <field name="max_qty"/>
+                            <field name="print_barcode"/>
+                            <field name="default_printer" attrs="{'invisible':[('print_barcode','=',False)]}"/>
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="marcos_rim_stock_move_transfer_widget_action" model="ir.actions.client">
+            <field name="name">marcos.rim.webapps</field>
+            <field name="tag">marcos_rim.RimWebApp</field>
+        </record>
+
+        <menuitem id="marcos_rim_stock_move_transfer_widget_action_menu" parent="stock.menu_stock_warehouse_mgmt"
+                  name="Rim warehouse" action="marcos_rim_stock_move_transfer_widget_action"/>
+
+        <record id="marcos_rim_qc_users_form" model="ir.ui.view">
+            <field name="name">marcos_rim_qc_users_form</field>
+            <field name="model">marcos_rim.qc_users</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="usuario"/>
+                                <field name="password" password="True"/>
+                                <field name="canfix"/>
+                            </group>
+                            <group>
+                                <field name="metadiaria"/>
+                                <field name="default_printer"/>
+                                <field name="location_id"/>
+                                <field name="active"/>
+                                <!--<field name="qc_user"/>-->
+                            </group>
+                            <!--<button name="generate_new_pass" type="object" string="Reiniciar clave"/>-->
+                            <html>
+                                <!--<p>-->
+                                <!--Para imprimir los labels de usuarios en el commander debe de estar configurada-->
+                                <!--una carpeta llamada marcos_qc_users-->
+                                <!--</p>-->
+                            </html>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="marcos_rim_qc_users_tree" model="ir.ui.view">
+            <field name="name">marcos_rim_qc_users_form</field>
+            <field name="model">marcos_rim.qc_users</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="qc_user"/>
+                    <field name="canfix"/>
+                    <field name="default_printer"/>
+                    <field name="location_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="marcos_rim_qc_users_action" model="ir.actions.act_window">
+            <field name="name">QC Users</field>
+            <field name="res_model">marcos_rim.qc_users</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="marcos_rim_qc_users_menu" parent="stock.menu_stock_warehouse_mgmt" name="QC Users" sequence="10"
+                  action="marcos_rim_qc_users_action"/>
+
+
+        <record id="marcos_rim_stock_bigreport_action" model="ir.actions.client">
+            <field name="name">marcos.rim.SkuReport</field>
+            <field name="tag">marcos_rim.SkuReport</field>
+        </record>
+
+        <menuitem id="marcos_rim_bigreport_menu" parent="stock.menu_stock_inventory_control"
+                  name="SKU Report" action="marcos_rim_stock_bigreport_action"/>
+
+        <record model="ir.ui.view" id="rim_sale_view_order_form">
+            <field name="name">rim_sale.view_order_form</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="replace">
+                    <field name="product_qty_total" class="oe_inline"/>
+                </field>
+                <xpath expr="//field[@name='name']" position="after">
+                    <div class="oe_right oe_button_box">
+                        <button name="open_barcode_interface_from_order" groups="stock.group_stock_user" type="object" class="oe_stock_scan_button"
+                                attrs="{'invisible': [('state','not in',('draft','sent'))]}"><img src="/stock/static/src/img/scan.png" class="oe_stock_scan_image oe_stock_scan_image_btn"/></button>
+                    </div>
+                </xpath>
+                <field name="price_subtotal" position="after">
+                    <field name="tuids"/>
+                </field>
+                <!--<field name="state" position="replace">-->
+                    <!--<field name="state" widget="statusbar" statusbar_visible="draft,scaned,sent,progress,done" statusbar_colors='{"invoice_except":"red","waiting_date":"blue","scaned":green}'/>-->
+                <!--</field>-->
+                <!--<xpath expr="//button[@name='action_quotation_send']" position="after">-->
+                    <!--<button name="action_quotation_send" string="Send by Email" type="object" states="scaned" class="oe_highlight" groups="base.group_user"/>-->
+                    <!--<button name="print_quotation" string="Print" type="object" states="scaned" class="oe_highlight" groups="base.group_user"/>-->
+                    <!--<button name="action_button_confirm" states="scaned" string="Confirm Sale" type="object" groups="base.group_user"/>-->
+                    <!--<button name="cancel" states="scaned" string="Cancel Quotation" groups="base.group_user"/>-->
+                <!--</xpath>-->
+                <!--<xpath expr="//button[@name='button_dummy']" position="replace">-->
+                    <!--<button name="button_dummy" states="draft,scaned,sent" string="(update)" type="object" class="oe_edit_only oe_link"/>-->
+                <!--</xpath>-->
+                <xpath expr="//group[@name='sales_person']" position="after">
+                    <field name="from_scan"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <!--<record id="sale.action_quotations" model="ir.actions.act_window">-->
+            <!--<field name="domain">[('state','in',('draft','scaned','sent','cancel'))]</field>-->
+        <!--</record>-->
+
+
+        <record id="rim_view_picking_form" model="ir.ui.view">
+            <field name="name">rim.stock.picking.form</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='open_barcode_interface']" position="after">
+                    <button name="open_barcode_interface" groups="stock.group_stock_user" type="object" class="oe_stock_scan_button"
+                            attrs="{'invisible': [('state','not in',('confirmed'))]}"><img src="/stock/static/src/img/scan.png" class="oe_stock_scan_image oe_stock_scan_image_btn"/></button>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

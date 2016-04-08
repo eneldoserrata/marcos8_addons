@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="marcos_purchase_order_2_import_cost" model="ir.ui.view">
+            <field name="name">Marco Purchase Picking Inherited import cost</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <field name="picking_type_id" position="after">
+                    <field name="importation"/>
+                    <field name="custom_rate" widget="monetary" attrs="{'required':[('importation','=',True)], 'invisible': [('importation','=', False)]}"/>
+                    <field name="dop_total_cost" widget="monetary" attrs="{'required':[('importation','=',True)], 'invisible': [('importation','=', False)]}"/>
+                    <field name="usd_total_cost" widget="monetary" attrs="{'required':[('importation','=',True)], 'invisible': [('importation','=', False)]}"/>
+                </field>
+
+                <field name="price_subtotal" position="after">
+                    <field name="price_unit_pesos"/>
+                </field>
+
+            </field>
+
+        </record>
+
+    </data>
+</openerp>

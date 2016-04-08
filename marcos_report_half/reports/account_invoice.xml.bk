@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <report
+                id="half_account_invoices"
+                model="account.invoice"
+                string="Factura media pagina"
+                report_type="qweb-pdf"
+                name="marcos_report_half.report_invoice_half_document"
+                file="marcos_report_half.report_invoice_half_document"
+        />
+
+        <template id="report_invoice_half_document">
+            <t t-call="report.html_container">
+                <t t-foreach="docs" t-as="o">
+                    <t t-if="o and 'company_id' in o">
+                        <t t-set="company" t-value="o.company_id"></t>
+                    </t>
+                    <t t-if="not o or not 'company_id' in o">
+                        <t t-set="company" t-value="res_company"></t>
+                    </t>
+                    <div class="header">
+
+                        <div class="container">
+                            <div class="row pull-left col-sm-8 col-md-8">
+                                <div>
+                                    <div class="pull-left">
+                                        <b class="x-large">
+                                            <span t-field="company.name"/>
+                                        </b>
+                                    </div>
+                                    <div class="text-center pull-right x-small col-sm-4 col-md-4">
+                                        <div>
+                                            <ul class="list-inline">
+                                                <li>Pagina:</li>
+                                                <li>
+                                                    <span class="page"/>
+                                                </li>
+                                                <li>/</li>
+                                                <li>
+                                                    <span class="topage"/>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row x-small">
+                                <div class="pull-left">
+                                    <span t-field="company.street"/>
+                                    /
+                                    <span t-field="company.street2"/>
+                                    <br/>
+                                    <span t-field="company.city"/>
+                                    /
+                                    <span t-field="company.country_id.name"/>
+                                    <br/>Tels:<span t-field="company.phone"/>/ Fax:<span t-field="company.phone"/>/
+                                    Email:
+                                    <span t-field="company.email"/>
+                                    <br/>RNC:
+                                    <span t-field="company.vat"/>
+                                </div>
+                                <div class="text-center pull-right line-box x-small col-sm-4 col-md-4">
+                                    <div>
+                                        <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')">
+                                            <span t-field="o.journal_id.name"/>
+                                        </span>
+                                        <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
+                                        <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Factura en borrador
+                                        </span>
+                                        <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Factura cancelada
+                                        </span>
+                                        <span t-if="o.type == 'out_refund'">Nota de credito</span>
+                                        <span t-if="o.type == 'in_refund'">Nota de credito proveedor</span>
+                                        <span t-if="o.type == 'in_invoice'">Factura proveedor</span>
+
+                                        <br/>
+                                        <span t-field="o.number"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="page">
+                        <div class="container x-small">
+                            <div class="row">
+                                <div class="col-md-4 pull-left">
+                                    <label>RNC:</label>
+                                    <span t-field="o.partner_id.ref"/>
+                                    <br/>
+                                    <label>Cliente</label>
+                                    <span t-field="o.partner_id.name"/>
+                                    <br/>
+                                    <label>Direccion:</label>
+                                    <span t-field="o.partner_id.street"/>
+                                    /
+                                    <span t-field="o.partner_id.street2"/>
+                                    /
+                                    <span t-field="o.partner_id.city"/>
+                                    /
+                                    <span t-field="o.partner_id.country_id.name"/>
+                                    <br/>
+                                    <label>Telefonos:</label>
+                                    <span t-field="o.partner_id.phone"/>
+                                    /
+                                    <span t-field="o.partner_id.mobile"/>
+                                    /
+                                    <span t-field="o.partner_id.fax"/>
+                                </div>
+                                <div class="col-md-4 pull-right left-line">
+                                    <label>Fecha:</label>
+                                    <span t-field="o.date_invoice"/>
+                                    <br/>
+                                    <label>Fecha de vencicmiento:</label>
+                                    <span t-field="o.date_due"/>
+                                    <br/>
+                                    <label>Forma de pago:</label>
+                                    <span t-field="o.payment_term.name"/>
+                                    <br/>
+                                    <label>Vendedor:</label>
+                                    <span t-field="o.user_id.name"/>
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Descripcion del producto</th>
+                                                <th class="text-center">Cant.</th>
+                                                <th class="text-center">Prec. Unit.</th>
+                                                <th class="text-center">Desc.</th>
+                                                <th class="text-center">Impuesto</th>
+                                                <th class="text-center">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="invoice_tbody">
+                                            <tr t-foreach="o.invoice_line" t-as="l">
+                                                <td>
+                                                    <span t-field="l.name"/>
+                                                </td>
+                                                <td>
+                                                    <span t-field="l.quantity"/>
+                                                    <span t-field="l.uos_id" groups="product.group_uom"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="l.price_unit"/>
+                                                </td>
+                                                <td class="text-right" groups="sale.group_discount_per_so_line">
+                                                    <span t-field="l.discount"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-esc="', '.join(map(lambda x: x.name, l.invoice_line_tax_id))"/>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span t-field="l.price_subtotal"
+                                                          t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="last-page">
+                            <div class="row x-small text-center">
+                                <div class="col-md-4">
+                                    <p class="top-line">PARA REALIZAR PAGOS EN EFECTIVO FAVOR COMUNICARSE AL DPTO DE
+                                        COBROS TEL 809 534-4543 [SI ESTA(S) FACTURA(S) HAN SIDO PAGADAS(S) FAVOR OBVIAR
+                                        ESTE MENSAJE]
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="text-center pull-left col-md-2">
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>__________________________
+                                    <br/>Preparado
+
+                                </div>
+                                <div class="text-center pull-left col-md-2">
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>__________________________
+                                    <br/>Preparado
+
+                                </div>
+                                <div class="text-center pull-left col-md-2 col-sm-2">
+                                    <br/>
+                                    <br/>
+                                    <br/>
+                                    <br/>__________________________
+                                    <br/>Preparado
+
+                                </div>
+                                <div class="pull-right line-box col-md-6 col-sm-6">
+                                    <label>Subtotal</label>
+                                    <span t-field="o.amount_untaxed" class="pull-righ"
+                                          t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                    <br/>
+                                    <label>Descuento</label>
+                                    <span t-field="o.disc_total" class="pull-right"
+                                          t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                    <br/>
+                                    <label>ITBIS</label>
+                                    <span t-field="o.amount_tax" class="pull-right"
+                                          t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                    <br/>
+                                    <label>Total</label>
+                                    <span t-field="o.amount_total" class="pull-right"
+                                          t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                                    <br/>
+                                </div>
+                            </div>
+                            <div class="row x-small">
+                                <b>Nota:</b>
+                                <span t-field="o.comment"/>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="footer">
+                        <div class="row x-small text-center">
+                            <span t-field="company.rml_header1"/>
+                        </div>
+                    </div>
+
+                </t>
+            </t>
+        </template>
+
+
+    </data>
+</openerp>

@@ -1,0 +1,685 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+
+    <t t-name="qc_and_transfer_template">
+        <div id="rimwebappcontainner" style="padding: 20px">
+            <a href="../qc" type="button" class="btn btn-success btn-lg"
+               style="font-size: 40px;margin-bottom: 20px;color: #ffffff;">
+                <img src="/stock/static/src/img/scan.png"
+                     alt="Quality control"
+                     class="oe_stock_scan_image" title="Quality control"/>
+                Quality control
+            </a>
+            <a href="../transfer" type="button" class="btn btn-lg btn-danger"
+               style="font-size: 40px;margin-bottom: 20px;color: #ffffff;">
+                <img src="/stock/static/src/img/scan.png"
+                     alt="Warehouse movement"
+                     class="oe_stock_scan_image" title="Warehouse movement"/>Warehouse movement
+            </a>
+        </div>
+    </t>
+
+    <t t-name="LocationMoveWidget">
+        <div class="container">
+            <p></p>
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <div class="row col-xl-12">
+                                <h3 id="to_location">Scan the row!</h3>
+                                <button type="button" class="btn btn-danger btn-lg pull-right" id="js_stock_move_clear"
+                                        onfocus="this.blur();">Clear
+                                </button>
+                                <button type="button" class="btn btn-primary btn-lg pull-right" id="js_stock_move"
+                                        onfocus="this.blur();">Mover
+                                    <span class="badge" id="move_count">0</span>
+                                    gomas a
+                                    <span class="badge" id="move_to"></span>
+                                </button>
+                                <button class="btn btn-lg pull-right" id="js_manual_box_transfer">Manual Box</button>
+                            </div>
+
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-striped" id="detail_sku_to_move_table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            TUID
+                                        </th>
+                                        <th>
+                                            SKU
+                                        </th>
+                                        <th>
+                                            Ubicacion
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="modal fade bs-example-modal-sm" id="modal-container-manual_box_transfer" role="dialog"
+                         aria-labelledby="myModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        Buqueda manual por TUID
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <textarea id="tuid-textbox-location" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                            id="search_from_box_transfer">Buscar
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <script>
+                    var keys = document.querySelectorAll('#calculator span');
+                    var operators = ['+', '-', 'x', '/'];
+                    var dCount = false;
+                    var justEvaled = false;
+
+                    //Add onclick event to all the keys and perform operations
+                    for(var i = 0; i &lt; keys.length; i++) {
+                    keys[i].onclick = function(e) {
+                    //Get the input and button values
+                    var input = document.querySelector('.screen');
+                    var inputVal = input.innerHTML;
+                    var btnVal = this.innerHTML;
+
+                    //Now, just append the key values (btnValue) to the input
+                    //string and finally use javascript's eval function to the
+                    //result
+                    //If clear key is pressed, erase everything
+                    if (btnVal == 'C') {
+                    input.innerHTML = "";
+                    }
+
+                    //If eval key is pressed, calculate and display the result
+                    else if (btnVal == '=') {
+                    var equation = inputVal;
+                    var lastChar = equation[equation.length - 1];
+
+                    //Replace all instances of x and ÷ with * and / respectively.
+                    //This can be done easily using regex and and the 'g' tag
+                    //which will replace all instances of the matched character
+                    equation = equation.replace(/x/g, '*')
+
+                    //If the final character is an operator or decimal point remove
+                    //it before evaluating
+                    if (operators.indexOf(lastChar) > -1 || lastChar == '.'){
+                    equation = equation.replace(/.$/, "");
+                    }
+
+                    if (equation) {
+                    input.innerHTML = eval(equation);
+                    }
+                    dCount = false;
+                    justEvaled = true;
+                    }
+
+                    // Basic functionality of the calculator is complete.
+                    //But there are some problems like
+                    //1. No two operators should be added consecutively.
+                    //2. The equation shouldn't start from an operator except minus
+                    //3. not more than 1 decimal should be there in a number
+
+                    // We'll fix these issues using some simple checks
+                    //indexOf works only in IE9+
+                    else if (operators.indexOf(btnVal) > -1) {
+                    //Operator is clicked
+                    //Get the last character from the equation
+                    var lastChar = inputVal[inputVal.length - 1];
+
+                    if (justEvaled) {
+                    input.innerHTML = ""
+                    justEvaled = false;
+                    }
+
+                    //Only add operator if input is not empty and there is no
+                    //operator at the last index
+                    if (inputVal != "" &amp;&amp; operators.indexOf(lastChar) == -1) {
+                    input.innerHTML += btnVal;
+                    }
+
+                    //Allow minus if the string is empty
+                    else if (inputVal == "" &amp;&amp; btnVal == "-") {
+                    input.innerHTML += btnVal;
+                    }
+
+                    //Replace the last operator (if exists) with the newly
+                    //pressed operator
+                    else if (operators.indexOf(lastChar) > -1 &amp;&amp; inputVal.length > 1) {
+                    input.innerHTML = inputVal.replace(/.$/, btnVal);
+                    }
+                    dCount = false;
+                    }
+
+                    //Now the decimals... we'll use a variable, dCount to keep track
+                    //of how whether a decimal has been added already and reset it
+                    //when an operator is inserted
+                    else if (btnVal == ".") {
+                    if (!dCount) {
+                    dCount = true;
+                    input.innerHTML += btnVal;
+                    }
+                    }
+
+                    //If any other key is pressed, just append it
+                    else {
+                    if (justEvaled) {
+                    //Added functionality
+                    //If you just completed an operation, when you click on
+                    //another button to start a new operation it will autoclear
+                    input.innerHTML = ""
+                    justEvaled = false;
+                    }
+                    input.innerHTML += btnVal;
+                    }
+
+                    //prevent page jumps
+                    e.preventDefault();
+                    }
+                    }
+                </script>
+            </div>
+
+
+        </div>
+    </t>
+
+    <t t-name="RinMainWidget">
+        <div class="container-fluid" style="padding: 10px">
+            <div class="row">
+
+                <div class="col-xs-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Grado de Calidad</div>
+                        <div class="panel-body rim-panel btn-group">
+                            <button href="#" class="quality-btn btn btn-default btn-lg btn-block">A</button>
+
+                            <button href="#" class="quality-btn btn btn-default btn-lg btn-block">B</button>
+
+                            <button href="#" class="quality-btn btn btn-default btn-lg btn-block">C</button>
+
+                            <button href="#" class="quality-btn btn btn-default btn-lg btn-block">T</button>
+
+                            <button href="#" class="quality-btn btn btn-default btn-lg btn-block">S</button>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-4">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Ancho</div>
+                        <div class="panel-body rim-panel">
+
+                            <button href="#" class="size-width-btn btn btn-default btn-lg ">135</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg ">145</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg ">155</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg ">165</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg ">175</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg ">185</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg ">195</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg ">205</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg ">215</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">225</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">235</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">245</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">255</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">265</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">275</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">285</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">295</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">305</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">315</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">325</button>
+                            <button href="#" class="size-width-btn btn btn-default btn-lg">31/10.5</button>
+
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading" id="qc_acceso">Acceso</div>
+                        <div class="panel-body rim-panel">
+                            <a class="rim-button-login btn btn btn-primary btn-block btn-lg" id="qc_login"
+                               href="/web/session/logout?redirect=/qc" role="menuitem">
+                                Cerrar
+                                <span class="fa fa-sign-out"/>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-2">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Altura</div>
+                        <div class="panel-body rim-panel">
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">30</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">35</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">40</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">45</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">50</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">55</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">60</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">65</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">70</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">75</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">80</button>
+                            <button href="#" class="size-height-btn btn btn-default btn-lg">85</button>
+                        </div>
+                    </div>
+                    <div class="panel panel-danger">
+                        <div class="panel-heading">Limpiar</div>
+                        <div class="panel-body rim-panel">
+                            <button type="submit" class="rim-button-clean btn btn-danger btn-block btn-lg"
+                                    id="sku_trash">
+                                <span class="glyphicon glyphicon-trash"/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xs-4">
+                    <!--<p>-->
+                    <!--<form>-->
+                    <!--<select id="js_printer_selector" class="form-control">-->
+                    <!--</select>-->
+                    <!--</form>-->
+                    <!--</p>-->
+                    <p>
+                        <img src="/marcos_rim/static/src/img/rim_logo.png" class="rim-logo img-thumbnail img-responsive"
+                             alt="Rim Logo"/>
+                    </p>
+                    <div class="panel panel-success" id="qc_panel">
+                        <div class="panel-heading" id="qc_user_info_panel">Información SKU-B</div>
+                        <div class="panel-body rim-panel">
+                            <div class="row">
+                                <div class="col-xs-12" role="form">
+
+                                    <h1 class="skutext"></h1>
+
+                                    <button class="rim-button-send btn btn-success btn-block btn-lg"
+                                            id="send_print_btn">
+                                        <span class="glyphicon glyphicon-print"/>
+                                        Imprimir
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">Numero de TUID</div>
+                        <div class="panel-body rim-panel">
+                            <div class="form-group">
+                                <input class="form-control input-lg" id="serial_input"/>
+                            </div>
+                            <button type="submit" class="rim-button-search btn btn-primary btn-block btn-lg">
+                                <span class="glyphicon glyphicon-barcode"/>
+                                Buscar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </t>
+
+    <t t-extend="PickingEditorWidget">
+        <t t-jquery=".js_pick_done" t-operation="before">
+            <div class="form-group col-sm-3 pull-right">
+                <select id="js_printer_selector" class="form-control">
+                </select>
+            </div>
+        </t>
+    </t>
+
+    <t t-name="SalePicking">
+        <div class="container">
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                        <div class="navbar-header">
+                            <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                    data-target="#bs-example-navbar-collapse-1">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <a class="navbar-brand" href="#">
+                                <img src="/logo.png" alt="Rim Ready Tires"></img>
+                            </a>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-left" style="">
+
+                                <li>
+                                    <form class="navbar-form navbar-left" role="search">
+                                        <button class="btn btn-success" id="update_quotation">Facturar
+                                            <span class="badge" id="rim_count">0</span>
+                                            gomas
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+
+                                </li>
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right" style="margin-right: 69px;">
+                                <li>
+                                    <form class="navbar-form navbar-left" role="search">
+                                        <button id="modal-29146" href="#modal-container-29146" role="button"
+                                                class="btn btn-default" data-toggle="modal">Manual Box
+                                        </button>
+                                    </form>
+                                </li>
+                                <li>
+                                    <form class="navbar-form navbar-left" role="search">
+                                        <button class="btn btn-danger" id="clean_order">Limpiar</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+
+                    </nav>
+                </div>
+            </div>
+
+
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="modal fade bs-example-modal-sm" id="modal-container-calc" role="dialog"
+                         aria-labelledby="myModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content" style="width: 358px;">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        Calculadora
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="calculator">
+                                        <!-- Screen and clear key -->
+                                        <div class="top">
+                                            <span class="clear">C</span>
+                                            <div class="screen"></div>
+                                        </div>
+
+                                        <div class="keys">
+                                            <!-- operators and other keys -->
+                                            <span>7</span>
+                                            <span>8</span>
+                                            <span>9</span>
+                                            <span class="operator">+</span>
+                                            <span>4</span>
+                                            <span>5</span>
+                                            <span>6</span>
+                                            <span class="operator">-</span>
+                                            <span>1</span>
+                                            <span>2</span>
+                                            <span>3</span>
+                                            <span class="operator">/</span>
+                                            <span>0</span>
+                                            <span>.</span>
+                                            <span class="eval">=</span>
+                                            <span class="operator">x</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal" id="calc_price">
+                                        Aceptar
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+
+            <div class="row clearfix">
+                <div class="col-md-12 column">
+                    <div class="modal fade bs-example-modal-sm" id="modal-container-29146" role="dialog"
+                         aria-labelledby="myModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        Buqueda manual por TUID
+                                    </h4>
+                                </div>
+                                <div class="modal-body">
+                                    <textarea id="tuid-textbox" class="form-control" rows="3"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                            id="search_from_box">Buscar
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <script>
+                    var keys = document.querySelectorAll('#calculator span');
+                    var operators = ['+', '-', 'x', '/'];
+                    var dCount = false;
+                    var justEvaled = false;
+
+                    //Add onclick event to all the keys and perform operations
+                    for(var i = 0; i &lt; keys.length; i++) {
+                    keys[i].onclick = function(e) {
+                    //Get the input and button values
+                    var input = document.querySelector('.screen');
+                    var inputVal = input.innerHTML;
+                    var btnVal = this.innerHTML;
+
+                    //Now, just append the key values (btnValue) to the input
+                    //string and finally use javascript's eval function to the
+                    //result
+                    //If clear key is pressed, erase everything
+                    if (btnVal == 'C') {
+                    input.innerHTML = "";
+                    }
+
+                    //If eval key is pressed, calculate and display the result
+                    else if (btnVal == '=') {
+                    var equation = inputVal;
+                    var lastChar = equation[equation.length - 1];
+
+                    //Replace all instances of x and ÷ with * and / respectively.
+                    //This can be done easily using regex and and the 'g' tag
+                    //which will replace all instances of the matched character
+                    equation = equation.replace(/x/g, '*')
+
+                    //If the final character is an operator or decimal point remove
+                    //it before evaluating
+                    if (operators.indexOf(lastChar) > -1 || lastChar == '.'){
+                    equation = equation.replace(/.$/, "");
+                    }
+
+                    if (equation) {
+                    input.innerHTML = eval(equation);
+                    }
+                    dCount = false;
+                    justEvaled = true;
+                    }
+
+                    // Basic functionality of the calculator is complete.
+                    //But there are some problems like
+                    //1. No two operators should be added consecutively.
+                    //2. The equation shouldn't start from an operator except minus
+                    //3. not more than 1 decimal should be there in a number
+
+                    // We'll fix these issues using some simple checks
+                    //indexOf works only in IE9+
+                    else if (operators.indexOf(btnVal) > -1) {
+                    //Operator is clicked
+                    //Get the last character from the equation
+                    var lastChar = inputVal[inputVal.length - 1];
+
+                    if (justEvaled) {
+                    input.innerHTML = ""
+                    justEvaled = false;
+                    }
+
+                    //Only add operator if input is not empty and there is no
+                    //operator at the last index
+                    if (inputVal != "" &amp;&amp; operators.indexOf(lastChar) == -1) {
+                    input.innerHTML += btnVal;
+                    }
+
+                    //Allow minus if the string is empty
+                    else if (inputVal == "" &amp;&amp; btnVal == "-") {
+                    input.innerHTML += btnVal;
+                    }
+
+                    //Replace the last operator (if exists) with the newly
+                    //pressed operator
+                    else if (operators.indexOf(lastChar) > -1 &amp;&amp; inputVal.length > 1) {
+                    input.innerHTML = inputVal.replace(/.$/, btnVal);
+                    }
+                    dCount = false;
+                    }
+
+                    //Now the decimals... we'll use a variable, dCount to keep track
+                    //of how whether a decimal has been added already and reset it
+                    //when an operator is inserted
+                    else if (btnVal == ".") {
+                    if (!dCount) {
+                    dCount = true;
+                    input.innerHTML += btnVal;
+                    }
+                    }
+
+                    //If any other key is pressed, just append it
+                    else {
+                    if (justEvaled) {
+                    //Added functionality
+                    //If you just completed an operation, when you click on
+                    //another button to start a new operation it will autoclear
+                    input.innerHTML = ""
+                    justEvaled = false;
+                    }
+                    input.innerHTML += btnVal;
+                    }
+
+                    //prevent page jumps
+                    e.preventDefault();
+                    }
+                    }
+                </script>
+            </div>
+
+
+            <div class="row clearfix" style="margin-top: 60px;">
+                <div class="col-md-12 column">
+                    <div class="panel panel-default">
+                        <div class="panel-heading col-xs-12 column">
+                           <div class="col-xs-6 column">
+                               <h4>
+                                <span class="label label-default">Orden:</span>
+                                <span class="label label-primary" id="js_so">SO0134</span>
+                                <span class="label label-default">Cliente:</span>
+                                <span class="label label-primary" id="js_cliente">Eneldo Serrata</span>
+                               </h4>
+                            </div>
+                            <div class="col-xs-6 column">
+                                <h4>
+                                <span class="label label-default">Platinum <span class="badge" id="js_cp">0</span></span>
+                                <span class="label" style="background-color:#F7D83E;">Gold <span class="badge" id="js_cg">0</span></span>
+                                <span class="label" style="background-color:#C9C9C9;">Silver <span class="badge" id="js_cs">0</span></span>
+                                <span class="label label-warning">Bronze <span class="badge" id="js_cb">0</span></span>
+                                <span class="label label-primary">TOTAL : RD$ <span class="badge" id="js_to">0</span></span>
+                                </h4>
+                            </div>
+
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-striped" id="sale_picking_table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            SKU
+                                        </th>
+                                        <th>
+                                            Cotizado
+                                        </th>
+                                        <th>
+                                            Scaneado
+                                        </th>
+                                        <th>
+                                            Precio
+                                        </th>
+                                        <th>
+                                            Total
+                                        </th>
+                                        <th>
+                                            TUIDs
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="panel-footer">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+</templates>

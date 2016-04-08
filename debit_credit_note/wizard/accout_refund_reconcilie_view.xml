@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="marcos_credit_apply_form" model="ir.ui.view">
+            <field name="name">marcos.credit.apply.form</field>
+            <field name="model">marcos.credit.apply</field>
+            <field name="arch" type="xml">
+                <form string="Aplicar nota de crédito a factura">
+                    <group>
+                         <group colspan="2">
+                             <div>
+                                 <p class="oe_grey">
+                                    Utilice esta opción si desea aplicar a una factura la nota credito seleccionada.
+                                    Se realizara un pago con la nota de crédito a la factura selccionada.
+                                 </p>
+                             </div>
+                         </group>
+                         <group>
+                             <!--<field name="invoice_ids" domain="[('state','=','open'), ('type','no in', ('out_refund','in_refund'))]" widget="selection"/>-->
+                             <field name="invoice_ids" widget="selection"/>
+                             <!--?<field name="date_invoice" atts="{'invisible': [('invoice_ids','=',False)]}"/>-->
+                             <field name="partner_id" atts="{'invisible': [('invoice_ids','=',False)]}"/>
+                             <field name="amount_total" atts="{'invisible': [('invoice_ids','=',False)]}"/>
+                             <field name="residual" atts="{'invisible': [('invoice_ids','=',False)]}"/>
+                         </group>
+                    </group>
+                    <footer>
+                        <button string='Aplicar' name="apply_credit" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+               </form>
+            </field>
+        </record>
+
+        <record id="marcos_credit_apply_action" model="ir.actions.act_window">
+            <field name="name">Aplicar crédito</field>
+            <field name="res_model">marcos.credit.apply</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="marcos_credit_apply_form"/>
+            <field name="target">new</field>
+        </record>
+
+    </data>
+</openerp>

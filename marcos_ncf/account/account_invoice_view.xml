@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="marcos_invoice_supplier_form" model="ir.ui.view">
+            <field name="name">marcos_account.invoice.supplier.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <field name="supplier_invoice_number" position="replace"/>
+                <xpath expr='//form//label[@for="reference_type"]' position='replace'/>
+
+                <field name="journal_id" position="replace">
+                    <field name="journal_id" groups="account.group_account_user" options="{'no_create': True}"/>
+                </field>
+
+                <field name="internal_number" position="replace"/>
+
+                <xpath expr='//form//sheet//group//group//div' position='replace'>
+                    <field name="ncf_required" invisible="0"/>
+                    <field name="reference_type" class="oe_inline"/>
+                    <field name="internal_number" string="NCF"
+                           attrs="{'required':[('ncf_required', '=', True), ('reference_type', 'not in', ('none','ext'))], 'invisible': [('ncf_required', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
+                    <field name="reference" string="No. Factura suplidor" class="oe_inline"/>
+                </xpath>
+
+                <field name="origin" position="replace"/>
+                <field name="payment_term" position="after">
+                    <field name="origin"/>
+                </field>
+                <field name="fiscal_position" position="attributes">
+                    <attribute name="domain">[('for_supplier','=',True)]</attribute>
+                </field>
+                <field name="currency_id" position="after">
+                    <field name="pay_to"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="marcos_invoice_client_form" model="ir.ui.view">
+            <field name="name">marcos.invoice.client.form</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+
+                <field name="fiscal_position" position="attributes">
+                    <attribute name="widget">selection</attribute>
+                    <attribute name="domain">[('for_supplier','=',False)]</attribute>
+                    <attribute name="readonly">False</attribute>
+                </field>
+
+                <field name="journal_id" position="replace">
+                    <field name="journal_id" groups="account.group_account_user" options="{'no_create': True}"/>
+                </field>
+
+                <field name="internal_number" position="replace"/>
+
+                <field name="partner_id" position="before">
+                    <field name="internal_number" attrs="{'invisible':[('state','!=','draft')]}"
+                           groups="account.group_account_user"
+                           help="Force invoice number. Use this field if you don't want to use the default numbering"/>
+                    <field name="shop_ncf_config_id" required="1"/>
+                </field>
+
+            </field>
+        </record>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="marcos_ncf_view_account_journal_form" model="ir.ui.view">
+            <field name="name">marcos_ncf_view_account_journal_form</field>
+            <field name="model">account.journal</field>
+            <field name="inherit_id" ref="account.view_account_journal_form"/>
+            <field name="arch" type="xml">
+
+                <field name="type" position="after">
+                    <field name="cash_bank_type" attrs="{'invisible': [('type','not in', ['cash','bank'])],
+                    'required': [('type','in', ['cash','bank'])]}"/>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

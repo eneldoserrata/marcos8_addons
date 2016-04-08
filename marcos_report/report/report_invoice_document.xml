@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="report_invoice_document" inherit_id="account.report_invoice_document">
+            <xpath expr="//div[@class='col-xs-5 col-xs-offset-7']" position="replace">
+                <div class="col-xs-12">
+                    <table class="table table-condensed detail">
+                        <style type="text/css">
+                            .journal-caption {
+                            text-align: center;
+                            }
+                            .info-label{
+                            text-align: left;
+                            }
+                            .tg-031e{
+                            text-align: left;
+                            }
+                        </style>
+                        <tr>
+                            <h3 class="journal-caption">
+                                <span t-if="o.type == 'out_invoice' and (o.state == 'open' or o.state == 'paid')"><span t-field="o.journal_id"></span></span>
+                                <span t-if="o.type == 'out_invoice' and o.state == 'proforma2'">PRO-FORMA</span>
+                                <span t-if="o.type == 'out_invoice' and o.state == 'draft'">Draft Invoice</span>
+                                <span t-if="o.type == 'out_invoice' and o.state == 'cancel'">Cancelled Invoice</span>
+
+                            </h3>
+                        </tr>
+                        <tr>
+                            <td class="info-label">
+                                <strong>RNC/Cédula/Ref:</strong>
+                            </td>
+                            <td class="tg-031e">
+                                <span t-field="o.partner_id.ref"></span>
+                            </td>
+                            <td class="info-label">
+                                <strong>Fecha:</strong>
+                            </td>
+                            <td class="tg-031e">
+                                <span t-field="o.date_invoice"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">
+                                <strong>Nombre:</strong>
+                            </td>
+                            <td class="tg-031e">
+                                <span t-field="o.partner_id"></span>
+                            </td>
+                            <td class="info-label">
+                                <strong>Número:</strong>
+                            </td>
+                            <td class="tg-031e">
+                                <span t-field="o.number"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="info-label">
+                                <strong>Teléfonos:</strong>
+                            </td>
+                            <td class="tg-031e">
+                                <span t-field="o.partner_id.phone"></span>
+                                <span t-if="o.partner_id.mobile">/ <span t-field="o.partner_id.mobile"></span></span>
+                            </td>
+                            <td class="info-label">
+                                <strong>Source:</strong>
+                            </td>
+                            <td class="tg-031e">
+                                <span t-field="o.origin"/>
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td class="info-label">
+                                <strong>Dirección:</strong>
+                            </td>
+                            <td class="tg-031e">
+                                <span t-field="o.partner_id.street"></span>,
+                                <span t-field="o.partner_id.street2"></span>,
+                                <span t-field="o.partner_id.state_id"></span>,
+                                <span t-field="o.partner_id.country_id"></span>
+                            </td>
+                            <td class="info-label">
+                                <strong>Description:</strong>
+                            </td>
+                            <td class="tg-031e">
+                                <span t-field="o.name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="tg-031e"></td>
+                            <td class="tg-031e">
+                            </td>
+                            <td class="info-label">
+                                <!--?<strong>Reference:</strong>-->
+                            </td>
+                            <td class="tg-031e">
+                                <!--?<span t-field="o.reference"/>-->
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+
+            </xpath>
+
+            <xpath expr="//h2" position="replace"/>
+            <xpath expr="//div[@class='row mt32 mb32']" position="replace"/>
+            <xpath expr="//div[@t-if='o.tax_line']" position="replace"/>
+
+            <xpath expr="//table[@class='table table-condensed']" position="replace">
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Quantity</th>
+                            <th class="text-right">Precio</th>
+                            <t t-if="o.disc_total > 0">
+                                <th class="text-right" groups="sale.group_discount_per_so_line">Desc</th>
+                            </t>
+                            <th class="text-right">Itbis</th>
+                            <th class="text-right">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody class="invoice_tbody">
+                        <tr t-foreach="o.invoice_line" t-as="l">
+                            <td>
+                                <span t-field="l.name"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.quantity"/>
+                                <span t-field="l.uos_id" groups="product.group_uom"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.price_unit"/>
+                            </td>
+                            <t t-if="o.disc_total > 0">
+                                <td class="text-right" groups="sale.group_discount_per_so_line">
+                                    <span t-field="l.discount"/>
+                                </td>
+                            </t>
+                            <td class="text-right">
+                                <span t-esc="', '.join(map(lambda x: x.description, l.invoice_line_tax_id))"/>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="l.price_subtotal"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </xpath>
+
+            <xpath expr="//div[@class='col-xs-4 pull-right']" position="replace">
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        <tr class="border-black" t-if="o.disc_total != 0.0"
+                            groups="sale.group_discount_per_so_line">
+                            <td>Sin descuento</td>
+                            <td class="text-right">
+                                <span t-field="o.total_b4_disc"/>
+                            </td>
+                        </tr>
+                        <tr t-if="o.disc_total != 0.0" groups="sale.group_discount_per_so_line">
+                            <td>Descuento</td>
+                            <td class="text-right">
+                                <span t-field="o.disc_total"/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td>
+                                <strong>Subtotal</strong>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="o.amount_untaxed"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ITBIS</td>
+                            <td class="text-right">
+                                <span t-field="o.amount_tax"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                        <tr class="border-black">
+                            <td>
+                                <strong>Total</strong>
+                            </td>
+                            <td class="text-right">
+                                <span t-field="o.amount_total"
+                                      t-field-options='{"widget": "monetary", "display_currency": "o.currency_id"}'/>
+                            </td>
+                        </tr>
+                    </table>
+                    <style>
+                        table {
+                        font-size: 14px;
+                        }
+                    </style>
+                </div>
+            </xpath>
+
+        </template>
+
+
+    </data>
+</openerp>

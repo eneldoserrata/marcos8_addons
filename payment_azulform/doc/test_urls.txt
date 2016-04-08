@@ -1,0 +1,20 @@
+Hola,
+
+No he conseguido el certificado aún. Mientras, puedes usar estos datos, que no requieren certificados:
+
+MID para pruebas de eCommerce:  39036610012
+Canal:  EC
+=============================
+Autenticacion
+Factor 1:   testeCom
+Factor 2:   Pru3b@14
+
+Direcciones de pruebas:
+
+https://pruebas.azul.com.do:8091/WebServices/SOAP/default.asmx
+https://pruebas.azul.com.do:8091/WebServices/HTTP/default.aspx
+https://pruebas.azul.com.do:8091/WebServices/JSON/default.aspx
+
+Pero necesito que me des urgente la ip desde la cual vas a probar.
+
+Saludos,

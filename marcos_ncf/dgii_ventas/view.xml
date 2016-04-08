@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="dgii_sale_report_view_form" model="ir.ui.view">
+            <field name="name">dgii_sale_report_view_form</field>
+            <field name="model">dgii.sale.report</field>
+            <field name="arch" type="xml">
+                <form string="Reporte de ventas">
+                    <header>
+                        <button name="generate_file" type="object" string="Generar archivo 607" class="oe_button oe_form_button oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group col="4">
+                                <field name="company_id"/>
+                                <field name="PERIODO" options="{'no_create' : True}"/>
+                                <field name="TOTAL_MONTO_FACTURADO"/>
+                                <field name="TOTAL_MONTO_ITBIS"/>
+                                <field name="CANTIDAD_REGISTROS"/>
+                                <field name="report" filename="report_name"/>
+                            </group>
+
+                            <notebook colspan="4">
+                                <page string="Detalle">
+                                    <field name="line_ids">
+                                        <tree>
+                                            <field name="RNC_CEDULA"/>
+                                            <field name="TIPO_IDENTIFICACION"/>
+                                            <field name="NUMERO_COMPROBANTE_FISCAL"/>
+                                            <field name="NUMERO_COMPROBANTE_MODIFICADO"/>
+                                            <field name="FECHA_COMPROBANTE"/>
+                                            <field name="ITBIS_FACTURADO"/>
+                                            <field name="MONTO_FACTURADO"/>
+                                        </tree>
+                                    </field>
+                                </page>
+                            </notebook>
+
+
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="dgii_sale_report_view_tree" model="ir.ui.view">
+            <field name="name">dgii sale report view tree</field>
+            <field name="model">dgii.sale.report</field>
+            <field name="arch" type="xml">
+                <tree string="Reporte de ventas 607">
+                    <field name="company_id"/>
+                    <field name="PERIODO"/>
+                    <field name="CANTIDAD_REGISTROS"/>
+                    <field name="TOTAL_MONTO_FACTURADO"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="dgii_sale_report_view_action" model="ir.actions.act_window">
+            <field name="name">Extraccion de Reporte 607</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">dgii.sale.report</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Crear reporte de ventas 607 para la DGII
+                </p>
+                <p>
+                    Este modulo le permitira generar el archivo de ventas 607 de la DGII
+                    y podra descargarlo para su presentacion en la ofcina virtual de la DGII.
+                </p>
+            </field>
+        </record>
+
+        <!-- This Menu Item must have a parent and an action -->
+        <menuitem action="dgii_sale_report_view_action" id="menu_marcos_dgii_607" parent="marcos_ncf.marcos_account_ipf_menu"
+                sequence="2"/>
+
+    </data>
+</openerp>

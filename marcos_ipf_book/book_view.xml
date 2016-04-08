@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+        <record id="marcos_ipf_monthly_book_tree" model="ir.ui.view">
+            <field name="name">Marcos IPF Monthly Book tree</field>
+            <field name="model">ipf.monthly.book</field>
+            <field name="arch" type="xml">
+                <tree string="Libro mensual" create="0">
+                    <field name="subsidiary"/>
+                    <field name="period_id"/>
+                    <field name="filename" readonly="1" invisible="1"/>
+                    <field name="book" readonly="1" filename="filename"/>
+
+                    <field name="doc_qty"/>
+                    <field name="total"/>
+                    <field name="total_tax"/>
+                    <field name="final_total"/>
+                    <field name="final_total_tax"/>
+                    <field name="fiscal_total"/>
+                    <field name="fiscal_total_tax"/>
+                    <field name="ncfinal_total"/>
+                    <field name="ncfinal_total_tax"/>
+                    <field name="ncfiscal_total"/>
+                    <field name="ncfiscal_total_tax"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="marcos_ipf_monthly_book_action" model="ir.actions.act_window">
+            <field name="name">Libros mensuales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">ipf.monthly.book</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Libros mensuales
+              </p><p>
+                Aqui se listaran todos los libros mensuales generados.
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="marcos_ipf_monthly_book_menu" parent="marcos_ipf.ipf_main_menu"
+                  action="marcos_ipf_monthly_book_action" sequence="3"/>
+
+
+    </data>
+</openerp>

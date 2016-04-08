@@ -1,0 +1,110 @@
+.user-info-block {
+    top: 0px !important;
+    padding-top: 0px !important;
+}
+
+.openerp .oe_form_editable .oe_form .oe_form_field_date input {
+    width: 110px;
+}
+
+.openerp .oe_form_editable .oe_form .oe_form_field_datetime input {
+    width: 170px;
+}
+
+input.oe_datepicker_master {
+    width: 200px !important;
+}
+
+.ui-datepicker.ui-widget.ui-widget-content.ui-helper-clearfix.ui-corner-all {
+    width: 19em;
+    padding: .2em .2em 0;
+    display: none;
+    font-size: 15px !important;
+}
+
+/*bluebuttons*/
+
+.openerp .oe_highlight {
+    color: white;
+    background: #162368;
+}
+
+.openerp button.oe_highlight {
+    background-color: #5382b9;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#729fcf), to(#162368));
+    background-image: -webkit-linear-gradient(top, #729fcf, #162368);
+    background-image: -moz-linear-gradient(top, #729fcf, #162368);
+    background-image: -ms-linear-gradient(top, #729fcf, #162368);
+    background-image: -o-linear-gradient(top, #729fcf, #162368);
+    background-image: linear-gradient(to bottom, #729fcf, #162368);
+    -moz-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(155, 155, 155, 0.4) inset;
+    -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(155, 155, 155, 0.4) inset;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px 1px rgba(155, 155, 155, 0.4) inset;
+}
+
+.openerp button.oe_highlight:hover {
+    background-color: #3a699f;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#4c85c2), to(#162368));
+    background-image: -webkit-linear-gradient(top, #4c85c2, #162368);
+    background-image: -moz-linear-gradient(top, #4c85c2, #162368);
+    background-image: -ms-linear-gradient(top, #4c85c2, #162368);
+    background-image: -o-linear-gradient(top, #4c85c2, #162368);
+    background-image: linear-gradient(to bottom, #4c85c2, #162368);
+}
+
+.openerp button.oe_highlight:active {
+    background-color: #5d8cc3;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#81a9d4), to(#162368));
+    background-image: -webkit-linear-gradient(top, #81a9d4, #162368);
+    background-image: -moz-linear-gradient(top, #81a9d4, #162368);
+    background-image: -ms-linear-gradient(top, #81a9d4, #162368);
+    background-image: -o-linear-gradient(top, #81a9d4, #162368);
+    background-image: linear-gradient(to bottom, #81a9d4, #162368);
+}
+
+.openerp button.oe_highlight:active {
+    background-color: #5d8cc3;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#81a9d4), to(#162368));
+    background-image: -webkit-linear-gradient(top, #81a9d4, #162368);
+    background-image: -moz-linear-gradient(top, #81a9d4, #162368);
+    background-image: -ms-linear-gradient(top, #81a9d4, #162368);
+    background-image: -o-linear-gradient(top, #81a9d4, #162368);
+    background-image: linear-gradient(to bottom, #81a9d4, #162368);
+}
+
+.openerp .oe_form_dirty .oe_highlight_on_dirty {
+    color: white;
+    background: #162368;
+    font-weight: bold;
+}
+
+.openerp .oe_form_dirty button.oe_highlight_on_dirty {
+    background-color: #5d8cc3;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#81a9d4), to(#162368));
+    background-image: -webkit-linear-gradient(top, #81a9d4, #162368);
+    background-image: -moz-linear-gradient(top, #81a9d4, #162368);
+    background-image: -ms-linear-gradient(top, #81a9d4, #162368);
+    background-image: -o-linear-gradient(top, #81a9d4, #162368);
+    background-image: linear-gradient(to bottom, #81a9d4, #162368);
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.openerp .oe_form_dirty button.oe_highlight_on_dirty {
+   background-color: #5d8cc3;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#81a9d4), to(#162368));
+    background-image: -webkit-linear-gradient(top, #81a9d4, #162368);
+    background-image: -moz-linear-gradient(top, #81a9d4, #162368);
+    background-image: -ms-linear-gradient(top, #81a9d4, #162368);
+    background-image: -o-linear-gradient(top, #81a9d4, #162368);
+    background-image: linear-gradient(to bottom, #81a9d4, #162368);
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.openerp .oe_form_dirty button.oe_highlight_on_dirty:hover {
+    background: #162368;
+}
+

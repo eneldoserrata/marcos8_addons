@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record id="view_invoice_merge" model="ir.ui.view">
+            <field name="name">Marcos Partner Invoice</field>
+            <field name="model">invoice.merge</field>
+            <field name="arch" type="xml">
+                <form string="Combinar Facturas">
+                    <group>
+                        <separator
+                                string="¿Seguro que desea combinar estas facturas?"
+                                colspan="4"/>
+                        <p>
+                            Tenga en cuenta que:
+                            <br/>
+                            <br/>
+                            Las facturas sólo se fusionarán si:
+                            <br/>
+                                * Las facturas están en borrador o pro-forma
+                            <br/>
+                            * Las facturas pertenecen al mismo cliente
+                            <br/>
+                            * Las facturas se tienen misma empresa, socio, dirección, moneda, diario, vendedor, cuenta, tipo
+                            <br/>
+                            <br/>
+                            Líneas sólo se fusionarán si:
+                            <br/>
+                            * Líneas de factura son exactamente los mismos, excepto para el producto, la cantidad y la unidad
+                            <br/>
+                        </p>
+                    </group>
+                    <footer>
+                        <button name="merge_invoices" string="Merge Invoices"
+                                type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link"
+                                special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window
+                id="action_view_invoice_merge"
+                name="Combinar Factura"
+                src_model="account.invoice"
+                res_model="invoice.merge"
+                view_mode="form"
+                target="new"
+                key2="client_action_multi"
+                />
+
+         <!--<act_window id="launch_serial_label_import_the_wizard"-->
+                    <!--name="Importar inventario"-->
+                    <!--src_model="stock.inventory"-->
+                    <!--res_model="invetory.import"-->
+                    <!--view_mode="form"-->
+                    <!--target="new"-->
+                    <!--key2="client_action_multi"/>-->
+
+
+    </data>
+</openerp>
+

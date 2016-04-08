@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="marcos_account_voucher_report" model="ir.ui.view">
+            <field name="name">marcos.account.voucher.report</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_form"/>
+            <field name="arch" type="xml">
+
+                <button name="proforma_voucher" position="after">
+                    <button name="print_voucher" icon="gtk-print" string="Imprimir recibo" type="object" class="oe_highlight"/>
+                </button>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

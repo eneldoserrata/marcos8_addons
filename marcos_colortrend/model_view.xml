@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<openerp>
+    <data>
+
+
+        <record id="marcos_colortrend_formula_form_view" model="ir.ui.view">
+            <field name="name">marcos_colortrend_formula_form_view</field>
+            <field name="model">marcos.colortrend.formula</field>
+            <field name="arch" type="xml">
+                <form string="Formula">
+                    <sheet>
+
+                        <group col="4" String="Formula y base">
+                            <field name="name"/>
+                            <field name="base"/>
+                        </group>
+                        <group col="4">
+                            <field name="col_one"/>
+                            <field name="col_one_qty"/>
+                        </group>
+                        <group col="4">
+                            <field name="col_two"/>
+                            <field name="col_two_qty"/>
+                        </group>
+                        <group col="4">
+                            <field name="col_tree"/>
+                            <field name="col_tree_qty"/>
+                        </group>
+                        <group col="4">
+                            <field name="col_four"/>
+                            <field name="col_four_qty"/>
+                        </group>
+                        <group>
+                            <field name="color_cost"/>
+                        </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="marcos_colortrend_formula_tree_vew" model="ir.ui.view">
+        <field name="name">marcos_colortrend_formula_tree_view</field>
+        <field name="model">marcos.colortrend.formula</field>
+        <field name="arch" type="xml">
+            <tree string="Formula">
+                <field name="name"/>
+                <field name="base"/>
+                <field name="col_one"/>
+                <field name="col_one_qty_rep"/>
+                <field name="col_two"/>
+                <field name="col_two_qty"/>
+                <field name="col_tree"/>
+                <field name="col_tree_qty"/>
+                <field name="col_four"/>
+                <field name="col_four_qty"/>
+                <field name="color_cost"/>
+            </tree>
+        </field>
+    </record>
+
+
+    <record id="marcos_colortrend_formula_action_vew" model="ir.actions.act_window">
+        <field name="name">Formulas</field>
+        <field name="res_model">marcos.colortrend.formula</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form,tree</field>
+    </record>
+
+    <menuitem id="marcos_colortrend_mainmenu" name="Lanco ColorTrend" sequence="10"/>
+
+    <menuitem id="marcos_colortrend_menu_view_sub_menu" parent="marcos_colortrend_mainmenu"
+              name="configuracion ColorTrend" sequence="10"/>
+
+    <menuitem id="marcos_colortrend_menu_view_app_menu" parent="marcos_colortrend_menu_view_sub_menu"
+              name="Formulas ColorTrend" sequence="10"
+              action="marcos_colortrend_formula_action_vew"/>
+</data>
+        </openerp>

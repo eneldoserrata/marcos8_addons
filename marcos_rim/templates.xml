@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="marcos_rim.assets_backend" name="rim assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/marcos_rim/static/src/css/grid/kendo.common.min.css"/>
+                <link rel="stylesheet" href="/marcos_rim/static/src/css/grid/kendo.uniform.min.css"/>
+                <!--<link rel="stylesheet" href="/marcos_rim/static/src/css/grid/kendo.dataviz.min.css" />-->
+                <!--<link rel="stylesheet" href="/marcos_rim/static/src/css/grid/kendo.dataviz.default.min.css" />-->
+                <!--<link rel="stylesheet" href="/marcos_rim/static/src/css/bootstrap-multiselect.css"></link>-->
+
+                <script src="/marcos_rim/static/src/js/grid/jszip.min.js"></script>
+                <script src="/marcos_rim/static/src/js/grid/kendo.all.min.js"></script>
+
+                <!--<script type="text/javascript" src="/marcos_rim/static/src/js/bootstrap-multiselect.js"></script>-->
+                <script type="text/javascript" src="/marcos_rim/static/src/js/marcos_rim.js"></script>
+
+            </xpath>
+        </template>
+
+        <template id="assets_frontend" inherit_id="website.assets_frontend" name="RimShop">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/marcos_rim/static/src/css/ribbon-wrapper.css"></link>
+                <script type="text/javascript" src="/marcos_rim/static/src/js/products_shopsearch.js"></script>
+            </xpath>
+        </template>
+
+        <template id="rimqc" name="Barcode Scanner">&lt;!DOCTYPE html&gt;
+            <html>
+                <head>
+                    <title>Barcode Scanner</title>
+
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                    <meta http-equiv="content-type" content="text/html, charset=utf-8"/>
+
+                    <meta name="viewport" content=" width=1024, user-scalable=no"/>
+                    <meta name="apple-mobile-web-app-capable" content="yes"/>
+                    <meta name="mobile-web-app-capable" content="yes"/>
+
+                    <link rel="shortcut icon" sizes="80x51" href="/stock/static/src/img/scan.png"/>
+                    <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon"/>
+
+                    <link rel="stylesheet" href="/stock/static/src/css/barcode.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/bootstrap/css/bootstrap.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/jquery.ui/css/smoothness/jquery-ui-1.9.1.custom.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/fontawesome/css/font-awesome.css"/>
+
+
+                    <link rel="stylesheet" href="/marcos_rim/static/src/css/marcos_rim.css"/>
+
+                    <t t-call-assets="web.assets_common" t-css="false"/>
+                    <t t-call-assets="web.assets_backend" t-css="false"/>
+                    <style>
+                        body {
+                        background: #000000;
+                        }
+                    </style>
+                    <script type="text/javascript" id="loading-script" t-raw="init">
+                        $(function() {
+                        var s = new openerp.init();
+                        var rimqc = new s.web.WebClient();
+
+                        rimqc.show_application = function() {
+                            rimqc.action_manager.do_action("marcosrim.ui", {});
+                        };
+
+                        rimqc.do_push_state = function(state){};
+
+                        rimqc.setElement($(document.body));
+
+                        rimqc.start();
+                        });
+                    </script>
+
+                </head>
+                <body>
+                    <div class='openerp openerp_webclient_container'>
+                        <table class='oe_webclient'>
+                            <tr>
+                                <td class='oe_application'/>
+                            </tr>
+                        </table>
+                    </div>
+                </body>
+            </html>
+        </template>
+
+        <template id="locationmovewidget" name="Barcode Scanner">&lt;!DOCTYPE html&gt;
+            <html>
+                <head>
+                    <title>Barcode Scanner</title>
+
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                    <meta http-equiv="content-type" content="text/html, charset=utf-8"/>
+
+                    <meta name="viewport" content=" width=1024, user-scalable=no"/>
+                    <meta name="apple-mobile-web-app-capable" content="yes"/>
+                    <meta name="mobile-web-app-capable" content="yes"/>
+
+                    <link rel="shortcut icon" sizes="80x51" href="/stock/static/src/img/scan.png"/>
+                    <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon"/>
+
+                    <link rel="stylesheet" href="/stock/static/src/css/barcode.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/bootstrap/css/bootstrap.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/jquery.ui/css/smoothness/jquery-ui-1.9.1.custom.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/fontawesome/css/font-awesome.css"/>
+
+
+                    <link rel="stylesheet" href="/marcos_rim/static/src/css/marcos_rim.css"/>
+
+                    <t t-call-assets="web.assets_common" t-css="false"/>
+                    <t t-call-assets="web.assets_backend" t-css="false"/>
+                    <style>
+                        body {
+                        background: #000000;
+                        }
+                    </style>
+                    <script type="text/javascript" id="loading-script" t-raw="init">
+                        $(function() {
+                        var s = new openerp.init();
+                        var rimlocation = new s.web.WebClient();
+
+                        rimlocation.show_application = function() {
+                        rimlocation.action_manager.do_action("marcosrim.Locationmovewidget", {});
+                        };
+
+                        rimlocation.do_push_state = function(state){};
+                        rimlocation.setElement($(document.body));
+                        rimlocation.start();
+                        });
+                    </script>
+
+                </head>
+                <body>
+                    <div class='openerp openerp_webclient_container'>
+                        <table class='oe_webclient'>
+                            <tr>
+                                <td class='oe_application'/>
+                            </tr>
+                        </table>
+                    </div>
+                </body>
+            </html>
+        </template>
+
+        <template id="products_shopsearch" inherit_id="website_sale.products" active="True" customize_show="True"
+                  name="Rim Tires Filters">
+            <xpath expr="//div[@id='products_grid_before']" position="inside">
+                <div class="container-fluid rim_tire_selector">
+                    <div class="row">
+                        <div class="col-sm-12">
+
+                            <div class="panel panel-primary">
+                                <div class="panel-heading">Seleccione</div>
+                                <div class="panel-body tires_selector">
+
+                                    <div class="form-group">
+                                        <label for="ancho-btn-shop-select">Anchura</label>
+                                        <select class="form-control" id="ancho-btn-shop-select">
+                                            <option class="size-width-btn-shop input-lg" value="all">Todos</option>
+                                            <option class="size-width-btn-shop input-lg" value="135">135</option>
+                                            <option class="size-width-btn-shop input-lg" value="145">145</option>
+                                            <option class="size-width-btn-shop input-lg" value="155">155</option>
+                                            <option class="size-width-btn-shop input-lg" value="165">165</option>
+                                            <option class="size-width-btn-shop input-lg" value="175">175</option>
+                                            <option class="size-width-btn-shop input-lg" value="185">185</option>
+                                            <option class="size-width-btn-shop input-lg" value="195">195</option>
+                                            <option class="size-width-btn-shop input-lg" value="205">205</option>
+                                            <option class="size-width-btn-shop input-lg" value="215">215</option>
+                                            <option class="size-width-btn-shop input-lg" value="225">225</option>
+                                            <option class="size-width-btn-shop input-lg" value="235">235</option>
+                                            <option class="size-width-btn-shop input-lg" value="245">245</option>
+                                            <option class="size-width-btn-shop input-lg" value="255">255</option>
+                                            <option class="size-width-btn-shop input-lg" value="265">265</option>
+                                            <option class="size-width-btn-shop input-lg" value="275">275</option>
+                                            <option class="size-width-btn-shop input-lg" value="285">285</option>
+                                            <option class="size-width-btn-shop input-lg" value="295">295</option>
+                                            <option class="size-width-btn-shop input-lg" value="305">305</option>
+                                            <option class="size-width-btn-shop input-lg" value="315">315</option>
+                                            <option class="size-width-btn-shop input-lg" value="325">325</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="alto-btn-shop-select">Altura</label>
+                                        <select class="form-control" id="alto-btn-shop-select">
+                                            <option class="size-height-btn-shop input-lg" value="all">Todos</option>
+                                            <option class="size-height-btn-shop input-lg" value="30">30</option>
+                                            <option class="size-height-btn-shop input-lg" value="35">35</option>
+                                            <option class="size-height-btn-shop input-lg" value="40">40</option>
+                                            <option class="size-height-btn-shop input-lg" value="45">45</option>
+                                            <option class="size-height-btn-shop input-lg" value="50">50</option>
+                                            <option class="size-height-btn-shop input-lg" value="55">55</option>
+                                            <option class="size-height-btn-shop input-lg" value="60">60</option>
+                                            <option class="size-height-btn-shop input-lg" value="65">65</option>
+                                            <option class="size-height-btn-shop input-lg" value="70">70</option>
+                                            <option class="size-height-btn-shop input-lg" value="75">75</option>
+                                            <option class="size-height-btn-shop input-lg" value="80">80</option>
+                                            <option class="size-height-btn-shop input-lg" value="85">85</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="rin-btn-shop-select">Diámetro</label>
+                                        <select class="form-control" id="rin-btn-shop-select">
+                                            <option class="size-r-btn-shop input-lg" value="all">Todos</option>
+                                            <option class="size-r-btn-shop input-lg" value="R13">R13</option>
+                                            <option class="size-r-btn-shop input-lg" value="R14">R14</option>
+                                            <option class="size-r-btn-shop input-lg" value="R15">R15</option>
+                                            <option class="size-r-btn-shop input-lg" value="R16">R16</option>
+                                            <option class="size-r-btn-shop input-lg" value="R17">R17</option>
+                                            <option class="size-r-btn-shop input-lg" value="R18">R18</option>
+                                            <option class="size-r-btn-shop input-lg" value="R19">R19</option>
+                                            <option class="size-r-btn-shop input-lg" value="R20">R20</option>
+                                            <option class="size-r-btn-shop input-lg" value="R22">R22</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="quality-btn-shop-select">Quality</label>
+                                        <select class="form-control" id="quality-btn-shop-select">
+                                            <option class="quality-btn-shop input-lg" value="all">Todos</option>
+                                            <option class="quality-btn-shop input-lg" value="A">A</option>
+                                            <option class="quality-btn-shop input-lg" value="B">B</option>
+                                            <option class="quality-btn-shop input-lg" value="C">C</option>
+                                            <option class="quality-btn-shop input-lg" value="T">T</option>
+                                            <option class="quality-btn-shop input-lg" value="S">S</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="clasification-btn-shop-select">Clasificación</label>
+                                        <select class="form-control" id="clasification-btn-shop-select">
+                                            <option class="clasification-btn-shop input-lg" value="all">Todos</option>
+                                            <option class="clasification-btn-shop input-lg" value="clap">Platinum
+                                            </option>
+                                            <option class="clasification-btn-shop input-lg" value="clag">Gold</option>
+                                            <option class="clasification-btn-shop input-lg" value="clas">Silver</option>
+                                            <option class="clasification-btn-shop input-lg" value="clab">Bronze</option>
+                                        </select>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <label for="qty-btn-shop-select">Cantidades</label>
+                                        <select class="form-control" id="qty-btn-shop-select">
+                                            <option class="qty-btn-shop input-lg" value="all">Todos</option>
+                                            <option class="qty-btn-shop input-lg" value="qty0510">5-10</option>
+                                            <option class="qty-btn-shop input-lg" value="qty1025">10-25</option>
+                                            <option class="qty-btn-shop input-lg" value="qty2550">25-50</option>
+                                            <option class="qty-btn-shop input-lg" value="qty5000">50++</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!---->
+
+
+                <!---->
+
+            </xpath>
+
+        </template>
+
+        <template id="product_show_available" inherit_id="website_sale.product">
+            <xpath expr="//*[@id='add_to_cart']" position="after">
+                <t t-if="product.type" t-value="product">
+                    <p class="product_show_available" style="margin-top: 4px; font-weight: bold;">
+                        Cantidad Disponible:
+                        <t t-if="product.qty_available &lt; 1">Cantidad Disponible</t>
+                        <t t-if="product.qty_available &gt; 0">
+                            <span class="shop-qty">
+                                <t t-esc="product.qty_available"/>
+                            </span>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Location</th>
+                                        <th>TUID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="quants" t-as="quant">
+                                        <tr>
+                                            <td>
+                                                <t t-esc="quant.location_id.name"/>
+                                            </td>
+                                            <td>
+                                                <t t-esc="quant.lot_id.name"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </t>
+                    </p>
+                </t>
+            </xpath>
+            <xpath expr="//*[@t-field='product.image']" position="after">
+                <t t-if="product.clasification">
+                    <t t-if="product.clasification == 'p'">
+                        <h1 class="clasification-platinum">
+                            <string>PLATINUM</string>
+                        </h1>
+                    </t>
+                    <t t-if="product.clasification == 'g'">
+                        <h1 class="clasification-gold">
+                            <string>GOLD</string>
+                        </h1>
+                    </t>
+                    <t t-if="product.clasification == 's'">
+                        <h1 class="clasification-silver">
+                            <string>SILVER</string>
+                        </h1>
+                    </t>
+                    <t t-if="product.clasification == 'b'">
+                        <h1 class="clasification-bronze">
+                            <string>BRONZE</string>
+                        </h1>
+                    </t>
+                </t>
+
+            </xpath>
+        </template>
+
+        <template id="list_product_show_available" inherit_id="website_sale.products_item">
+            <xpath expr="//div[@class='product_price']" position="inside">
+                <span style="margin-left:0px" class="qty_on_list">
+                    <strong>Qty
+                        <span class="shop-qty">
+                            <t t-esc="product.qty_available" class="qty_available"/>
+                        </span>
+                    </strong>
+                </span>
+            </xpath>
+        </template>
+
+        <template id="wrapper_product_show_available" inherit_id="website_sale.products_item">
+            <xpath expr="//div[@class='ribbon-wrapper']" position="replace">
+                <t t-if="product.clasification">
+                    <t t-if="product.clasification == 'p'">
+                        <div class="wrapper">
+                            <div class="ribbon-wrapper-green">
+                                <div class="ribbon-platinum">Platinum</div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-if="product.clasification == 'g'">
+                        <div class="wrapper">
+                            <div class="ribbon-wrapper-green">
+                                <div class="ribbon-gold">Gold</div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-if="product.clasification == 's'">
+                        <div class="wrapper">
+                            <div class="ribbon-wrapper-green">
+                                <div class="ribbon-silver">Silver</div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-if="product.clasification == 'b'">
+                        <div class="wrapper">
+                            <div class="ribbon-wrapper-green">
+                                <div class="ribbon-bronze">Bronze</div>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </xpath>
+        </template>
+
+        <template id="salepickingwidget" name="Barcode Scanner">&lt;!DOCTYPE html&gt;
+            <html>
+                <head>
+                    <title>Barcode Scanner</title>
+
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                    <meta http-equiv="content-type" content="text/html, charset=utf-8"/>
+
+                    <meta name="viewport" content=" width=1024, user-scalable=no"/>
+                    <meta name="apple-mobile-web-app-capable" content="yes"/>
+                    <meta name="mobile-web-app-capable" content="yes"/>
+
+                    <link rel="shortcut icon" sizes="80x51" href="/stock/static/src/img/scan.png"/>
+                    <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon"/>
+
+                    <link rel="stylesheet" href="/stock/static/src/css/barcode.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/bootstrap/css/bootstrap.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/jquery.ui/css/smoothness/jquery-ui-1.9.1.custom.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/fontawesome/css/font-awesome.css"/>
+
+
+                    <link rel="stylesheet" href="/marcos_rim/static/src/css/marcos_rim.css"/>
+
+                    <t t-call-assets="web.assets_common" t-css="false"/>
+                    <t t-call-assets="web.assets_backend" t-css="false"/>
+
+                    <style>
+                        #calculator {
+                        width: 325px;
+                        height: auto;
+
+
+                        padding: 20px 20px 9px;
+
+                        background: -webkit-linear-gradient(#9dd2ea, #8bceec);
+                        border-radius: 3px;
+                        box-shadow: 0px 4px #009DE4, 0px 10px 15px rgba(0,0,0,0.2);
+                        }
+
+                        /*Top portion*/
+                        .top span.clear {
+                        float: left;
+                        }
+
+                        .top .screen {
+                        height: 40px;
+                        width: 212px;
+
+                        float: right;
+
+                        padding: 2px 10px;
+
+                        background: rgba(0,0,0,0.2);
+                        border-radius: 3px;
+                        box-shadow: inset 0px 4px rgba(0,0,0,0.2);
+
+                        /* typography */
+                        font-size: 17px;
+                        line-height: 40px;
+                        color: white;
+                        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+                        text-align: right;
+                        letter-spacing: 1px;
+
+                        }
+
+                        /* Clear floats */
+                        .keys, .top{overflow: hidden;}
+
+                        /*Use box shadows to create 3D effects*/
+                        .keys span, .top span.clear{
+                        float: left;
+                        position: relative;
+                        top: 0;
+
+                        cursor: pointer;
+
+                        width: 66px;
+                        height: 36px;
+
+                        background: white;
+                        border-radius: 3px;
+                        box-shadow: 0px 4px rgba(0,0,0,0.2);
+
+                        margin: 0 7px 11px 0;
+
+                        color: #888;
+                        line-height: 36px;
+                        text-align: center;
+
+                        /* prevent selection of text inside keys */
+                        -webkit-user-select: none;
+
+                        /* Smoothing out hover and active states using css3 transitions */
+                        -webkit-transition: all 0.2s ease;
+                        }
+
+                        /*Remove right margins from operator keys*/
+                        span.operator{margin-right: 0;}
+
+                        /* style different type of keys (operators/evaluate/clear) differently */
+                        .keys span.operator {
+                        background: #FFF0F5;
+                        margin-right: 0;
+                        }
+
+                        .keys span.eval {
+                        background: #F1FF92;
+                        box-shadow: 0px 4px #9DA853;
+                        color: #888E5F;
+                        }
+
+                        .top span.clear {
+                        background: #FF9FA8;
+                        box-shadow: 0px 4px #FF7C87;
+                        color: white;
+                        }
+
+                        /* Some hover effects */
+                        .keys span:hover {
+                        background: #9c89f6;
+                        box-shadow: 0px 4px #6B54D3;
+                        color: white;
+                        }
+
+                        .keys span.eval:hover {
+                        background: #abb850;
+                        box-shadow: 0px 4px #717A33;
+                        color: #ffffff;
+                        }
+
+                        .top span.clear:hover {
+                        background: #f68991;
+                        box-shadow: 0px 4px #D3545D;
+                        color: white;
+                        }
+
+                        /* Simulating pressed effect */
+                        .keys span:active {
+                        box-shadow: 0px 0px #6B54D3;
+                        top: 4px;
+                        }
+
+                        .keys span.eval:active {
+                        box-shadow: 0px 0px #717A33;
+                        top: 4px;
+                        }
+
+                        .top span.clear:active {
+                        top: 4px;
+                        box-shadow: 0px 0px #D3545D;
+                        }
+                    </style>
+                    <script type="text/javascript" id="loading-script" t-raw="init">
+                        $(function() {
+
+                        var s = new openerp.init();
+                        var salepickingwidget = new s.web.WebClient();
+
+                        salepickingwidget.show_application = function() {
+                        salepickingwidget.action_manager.do_action("marcosrim.SalePickingWidget", {});
+                        };
+
+                        salepickingwidget.do_push_state = function(state){};
+                        salepickingwidget.setElement($(document.body));
+                        salepickingwidget.start();
+                        });
+                    </script>
+
+                </head>
+                <body>
+                    <div class='openerp openerp_webclient_container'>
+                        <table class='oe_webclient'>
+                            <tr>
+                                <td class='oe_application'/>
+                            </tr>
+                        </table>
+                    </div>
+                </body>
+            </html>
+        </template>
+
+        <template id="GabrielReport" name="Barcode Scanner">&lt;!DOCTYPE html&gt;
+            <html>
+                <head>
+                    <meta name="viewport" content="initial-scale = 1.0,maximum-scale = 1.0" />
+                    <title>Barcode Scanner</title>
+
+                    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+                    <meta http-equiv="content-type" content="text/html, charset=utf-8"/>
+
+                    <meta name="viewport" content=" width=1024, user-scalable=no"/>
+                    <meta name="apple-mobile-web-app-capable" content="yes"/>
+                    <meta name="mobile-web-app-capable" content="yes"/>
+
+                    <link rel="shortcut icon" sizes="80x51" href="/stock/static/src/img/scan.png"/>
+                    <link rel="shortcut icon" href="/web/static/src/img/favicon.ico" type="image/x-icon"/>
+
+                    <link rel="stylesheet" href="/stock/static/src/css/barcode.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/bootstrap/css/bootstrap.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/jquery.ui/css/smoothness/jquery-ui-1.9.1.custom.css"/>
+                    <link rel="stylesheet" href="/web/static/lib/fontawesome/css/font-awesome.css"/>
+
+
+                    <link rel="stylesheet" href="/marcos_rim/static/src/css/marcos_rim.css"/>
+
+                    <t t-call-assets="web.assets_common" t-css="false"/>
+                    <t t-call-assets="web.assets_backend" t-css="false"/>
+                    <style>
+
+                    </style>
+                    <script type="text/javascript" id="loading-script" t-raw="init">
+                        $(function() {
+                        var s = new openerp.init();
+                        var gabrielreport = new s.web.WebClient();
+
+                        gabrielreport.show_application = function() {
+                        gabrielreport.action_manager.do_action("marcosrim.GabrielReport", {});
+                        };
+
+                        gabrielreport.do_push_state = function(state){};
+                        gabrielreport.setElement($(document.body));
+                        gabrielreport.start();
+                        });
+                    </script>
+
+                </head>
+                <body data-spy="scroll" data-target=".gpl_menu_bar">
+
+                    <div class='openerp openerp_webclient_container'>
+                        <div class="container">
+                            <div class="row clearfix">
+                                <div class="col-md-12 column">
+                                    <div class="gpl_menu_bar">
+                                        <nav class="navbar navbar-default navbar-inverse"
+                                             role="navigation">
+                                            <div class="navbar-header">
+                                                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                                        data-target="#bs-example-navbar-collapse-1">
+                                                    <span class="sr-only">Toggle navigation</span>
+                                                    <span class="icon-bar"></span>
+                                                    <span class="icon-bar"></span>
+                                                    <span class="icon-bar"></span>
+                                                </button>
+                                                <a class="navbar-brand" href="#">Sales prices list</a>
+                                            </div>
+
+                                            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                                <ul class="nav navbar-nav">
+                                                    <t t-foreach="top_menu_link" t-as="rin_menu">
+                                                        <li>
+                                                            <a t-att-href="rin_menu['href']">
+                                                                <t t-esc="rin_menu['caption']"/>
+                                                            </a>
+                                                        </li>
+                                                    </t>
+                                                </ul>
+                                            </div>
+
+                                        </nav>
+                                    </div>
+                                    <div>
+                                        <div id="table_body" style="margin-top: 60px;">
+                                            <t t-raw="table_body"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </body>
+            </html>
+        </template>
+
+    </data>
+</openerp>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <template id="marcos_external_layout_header" inherit_id="report.external_layout_header">
+            <xpath expr="//div" position="replace">
+                <div class="header">
+                    <div class="container">
+                        <div class="row clearfix">
+                            <div class="col-md-12 column">
+                                <table class="table table-condensed">
+                                    <tbody class="header-font">
+                                        <tr>
+                                            <td>
+                                                <img t-if="company.logo"
+                                                     t-att-src="'data:image/png;base64,%s' % company.logo"
+                                                     style="max-height: 70px;"/>
+                                                <h2 t-if="company.logo == 0">
+                                                    <span t-field="company.name"/>
+                                                </h2>
+                                            </td>
+                                            <td class="address-label">
+                                                <p class="header-box">
+                                                    <div t-field="company.street2"/>
+                                                    <div t-field="company.street"/>
+                                                    <div>
+                                                        <span t-field="company.city"/>,
+                                                        <span t-field="company.country_id"/>
+                                                    </div>
+                                                    <!--?<div>-->
+                                                    <!--?<strong>RNC:</strong>-->
+                                                    <!--?<span t-field="company.vat"/>-->
+                                                    <!--?</div>-->
+                                                </p>
+                                            </td>
+                                            <td class="contact-labels">
+                                                <p class="header-box">
+                                                    <div>
+                                                        <strong>RNC:</strong>
+                                                    </div>
+                                                    <div>
+                                                        <strong>Tel:</strong>
+                                                    </div>
+                                                    <div>
+                                                        <strong>Web:</strong>
+                                                    </div>
+                                                    <div>
+                                                        <strong>Email:</strong>
+                                                    </div>
+                                                </p>
+                                            </td>
+                                            <td class="contact-fields">
+                                                <p class="header-box">
+                                                    <div>
+                                                        <span t-field="company.vat"/>
+                                                    </div>
+                                                    <div>
+                                                        <span t-field="company.phone"/>
+                                                    </div>
+                                                    <div>
+                                                        <span t-field="company.website"/>
+                                                    </div>
+                                                    <div>
+                                                        <span t-field="company.email"/>
+                                                    </div>
+                                                </p>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row zero_min_height">
+                        <div class="col-xs-12">
+                            <div style="border-bottom: 1px solid #ddd;"></div>
+                        </div>
+                    </div>
+                    <style>
+                        .header-font {
+                        font-size: 10px;
+                        }
+                        .zero_min_height {
+                        margin-top: -20px;
+                        }
+                        .contact-labels {
+                        text-align: right;
+                        border-left: 1px solid #ddd;
+                        }
+                        <!--?.address-label {-->
+                        <!--?text-align: center;-->
+                        <!--?}-->
+                        .header-box {
+                        margin-top: 5px;
+                        }
+                    </style>
+
+                </div>
+            </xpath>
+        </template>
+
+        <template id="external_layout_footer" inherit_id="report.external_layout_footer">
+            <xpath expr="//div" position="replace">
+                <div class="footer" style="font-size: 10px; text-align:center">
+
+                    <table class="table table-condensed detail">
+                        <thead>
+                            <tr>
+                            <th>Preparado por</th>
+                            <th>Recibido por</th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <div t-field="company.rml_header1"/>
+                    <t t-if="company.custom_footer">
+                        <span t-raw="company.rml_footer"/>
+                    </t>
+                    <ul class="list-inline">
+                        <li>Page:</li>
+                        <li>
+                            <span class="page"/>
+                        </li>
+                        <li>/</li>
+                        <li>
+                            <span class="topage"/>
+                        </li>
+                    </ul>
+                </div>
+            </xpath>
+        </template>
+
+    </data>
+</openerp>

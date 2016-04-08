@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="acquirer_form_azulform" model="ir.ui.view">
+            <field name="name">acquirer.form.azulform</field>
+            <field name="model">payment.acquirer</field>
+            <field name="inherit_id" ref="payment.acquirer_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr='//group[@name="acquirer_base"]' position='after'>
+
+                    <group attrs="{'invisible': [('provider', '!=', 'azulform')]}">
+
+                        <group attrs="{'invisible': [('environment','!=','test')]}">
+
+                            <field name="azulform_azulform_url_test"/>
+                            <field name="azulform_MerchantId_test"/>
+                            <field name="azulform_MerchantName_test"/>
+                            <field name="azulform_MerchantType_test"/>
+                            <field name="azulform_CurrencyCode_test"/>
+                            <field name="azulform_ApprovedUrl_test"/>
+                            <field name="azulform_DeclinedUrl_test"/>
+                            <field name="azulform_CancelUrl_test"/>
+                            <field name="azulform_ResponsePostUrl_test"/>
+                            <field name="azulform_UseCustomField1_test"/>
+                            <field name="azulform_CustomField1Label_test"/>
+                            <field name="azulform_CustomField1Value_test"/>
+                            <field name="azulform_UseCustomField2_test"/>
+                            <field name="azulform_CustomField2Label_test"/>
+                            <field name="azulform_CustomField2Value_test"/>
+                            <field name="azulform_ShowTransactionResult_test"/>
+                            <field name="azulform_AuthKey_test"/>
+
+                        </group>
+                        <group attrs="{'invisible': [('environment','!=','prod')]}">
+
+                            <field name="azulform_azulform_url_prod"/>
+                            <field name="azulform_MerchantId_prod"/>
+                            <field name="azulform_MerchantName_prod"/>
+                            <field name="azulform_MerchantType_prod"/>
+                            <field name="azulform_CurrencyCode_prod"/>
+                            <field name="azulform_ApprovedUrl_prod"/>
+                            <field name="azulform_DeclinedUrl_prod"/>
+                            <field name="azulform_CancelUrl_prod"/>
+                            <field name="azulform_ResponsePostUrl_prod"/>
+                            <field name="azulform_UseCustomField1_prod"/>
+                            <field name="azulform_CustomField1Label_prod"/>
+                            <field name="azulform_CustomField1Value_prod"/>
+                            <field name="azulform_UseCustomField2_prod"/>
+                            <field name="azulform_CustomField2Label_prod"/>
+                            <field name="azulform_CustomField2Value_prod"/>
+                            <field name="azulform_ShowTransactionResult_prod"/>
+                            <field name="azulform_AuthKey_prod"/>
+
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="transaction_form_azulform" model="ir.ui.view">
+            <field name="name">acquirer.transaction.form.azulform</field>
+            <field name="model">payment.transaction</field>
+            <field name="inherit_id" ref="payment.transaction_form"/>
+            <field name="arch" type="xml">
+                <xpath expr='//notebook' position='inside'>
+                    <page string="Azul Form TX Details">
+                        <group>
+                            <field name="azulform_authorizationcode"/>
+                            <field name="azulform_datetime"/>
+                            <field name="azulform_responsecode"/>
+                            <field name="azulform_isocode"/>
+                            <field name="azulform_rrn"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</openerp>

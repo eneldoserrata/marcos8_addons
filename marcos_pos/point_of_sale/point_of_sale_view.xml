@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record model="ir.ui.view" id="marcos_pos_view_pos_pos_form">
+            <field name="name">marcos_pos_order_form</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//sheet//group" position="before">
+                    <field name="ipf_print" invisible="1"/>
+                    <div class="oe_button_box oe_right" attrs="{'invisible': [('ipf_print','=',False)]}">
+                        <widget type="ipf_button_post_invoice"/>
+                    </div>
+                </xpath>
+
+                <xpath expr="//form//header" position="replace">
+                    <header>
+                        <button name="%(marcos_pos_payment_option_action_wizard)d" string="Payment" class="oe_highlight"
+                                type="action"
+                                attrs="{'invisible':['|',('type','in',['refund']), ('state','!=','draft')]}"
+                                context="{'pos_session_id' : session_id}"/>
+                        <button name="%(marcos_pos_refund_option_action_wizard)d" string="Crear nota de crédito"
+                                class="oe_highlight" type="action"
+                                attrs="{'invisible':['|',('type','not in',['refund']), ('state','!=','draft')]}"
+                                context="{'pos_session_id' : session_id}"/>
+                        <button name="%(marcos_action_pos_cancel_order)d" string="cancelar" type="action"
+                                attrs="{'invisible':[('state','!=','draft')]}"/>
+                        <button name="%(marcos_action_pos_refund_order)d" string="Return Products" type="action"
+                                attrs="{'invisible':[('state','in',['draft', 'refund', 'cancel'])]}"/>
+                        <button name="%(point_of_sale.action_report_pos_receipt)d" string="Reprint" type="action"
+                                states="refund,invoiced"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,invoiced,refund,cancel"
+                               statusbar_colors='{"cancel":"red"}'/>
+                    </header>
+                </xpath>
+
+                <field name="pos_reference" position="after">
+                    <field name="type" invisible="1"/>
+                    <field name="origin"/>
+                </field>
+
+                <field name="invoice_id" position="replace"/>
+                <field name="sale_journal" position="replace"/>
+                <field name="name" position="before">
+                    <field name="sale_journal" string="Tipo de comprobante" widget='selection'
+                           attrs="{'invisible':[('state','in',['draft', 'cancel'])]}"/>
+                    <field name="invoice_id" string="Ncf" readonly="1"
+                           attrs="{'invisible':[('state','in',['draft', 'cancel'])]}"/>
+                    <!--<field name="nif" string="NIF" readonly="1"-->
+                           <!--attrs="{'invisible':[('state','in',['draft', 'cancel'])]}"/>-->
+
+                </field>
+
+                <field name="partner_id" position="replace">
+                    <field name="partner_id" required="1"
+                           attrs="{'readonly':[('state','not in',['draft', 'cancel'])]}"/>
+                </field>
+
+                <field name="note" position="attributes">
+                    <attribute name="readonly">[('state','=','cancel')]</attribute>
+                </field>
+
+                <field name="statement_ids" position="after">
+                    <group>
+                        <field name="credit_paid"/>
+                    </group>
+                </field>
+
+                <field name="product_id" position="after">
+                    <field name="note"/>
+                </field>
+
+            </field>
+
+        </record>
+
+        <record model="ir.ui.view" id="point_of_sale_view_pos_order_tree">
+            <field name="name">Marcos Orders</field>
+            <field name="model">pos.order</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+            <field name="arch" type="xml">
+                <field name="session_id" position="after">
+                    <button name="%(marcos_pos_payment_option_action_wizard)d" string="Pago" type="action"
+                            states="draft" icon="terp-dolar" context="{'pos_session_id' : session_id}"/>
+                </field>
+                <field name="partner_id" position="replace">
+                    <field name="partner_id" domain="[('customer','=',True)]"/>
+                </field>
+
+                <field name="invoice_id" position="replace"/>
+                <field name="session_id" position="after">
+                    <field name="ipf_print" invisible="1"/>
+                    <field name="invoice_id"/>
+                    <field name="nif" string="NIF" attrs="{'invisible': [('ipf_print','=',False)]}"/>
+                </field>
+
+            </field>
+        </record>
+
+
+        <record model="ir.ui.view" id="marcos_pos_view_pos_config_form">
+            <field name="name">marcos_pos_config_form</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_form"/>
+            <field name="arch" type="xml">
+                <field name="journal_id" position="replace">
+                    <field name="default_partner_id"/>
+                    <field name="journal_id" required="True"/>
+                </field>
+                <field name="proxy_ip" position="before">
+                    <field name="ipf_printer"/>
+                    <field name="ipf_odoo"/>
+                    <field name="ipf_host"/>
+                </field>
+                <field name="sequence_id" position="after">
+                    <field name="payment_pos"/>
+                    <field name="manager_ids" widget="many2many_tags"/>
+                </field>
+                <field name="iface_big_scrollbars" position="after">
+                    <field name="pos_cashier"/>
+                    <field name="iface_orderline_notes" />
+                </field>
+            </field>
+        </record>
+
+        <!-- IPF X report on pos session -->
+        <record id="marcos_pos.view_pos_session_form" model="ir.ui.view">
+            <field name="name">Marcos POS view_pos_session_form</field>
+            <field name="model">pos.session</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_session_form"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//sheet//button[2]" position="after">
+                    <field name="ipf_print" invisible="1"/>
+                    <span  attrs="{'invisible': [('ipf_print','=',False)]}">
+                        <widget type="ipf_button_x"/>
+                        <widget type="ipf_button_information_day"/>
+                        <widget type="ipf_button_information_shift"/>
+                    </span>
+                </xpath>
+
+
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

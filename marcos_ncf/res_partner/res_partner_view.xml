@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="marcos_ncf_view_partner_property_form" model="ir.ui.view">
+            <field name="name">marcos_ncf.res.partner.property.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="priority">2</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="supplier" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </field>
+
+                <field name="customer" position="attributes">
+                    <attribute name="readonly">True</attribute>
+                </field>
+            </field>
+        </record>
+
+        <!--modifica el modulo de partner para validar rnc y posicion fiscal-->
+        <record model="ir.ui.view" id="marcos_view_partner_form">
+            <field name="name">marcos_view_partner_form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="account.view_partner_property_form"/>
+            <field name="arch" type="xml">
+
+                <field name="name" position="attributes">
+                    <attribute name="placeholder">Nombre, RNC o Cédula</attribute>
+                </field>
+
+                <!--<field name="property_account_position" position="replace"/>-->
+                <field name="ref" position="replace"/>
+
+                <field name="parent_id" position="before">
+                    <field name="ref" placeholder="RNC/Cédula"
+                           attrs="{'invisible': [('is_company','=', False)], 'required': [('is_company','=', True)]}"/>
+                    <div attrs="{'invisible': [('is_company','=', False)], 'required': [('is_company','=', True)]}">
+                        <field name="property_account_position" placeholder="Posición fiscal"
+                               domain="['|',('for_supplier','=',supplier),('for_supplier','!=',customer)]"
+                               attrs="{'invisible': [('is_company','=', False)], 'required': [('is_company','=', True)]}"/>
+                    </div>
+                </field>
+
+                <field name="property_supplier_payment_term" position="after">
+                    <field name="invoice_method" attrs="{'invisible':[('supplier', '=', False)]}"
+                           string="Método facturación"/>
+                    <field name="multiple_company_rnc"/>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

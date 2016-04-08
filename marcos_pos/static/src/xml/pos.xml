@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template">
+
+    <t t-extend="PaymentScreenWidget">
+        <t t-jquery=".payment-info" t-operation="prepend">
+            <div class="infoline">
+                <span class='left-block'>
+                    Créditos:
+                </span>
+                <span class="right-block credit-paid-total"></span>
+            </div>
+        </t>
+    </t>
+
+    <t t-extend="PosWidget">
+        <t t-jquery=".pos-logo" t-operation="replace">
+            <img class="pos-logo" src="/marcos_pos/static/src/img/poslogo.png" style="margin-top: 7px;"/>
+        </t>
+        <t t-jquery=".subwindow-container-fix.pads" t-operation="append">
+            <div class="control-buttons-special"></div>
+        </t>
+    </t>
+
+    <t t-name="MarcosHeaderButtonWidget">
+        <div class="header-button">
+            <i t-attf-class="{{ widget.class }}"/>
+        </div>
+    </t>
+
+    <t t-extend="ClientDetailsEdit">
+        <t t-jquery=".client-detail:last" t-operation="replace"/>
+
+        <t t-jquery=".detail.client-name" t-operation="replace">
+            <input class='detail client-name' name='name' t-att-value='partner.name' placeholder='Cédula, RNC o Nombre'
+                   style="width:100%"/>
+        </t>
+
+        <t t-jquery=".client-details-left .client-detail:last" t-operation="replace"/>
+
+        <t t-jquery=".client-details-left" t-operation="prepend">
+
+
+
+
+            <div class='client-detail'>
+                <span class='label'>Comprob.</span>
+                <select class="detail client-fiscal_position" name="fiscal_position" t-att-value="partner.fiscal_position">
+                    <option id="final" value="final" selected="selected">Consumidor final</option>
+                    <option id="fiscal" value="fiscal">Con valor fiscal</option>
+                    <option id="special" value="special">Regimenes especiales</option>
+                    <option id="gov" value="gov">Gubernamentales</option>
+                </select>
+            </div>
+
+
+            <div class='client-detail'>
+                <span class='label'>RNC/Céd</span>
+                <input class='detail client-ref' name='ref' t-att-value='partner.ref' placeholder='RNC/Cédula'/>
+            </div>
+
+        </t>
+
+    </t>
+
+    <t t-extend="ClientDetails">
+        <t t-jquery=".client-detail:last" t-operation="replace"></t>
+    </t>
+
+    <t t-extend="OrderWidget">
+        <t t-jquery=".summary" t-operation="append">
+            <!-- STOPHERE -->
+        </t>
+    </t>
+
+    <t t-name="MarcosPaypadButtonWidget">
+        <button t-attf-class="paypad-button hvr-fade">
+            <t t-esc="widget.caption"/>
+        </button>
+    </t>
+
+    <t t-name="MarcosInputPopupWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-confirm">
+                <p class="message">
+                    <t t-esc=" widget.message || 'Confirm ?' "/>
+                </p>
+                <p class="comment">
+                    <input id="ref_name" style="width: 50%;"></input>
+                    <input id="password" type="password" placeholder="Contraseña"></input>
+                </p>
+                <div class="footer">
+                    <div class="button confirm">
+                        Confirm
+                    </div>
+                    <div class="button cancel">
+                        Cancel
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="MarcosProductAvailablePopupWidget">
+        <div class="modal-dialog">
+            <div class="popup popup-confirm">
+                <p class="message">
+                    <t t-esc=" widget.message || 'Confirm ?' "/>
+                </p>
+                <p class="comment">
+                    <ul class="available-list">
+                        <t t-raw="widget.location_qty"/>
+                    </ul>
+                </p>
+                <div class="footer">
+                    <div class="button cancel">
+                        Aceptar
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+
+    <t t-name="PosTicket">
+        <div class="pos-sale-ticket">
+            <div class="pos-center-align">
+
+                    <span class="emph"><t t-esc="widget.pos.company.name"/></span>
+
+                <br/>
+                    <span class="company-info">
+                    <t t-esc="widget.pos.company.street || ''"/>
+                    <t t-esc="widget.pos.company.street2 || ''"/>
+                    <t t-esc="widget.pos.company.city || ''"/>
+                    <t t-esc="widget.pos.company.state_id[1] || ''"/>
+                    <t t-esc="widget.pos.company.country_id[1] || ''"/>
+
+
+                    <br/>
+                    <br/>
+                    Phone:
+                    <t t-esc="widget.pos.company.phone || ''"/>
+                    Fax:
+                    <t t-esc="widget.pos.company.fax || ''"/>
+                    <br/>
+                    RNC:
+                    <t t-esc="widget.pos.company.vat || ''"/>
+                    <br/>
+                    <t t-esc="widget.pos.company.email || ''"/>
+                    <br/>
+                    <strong>Shop:</strong>
+                    <t t-esc="widget.pos.shop.name || ''"/>
+                </span>
+
+                <br/>
+            </div>
+            <br/>
+            <div class="pos-center-align">
+                <strong><t t-esc="order.get('ncf_type') || 'Factura provisional'"/></strong>
+                <br/>
+                <t t-esc="order.get('ncf') || ''"/>
+            </div>
+            <br/>
+            <div class="pos-left-align">
+                Documento:
+                <t t-esc="order.get('name') || ''"/>
+                <br/>
+                Fecha: <t t-esc="new Date().toString(Date.CultureInfo.formatPatterns.shortDate + ' ' +Date.CultureInfo.formatPatterns.longTime)"/>
+                <br/>
+                Vendido a:
+                <t t-esc="order.get('client').name || ''"/>
+                <br/>
+                RNC:
+                <t t-esc="order.get('client').ref || ''"/>
+                <br/>
+                User:
+                <t t-esc="widget.pos.cashier ? widget.pos.cashier.name : widget.pos.user.name"/>
+                <br/>
+            </div>
+            <br/>
+
+            <t t-if="widget.pos.config.receipt_header">
+                <div style='text-align:center'>
+                    <t t-esc="widget.pos.config.receipt_header"/>
+                </div>
+                <br/>
+            </t>
+            <table class="tg">
+                <colgroup>
+                    <col width='50%'/>
+                    <col width='25%'/>
+                    <col width='25%'/>
+                </colgroup>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                </tr>
+                <tr t-foreach="orderlines" t-as="orderline">
+                    <td>
+                        <t t-esc="orderline.get_product().display_name"/>
+                        <t t-if="orderline.get_note()">
+                            <t t-esc="orderline.get_note()"/>
+                        </t>
+                        <t t-if="orderline.get_discount() > 0">
+                            <div class="pos-disc-font">
+                                With a<t t-esc="orderline.get_discount()"/>% discount
+                            </div>
+                        </t>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="orderline.get_quantity_str_with_unit()"/>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_number(orderline.get_display_price())"/>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <table>
+                <tr>
+                    <td>Subtotal:</td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.getTotalTaxExcluded())"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Discount:</td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.getDiscountTotal())"/>
+                    </td>
+                </tr>
+                <t t-foreach="order.getTaxDetails()" t-as="taxdetail">
+                    <tr>
+                        <td>
+                            <t t-esc="taxdetail.name || ''"/>
+                        </td>
+                        <td class="pos-right-align">
+                            <t t-esc="widget.format_currency(taxdetail.amount)"/>
+                        </td>
+                    </tr>
+                </t>
+                <tr class="emph">
+                    <td>Total:</td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.getTotalTaxIncluded())"/>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <table>
+                <tr t-foreach="paymentlines" t-as="line">
+                    <td>
+                        <t t-esc="line.name || ''"/>
+                    </td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(line.get_amount())"/>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <table>
+                <tr>
+                    <td>Change:</td>
+                    <td class="pos-right-align">
+                        <t t-esc="widget.format_currency(order.getChange())"/>
+                    </td>
+                </tr>
+            </table>
+            <t t-if="widget.pos.config.receipt_footer">
+                <br/>
+                <div style='text-align:center'>
+                    <t t-esc="widget.pos.config.receipt_footer"/>
+                </div>
+            </t>
+        </div>
+    </t>
+
+
+</templates>

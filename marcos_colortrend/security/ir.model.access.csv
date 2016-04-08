@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_marcos_colortrend_marcos_colortrend,marcos_colortrend.marcos_colortrend,model_marcos_colortrend_marcos_colortrend,,1,0,0,0

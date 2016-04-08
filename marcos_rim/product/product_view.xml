@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <record model="ir.ui.view" id="marcos_rim_product_template_view">
+            <field name="name">marcos_rim_product_template_view</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="product.product_template_only_form_view"/>
+            <field name="arch" type="xml">
+                <field name="list_price" position="after">
+                    <field name="clasification"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="rim_view_stock_product_template_tree" model="ir.ui.view">
+            <field name="name">rim.product.template.stock.tree.inherit</field>
+            <field name="model">product.template</field>
+            <field name="inherit_id" ref="stock.view_stock_product_template_tree"/>
+            <field name="arch" type="xml">
+                <field name="qty_available" position="before">
+                    <field name="clasification"/>
+                    <field name="list_price"/>
+                </field>
+                <field name="qty_available" position="after">
+                    <field name="standard_price" groups="stock.group_stock_manager"/>
+                    <field name="total_valuation" sum="Total" groups="stock.group_stock_manager"/>
+                </field>
+                <field name="virtual_available" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="type" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="state" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </field>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,48 @@
+#. module: point_of_sale
+#. openerp-web
+#: code:addons/point_of_sale/static/src/xml/pos.xml:353
+#: code:addons/point_of_sale/static/src/xml/pos.xml:400
+#, python-format
+msgid "Tax ID"
+msgstr "RNC/Cédula"
+
+#. module: point_of_sale
+#. openerp-web
+#: code:addons/point_of_sale/static/src/xml/pos.xml:527
+#, python-format
+msgid "VAT:"
+msgstr "RNC/Cédula:"
+
+#. module: point_of_sale
+#: code:addons/point_of_sale/point_of_sale.py:799
+#, python-format
+msgid ""
+"Missing source or destination location for picking type %s. Please configure "
+"those fields and try again."
+msgstr ""
+"Falta la ubicación origen o destino de los productos %s. Configure estos campos y "
+"vuelva a intentarlo."
+
+#. module: point_of_sale
+#: field:pos.order,picking_id:0
+msgid "Picking"
+msgstr "Conduce"
+
+#. module: point_of_sale
+#: field:pos.config,picking_type_id:0
+#: field:pos.order,picking_type_id:0
+msgid "Picking Type"
+msgstr "Tipo de conduce"
+
+#. module: point_of_sale
+#: code:addons/point_of_sale/point_of_sale.py:841
+#, python-format
+msgid "Unable to cancel the picking."
+msgstr "Imposible cancelar el conduce de entrada."
+
+#. module: point_of_sale
+#. openerp-web
+#: code:addons/point_of_sale/static/src/js/screens.js:1070
+#, python-format
+msgid "Validate"
+msgstr "Facturar"

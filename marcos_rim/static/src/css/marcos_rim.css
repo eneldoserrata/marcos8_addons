@@ -1,0 +1,120 @@
+.quality-btn {
+    font-size: 118px;
+}
+
+.size-width-btn {
+    font-size: 52px;
+    margin-bottom: 24px;
+    margin-left: 20px;
+}
+
+.size-height-btn {
+    font-size: 52px;
+    margin-bottom: 15px;
+    margin-left: 26px;
+}
+
+.rim-logo {
+    background: #ffffff;
+    padding: 10px;
+}
+
+.rim-panel {
+    background: #000000;
+}
+
+.rim-button-clean {
+    font-size: 115px;
+}
+
+.rim-button-login {
+    font-size: 75px;
+}
+
+.rim-button-send {
+    font-size: 83px;
+}
+
+.rim-button-search {
+    font-size: 50px;
+}
+
+.rim-form-label {
+    color: #ffffff;
+}
+
+.panel-heading {
+    font-size: 24px;
+}
+
+label {
+    font-size: 29px;
+}
+
+.sr-only {
+    color: #ffffff;
+}
+
+.qc-input {
+    height: 120px;
+    width: 120px;
+    font-size: 82px;
+    text-align:center;
+    background-color: #000000;
+    color: red;
+}
+
+.skutext {
+    height: 120px;
+    width: 582px;
+    font-size: 59px;
+    text-align:center;
+    background-color: #000000;
+    color: red;
+}
+
+#serial_input {
+    height: 230px;
+    /*width: 171px;*/
+    font-size: 124px;
+    text-align:center;
+    background-color: #000000;
+    color: red;
+}
+
+
+.js_printer_selector {
+    background-color: blue;
+}
+
+#js_stock_move_clear{
+    margin-right: 10px;
+}
+
+#js_stock_order {
+    margin-right: 10px;
+}
+
+#js_stock_move {
+    margin-right: 10px;
+}
+
+#to_location {
+    margin-top: 5px;
+    margin-bottom: -37px;
+    margin-left: 10px;
+}
+
+#detail_sku_to_move_table {
+    font-size: 25px;
+}
+
+.rimwebappmenu {
+    padding: 40px;
+}
+
+
+/*Grabiel Report*/
+/*.tg  {border-collapse:collapse;border-spacing:0;}*/
+/*.tg td{font-family:Arial, sans-serif;font-size:14px;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}*/
+/*.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:10px 5px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}*/

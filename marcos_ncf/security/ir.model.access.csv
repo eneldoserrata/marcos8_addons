@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_marcos_dgii_purchase_report_line,marcos_mcf.marcos_dgii_purchase_report_line,model_marcos_dgii_purchase_report_line,dgii_group_manager,1,1,1,1
+access_marcos_ncf_config,marcos_ncf.shop_ncf_config,model_shop_ncf_config,dgii_group_manager,1,1,1,0
+access_marcos_ncf_config_group_user,marcos_ncf.shop_ncf_config_group_user,model_shop_ncf_config,base.group_user,1,1,0,0
+access_marcos_dgii_sale_report_line,marcos_mcf.dgii_sale_report_line,model_dgii_sale_report_line,dgii_group_manager,1,1,1,1
+access_marcos_dgii_sale_report,marcos_mcf.dgii_sale_report,model_dgii_sale_report,dgii_group_manager,1,1,1,1

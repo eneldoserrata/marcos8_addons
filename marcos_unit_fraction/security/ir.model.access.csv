@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_marcos_unit_fraction_marcos_unit_fraction,marcos_unit_fraction.marcos_unit_fraction,model_marcos_unit_fraction_marcos_unit_fraction,,1,0,0,0

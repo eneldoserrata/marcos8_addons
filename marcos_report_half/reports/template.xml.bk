@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="report_saleorder_style" inherit_id="report.style">
+            <xpath expr=".">
+                <t>
+
+                    .xx-small {
+                        font-size: xx-small;
+                    }
+
+                    .x-small {
+                        font-size: x-small;
+                    }
+
+                    .small {
+                        font-size: small;
+                    }
+
+                    .medium {
+                        font-family: medium;
+                    }
+
+                    .large {
+                        font-size: large;
+                    }
+
+                    .x-large {
+                        font-size: x-large;
+                    }
+
+                    .smaller {
+                        font-size: smaller;
+                    }
+
+                    .larger {
+                        font-family: larger;
+                    }
+
+                    .initial {
+                        font-family: initial;
+                    }
+
+                    .top-line {
+                        border-top: 1px solid;
+                    }
+
+                    .left-line {
+                        border-left: 1px solid;
+                    }
+
+                    .botton-line {
+                        border-bottom: 1px solid;
+                    }
+
+                    .right-line {
+                        border-right: 1px solid;
+                    }
+
+                    .table th, .table td {
+                        border-top: none !important;
+                    }
+
+                    table tr td {
+                        padding: 1px !important;
+                    }
+
+                    .line-box {
+                        border: 1px solid;
+                        padding: 10px;
+                        border-radius: 10px;
+                    }
+
+
+                </t>
+            </xpath>
+        </template>
+
+
+    </data>
+</openerp>
+
+

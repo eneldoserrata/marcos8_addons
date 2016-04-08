@@ -1,0 +1,10 @@
+<openerp>
+    <data>
+        <template id="web_example_assets_backend" name="web_example assets" inherit_id="web.assets_backend">`enter code
+            here`
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/marcos_ncf/static/src/css/marcos_ncf.css"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>

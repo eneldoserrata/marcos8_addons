@@ -1,0 +1,30 @@
+<openerp>
+    <data>
+
+        <record id="marcos_rim_stock_picking_split_serial" model="ir.ui.view">
+            <field name="name">marcos_rim.stock.picking.split.serial</field>
+            <field name="model">marcos_rim.picking.split.serial</field>
+            <field name="arch" type="xml">
+                <form string="Enviar picking a contabilidad" version="7.0">
+                    <p>
+                        this process divide the quantities in units for the inventory besides assigning a serial number
+                    </p>
+                    <footer>
+                        <button string="Split order Serial" name="split_order_line_by_one" type="object" default_focus="1" class="oe_highlight"/>
+                        or
+                        <button string="Cancelar" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <act_window id="launch_the_wizard"
+            name="Split and serial all product"
+            src_model="purchase.order"
+            res_model="marcos_rim.picking.split.serial"
+            view_mode="form"
+            target="new"
+            key2="client_action_multi"/>
+
+     </data>
+</openerp>

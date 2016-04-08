@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <!-- Page -->
+    <data>
+
+        <template id="azulform_acquirer_button" name="Servicios Digitales Banco Popular form">
+                <form t-att-action="tx_values['azulform_url']" method="post">
+                        <t t-if="tx_values.get('return_url')">
+                            <input type='hidden' name='return_url' t-att-value='tx_values["return_url"]'/>
+                        </t>
+                        <input type='hidden' name='reference' t-att-value='reference'/>
+                        <input type='hidden' name='currency' t-att-value='currency.name'/>
+
+                        <input type="hidden" id="MerchantId"            name="MerchantId"               t-att-value="tx_values['MerchantId']"/>
+                        <input type="hidden" id="MerchantName"          name="MerchantName"             t-att-value="tx_values['MerchantName']"/>
+                        <input type="hidden" id="MerchantType"          name="MerchantType"             t-att-value="tx_values['MerchantType']"/>
+                        <input type="hidden" id="CurrencyCode"          name="CurrencyCode"             t-att-value="tx_values['CurrencyCode']"/>
+                        <input type="hidden" id="OrderNumber"           name="OrderNumber"              t-att-value="tx_values['OrderNumber']"/>
+                        <input type="hidden" id="Amount"                name="Amount"                   t-att-value="tx_values['Amount']"/>
+                        <input type="hidden" id="ITBIS"                 name="ITBIS"                    t-att-value="tx_values['ITBIS']"/>
+                        <input type="hidden" id="ApprovedUrl"           name="ApprovedUrl"              t-att-value="tx_values['ApprovedUrl']"/>
+                        <input type="hidden" id="DeclinedUrl"           name="DeclinedUrl"              t-att-value="tx_values['DeclinedUrl']"/>
+                        <input type="hidden" id="CancelUrl"             name="CancelUrl"                t-att-value="tx_values['CancelUrl']"/>
+                        <input type="hidden" id="ResponsePostUrl"       name="ResponsePostUrl"          t-att-value="tx_values['ResponsePostUrl']"/>
+                        <input type="hidden" id="UseCustomField1"       name="UseCustomField1"          t-att-value="tx_values['UseCustomField1']"/>
+                        <input type="hidden" id="CustomField1Label"     name="CustomField1Label"        t-att-value="tx_values['CustomField1Label']"/>
+                        <input type="hidden" id="CustomField1Value"     name="CustomField1Value"        t-att-value="tx_values['CustomField1Value']"/>
+                        <input type="hidden" id="UseCustomField2"       name="UseCustomField2"          t-att-value="tx_values['UseCustomField2']"/>
+                        <input type="hidden" id="CustomField2Label"     name="CustomField2Label"        t-att-value="tx_values['CustomField2Label']"/>
+                        <input type="hidden" id="CustomField2Value"     name="CustomField2Value"        t-att-value="tx_values['CustomField2Value']"/>
+                        <input type="hidden" id="ShowTransactionResult" name="ShowTransactionResult"    t-att-value="tx_values['ShowTransactionResult']"/>
+                        <input type="hidden" id="AuthHash"              name="AuthHash"                 t-att-value="tx_values['AuthHash']"/>
+
+                    <label>Tarjetas Aceptadas:</label>
+                    <p>
+                        <img src="/payment_azulform/static/src/img/visa-curved-32px.png"></img>
+                        <img src="/payment_azulform/static/src/img/mastercard-curved-32px.png"></img>
+                        <img src="/payment_azulform/static/src/img/discover-curved-32px.png"></img>
+                    </p>
+                    <p>
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"/>
+                                        He leído y comprendo los
+                                    </label> <a href="/page/terminosuso">Términos de Uso</a> y <a href="/page/politicaprivacidad">Política de Privacidad</a>
+                                </div>
+                            </div>
+                        </div>
+                    </p>
+                    <button type="submit" width="100px" t-att-class="submit_class">
+                        <img t-if="not submit_txt" src="/payment_azulform/static/src/img/azulform_icon.png"/>
+                        <span t-if="submit_txt">
+                            <t t-esc="submit_txt"/>
+                            <span class="fa fa-long-arrow-right"/>
+                        </span>
+                    </button>
+                </form>
+
+        </template>
+    </data>
+</openerp>

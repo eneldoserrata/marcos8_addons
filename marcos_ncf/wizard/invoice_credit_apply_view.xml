@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="invoice_credit_apply_form" model="ir.ui.view">
+            <field name="name">Invoice credit apply form</field>
+            <field name="model">invoice.credit.apply</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <group>
+                        <h1><label for="open_credit"/></h1>
+                        <h1><field name="open_credit"/></h1>
+                    </group>
+                    <footer>
+                        <button name="apply_credit" string="Aplicar crédito" class="oe_highlight" type="object"/> or
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</openerp>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <!--?<record id="marcos_product_uom_form_view" model="ir.ui.view">-->
+            <!--?<field name="name">marcos_product_uom_form_view</field>-->
+            <!--?<field name="model">product.uom</field>-->
+            <!--?<field name="inherit_id" ref="product.product_uom_form_view"/>-->
+            <!--?<field name="arch" type="xml">-->
+
+            <!--?<field name="rounding" position="after">-->
+                <!--?<field name="can_retail"/>-->
+            <!--?</field>-->
+
+            <!--?<xpath expr="//form" position="inside">-->
+                <!--?<field name="fraction_line">-->
+                    <!--?<tree editable="bottom" string="Descripcion del detalle">-->
+                        <!--?<field name="name"/>-->
+                        <!--?<field name="fraction_qty"/>-->
+                        <!--?<field name="fraction_package"/>-->
+                    <!--?</tree>-->
+                <!--?</field>-->
+            <!--?</xpath>-->
+
+        <!--?</record>-->
+
+    </data>
+</openerp>

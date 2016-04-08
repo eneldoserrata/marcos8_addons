@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="mipf_subsidiary_tree" model="ir.ui.view">
+            <field name="name">Marcos ipf module mipf subsidiary tree</field>
+            <field name="model">mipf.subsidiary</field>
+            <field name="arch" type="xml">
+                <tree string="Sucursales" editable="top/bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mipf_subsidiary_action" model="ir.actions.act_window">
+            <field name="name">Sucursales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mipf.subsidiary</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Registro e sucursales
+              </p><p>
+                Registre aqui los nombres de las sucursales que usan impresoras fiscales.
+              </p>
+            </field>
+        </record>
+
+        <record id="mipf_printer_config_form_view" model="ir.ui.view">
+            <field name="name">mipf.printer.config.form.view</field>
+            <field name="model">mipf.printer.config</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                            <field name="name"/>
+                            <field name="host"/>
+                            <field name="subsidiary"/>
+                            <field name="user_ids" widget="many2many_tags"/>
+                            <field name="print_copy"/>
+                         </group>
+                            <group>
+                        <div class="oe_right oe_button_box" name="ipfbuttons">
+                            <html>
+                            <table>
+                                <tr>
+                                    <th>Ventas</th>
+                                    <th>Funciones</th>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <widget type="ipf_button_z_close"/>
+                                    </td>
+                                    <td>
+                                        <widget type="ipf_button_printer_information"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <widget type="ipf_button_z_close_print"/>
+                                    </td>
+                                    <td>
+                                        <widget type="ipf_button_state"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <widget type="ipf_button_z_close_range"/>
+                                    </td>
+                                    <td>
+                                        <widget type="ipf_button_softwareVersion"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <widget type="ipf_button_new_shift"/>
+                                    </td>
+                                    <td>
+                                        <widget type="ipf_button_advance_paper"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <widget type="ipf_button_new_shift_print"/>
+                                    </td>
+                                    <td>
+                                        <widget type="ipf_button_advance_pape_number"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <widget type="ipf_button_x"/>
+                                    </td>
+                                    <td>
+                                        <widget type="ipf_button_paper_cut"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <widget type="ipf_button_information_day"/>
+                                    </td>
+                                    <td>
+                                        <widget type="ipf_button_get_document_header"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <widget type="ipf_button_information_shift"/>
+                                    </td>
+                                    <td>
+                                        <widget type="ipf_button_post_document_header"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <widget type="ipf_button_dailybook"/>
+                                    </td>
+                                    <td>
+
+                                    </td>
+                                </tr>
+                            </table>
+                            </html>
+                        </div>
+
+                        </group>
+                        </group>
+                    </sheet>
+                    <notebook>
+                        <page string="Libros diarios">
+                            <field name="daily_book_ids"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+
+        <record id="mipf_printer_config_tree_view" model="ir.ui.view">
+            <field name="name">mipf.printer.config.tree.view</field>
+            <field name="model">mipf.printer.config</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="subsidiary"/>
+                    <field name="host"/>
+                    <field name="print_copy"/>
+                </tree>
+            </field>
+        </record>
+
+        <!--<record id="mipf_printer_config_search_view" model="ir.ui.view">-->
+            <!--<field name="name">mipf_printer_config_search_view</field>-->
+            <!--<field name="model">mipf.printer.config</field>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<search string="Impresoras">-->
+                    <!--<field name="name"/>-->
+                    <!--<field name="subsidiary" string="Sucursales"/>-->
+                    <!--<group string="Group By">-->
+                    <!--<filter name="group_by_inventor" string="Sucursales" context="{'group_by': 'subsidiary'}"/>-->
+                    <!--</group>-->
+                <!--</search>-->
+            <!--</field>-->
+        <!--</record>-->
+
+        <record id="mipf_printer_config_action_view" model="ir.actions.act_window">
+            <field name="name">Impresoras Fiscales</field>
+            <field name="res_model">mipf.printer.config</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Crea tu primera impresora fiscal
+                </p>
+            </field>
+        </record>
+
+        <record id="action_account_fiscalyear" model="ir.actions.act_window">
+            <field name="name">Fiscal Years</field>
+            <field name="res_model">account.fiscalyear</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Click to start a new fiscal year.
+              </p><p>
+                Define your company's financial year according to your needs. A
+                financial year is a period at the end of which a company's
+                accounts are made up (usually 12 months). The financial year is
+                usually referred to by the date in which it ends. For example,
+                if a company's financial year ends November 30, 2011, then
+                everything between December 1, 2010 and November 30, 2011
+                would be referred to as FY 2011.
+              </p>
+            </field>
+        </record>
+
+        <record id="maipf_daily_book_tree" model="ir.ui.view">
+            <field name="name">module ipf daily book tree</field>
+            <field name="model">mipf.daily.book</field>
+            <field name="arch" type="xml">
+                <tree string="Libros diarios" create="0">
+                    <field name="subsidiary"/>
+                    <field name="printer_id"/>
+                    <field name="serial"/>
+                    <field name="date"/>
+                    <field name="filename" readonly="1" invisible="1"/>
+                    <field name="book" readonly="1" filename="filename"/>
+                    <field name="doc_qty"/>
+                    <field name="total"/>
+                    <field name="total_tax"/>
+                    <field name="final_total"/>
+                    <field name="final_total_tax"/>
+                    <field name="fiscal_total"/>
+                    <field name="fiscal_total_tax"/>
+                    <field name="ncfinal_total"/>
+                    <field name="ncfinal_total_tax"/>
+                    <field name="ncfiscal_total"/>
+                    <field name="ncfiscal_total_tax"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="maipf_daily_book_action" model="ir.actions.act_window">
+            <field name="name">Libros diarios</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mipf.daily.book</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Libros diarios
+                </p>
+                <p>
+                    Aqui se listaran todos los libros diarios generados.
+                </p>
+            </field>
+        </record>
+
+        <record id="mipf_monthly_book_tree" model="ir.ui.view">
+            <field name="name">Marcos IPF Monthly Book tree</field>
+            <field name="model">mipf.monthly.book</field>
+            <field name="arch" type="xml">
+                <tree string="Libro mensual" create="0">
+                    <field name="subsidiary"/>
+                    <field name="period_id"/>
+                    <field name="filename" readonly="1" invisible="1"/>
+                    <field name="book" readonly="1" filename="filename"/>
+
+                    <field name="doc_qty"/>
+                    <field name="total"/>
+                    <field name="total_tax"/>
+                    <field name="final_total"/>
+                    <field name="final_total_tax"/>
+                    <field name="fiscal_total"/>
+                    <field name="fiscal_total_tax"/>
+                    <field name="ncfinal_total"/>
+                    <field name="ncfinal_total_tax"/>
+                    <field name="ncfiscal_total"/>
+                    <field name="ncfiscal_total_tax"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="mipf_monthly_book_action" model="ir.actions.act_window">
+            <field name="name">Libros mensuales</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">mipf.monthly.book</field>
+            <field name="view_mode">tree</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Libros mensuales
+              </p><p>
+                Aqui se listaran todos los libros mensuales generados.
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="mipf_module_top_menu" name="Impresoras fiscales" sequence="0" groups="ipf_module_user,ipf_module_account,ipf_module_manager"/>
+
+        <menuitem id="books_menu" name="Libros de venta" parent="mipf_module_top_menu" sequence="0"/>
+
+        <menuitem id="mipf_daily_book_list" name="Libros diarios" parent="books_menu" action="maipf_daily_book_action" sequence="0" groups="ipf_module_user,ipf_module_account,ipf_module_manager"/>
+        <menuitem id="marcos_ipf_monthly_book_menu" parent="books_menu" action="mipf_monthly_book_action" sequence="1" groups="ipf_module_account,ipf_module_manager"/>
+
+        <menuitem id="mipf_config" name="Configuracion" parent="mipf_module_top_menu" sequence="1"/>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="mipf_user_manager_form" model="ir.ui.view">
+            <field name="name">mipf_user_manager_form</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_simple_form"/>
+            <field name="arch" type="xml">
+
+
+
+                <field name="fax" position="after">
+                    <field name="groups_id" readonly="0" widget="many2many_tags" style="display: inline;"/>
+                    You will be able to define additional access rights by editing the newly created user under the
+                    Settings / Users menu.
+                </field>
+                <xpath expr="//group[1]" position="after">
+                        <group>
+                            <button string="Send Reset Password Instructions"
+                                    class="oe_link"
+                                    type="object" name="action_reset_password"/>
+                            <button string="Send an Invitation Email"
+                                    class="oe_link"
+                                    type="object" name="action_reset_password" context="{'create_user': 1}"/>
+                        </group>
+                    </xpath>
+
+            </field>
+        </record>
+
+        <record id="action_res_users" model="ir.actions.act_window">
+            <field name="name">Users</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.users</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="base.view_users_tree"/>
+            <field name="search_view_id" ref="base.view_users_search"/>
+            <field name="help">Create and manage users that will connect to the system. Users can be deactivated should there be a period of time during which they will/should not connect to the system. You can assign them groups in order to give them specific access to the applications they need to use in the system.</field>
+        </record>
+
+        <menuitem id="mipf_subsidiary_menu" name="Sucursales" parent="mipf_config" action="mipf_subsidiary_action" sequence="0" groups="ipf_module_manager"/>
+        <menuitem id="mipf_printer_config_menu" name="Impresoras Fiscales" parent="mipf_config" action="mipf_printer_config_action_view" sequence="1" groups="ipf_module_manager"/>
+        <menuitem id="mipf_printer_period_menu" name="Periodos" parent="mipf_config" action="action_account_fiscalyear" sequence="2" groups="ipf_module_account,ipf_module_manager"/>
+        <menuitem id="mipf_users_menu" name="Usuarios" parent="mipf_config" action="action_res_users" sequence="3" groups="ipf_module_manager"/>
+
+
+
+    </data>
+</openerp>
