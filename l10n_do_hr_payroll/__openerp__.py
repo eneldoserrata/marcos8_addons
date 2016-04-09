@@ -34,23 +34,23 @@ This is the base module to manage the payroll for Dominican Republic.
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/master/openerp/addons/base/module/module_data.xml
     # for the full list
-    'version': '0.1',
+    'version': '9.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'account', 'marcos_l10n_do', "hr", "hr_payroll", "hr_payslip_paid"],
+    'depends': ['base', 'account', "hr", "hr_payroll"],
 
     # always loaded
     'data': [
-        # 'views/views.xml',
-        # 'data/hr.salary.rule.category.csv',
-        # 'data/hr.salary.rule.csv',
-        # 'data/no_account/hr.salary.rule.csv',
-        # 'data/hr.payroll.structure.csv',
         # 'security/ir.model.access.csv',
-        # 'templates.xml',
+        'views/views.xml',
+        'data/hr.salary.rule.category.csv',
+        'data/hr.salary.rule.csv',
+        'data/hr.payroll.structure.csv',
+        'templates.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo.xml',
     ],
+    'installable': True
 }

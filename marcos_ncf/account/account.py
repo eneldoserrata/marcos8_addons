@@ -21,13 +21,6 @@
 
 from openerp.osv import osv, fields
 
-class account_journal(osv.osv):
-    _inherit = 'account.journal'
-
-    _columns = {
-        "cash_bank_type": fields.selection([("payment", "Pago a proveedores"), ("collection", "Pago de clientes"), ("bank", "Cuenta de banco")], string="Tipo de diario banco",
-                                 help="Define en que lugar usara este diario", default="bank")
-    }
 
 class account_move(osv.osv):
     _inherit = "account.move"

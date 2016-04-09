@@ -68,20 +68,5 @@
         </record>
 
 
-        <!-- Inherit Form View to Modify it -->
-        <record id="marcos_ncf_view_account_journal_form" model="ir.ui.view">
-            <field name="name">marcos_ncf_view_account_journal_form</field>
-            <field name="model">account.journal</field>
-            <field name="inherit_id" ref="account.view_account_journal_form"/>
-            <field name="arch" type="xml">
-
-                <field name="type" position="after">
-                    <field name="cash_bank_type" attrs="{'invisible': [('type','not in', ['cash','bank'])],
-                    'required': [('type','in', ['cash','bank'])]}"/>
-                </field>
-
-            </field>
-        </record>
-
     </data>
 </openerp>

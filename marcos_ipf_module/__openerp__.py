@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'web', 'account', "mail", "website", "auth_signup"],
+    'depends': ['base', 'web', 'account', "mail", "auth_signup"],
 
     # always loaded
     'data': [

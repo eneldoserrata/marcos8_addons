@@ -33,27 +33,14 @@
                     <field name="amount_in_word"/>
                 </field>
 
-                <field name="journal_id" position="attributes">
-                    <attribute name="domain">[('cash_bank_type','=','collection')]</attribute>
-                </field>
+                <!--<field name="journal_id" position="attributes">-->
+                    <!--<attribute name="domain">[('cash_bank_type','=','collection')]</attribute>-->
+                <!--</field>-->
 
             </field>
         </record>
 
-        <!-- Inherit Form View to Modify it -->
-        <record id="marcos_ncf_view_vendor_receipt_dialog_form" model="ir.ui.view">
-            <field name="name">marcos_ncf_view_vendor_receipt_dialog_form</field>
-            <field name="model">account.voucher</field>
-            <field name="inherit_id" ref="account_voucher.view_vendor_receipt_dialog_form"/>
-            <field name="arch" type="xml">
 
-
-                <field name="journal_id" position="attributes">
-                    <attribute name="domain">[('cash_bank_type','=','collection')]</attribute>
-                </field>
-
-            </field>
-        </record>
 
         <!-- Inherit Form View to Modify it -->
         <record id="marcos_ncf_view_invoice_supplier" model="ir.ui.view">
@@ -86,7 +73,6 @@
                                 invisible="context.get('line_type', False)"
                                 on_change="onchange_amount(amount, payment_rate, partner_id, journal_id, currency_id, type, date, payment_rate_currency_id, company_id, context)"/>
                             <field name="journal_id"
-                                domain="[('cash_bank_type','=','payment')]"
                                 invisible="context.get('line_type', False)"
                                 widget="selection"
                                 on_change="onchange_journal(journal_id, line_cr_ids, False, partner_id, date, amount, type, company_id, context)"
