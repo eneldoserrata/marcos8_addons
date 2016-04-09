@@ -42,7 +42,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'web', 'account', 'marcos_l10n_do', 'debit_credit_note', 'account_voucher', 'account_check_writing', 'marcos_branding'],
+    'depends': ['base', 'web', 'account', 'l10n_do', 'debit_credit_note', 'account_voucher', 'account_check_writing', 'marcos_branding'],
 
     # always loaded
     'data': [
