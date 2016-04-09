@@ -42,15 +42,16 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'web', 'account', 'l10n_do', 'debit_credit_note', 'account_voucher', 'account_check_writing', 'marcos_branding'],
+    'depends': ['base', 'web', 'account', 'debit_credit_note', 'account_voucher', 'account_check_writing', 'marcos_branding'],
+    # 'depends': ['base', 'web', 'account', 'marcos_l10n_do', 'debit_credit_note', 'account_voucher', 'account_check_writing', 'marcos_branding'],
 
     # always loaded
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',
+        # 'data.xml',
         'account/shop_view.xml',
         'res_partner/res_partner_view.xml',
-        'data.xml',
         'templates.xml',
         'account/account_invoice_view.xml',
         'res/res_users_view.xml',

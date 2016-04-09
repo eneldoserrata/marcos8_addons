@@ -202,7 +202,7 @@ class account_invoice(models.Model):
     ncf_required = fields.Boolean("Requiere NCF", related="journal_id.ncf_required")
     nif = fields.Char("NIF", default="false", readonly=True, copy=False)
     pay_to = fields.Many2one("res.partner", "Pagar a")
-    shop_ncf_config_id = fields.Many2one("shop.ncf.config", "Sucursal", default=_get_deafult_user_shop_config,
+    shop_ncf_config_id = fields.Many2one("shop.ncf.config", "Sucursal",
                                          required=False, readonly=True)
 
     _sql_constraints = [
