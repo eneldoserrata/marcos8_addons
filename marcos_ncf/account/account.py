@@ -66,7 +66,7 @@ class account_fiscal_position(models.Model):
             ('11', u'11 - Gastos de Seguro')
         )
 
-    fiscal_type = fields.Selection(_get_fiscal_type, "Tipo de NCF"),
+    fiscal_type = fields.Selection(_get_fiscal_type, "Tipo de NCF")
     for_supplier = fields.Boolean("Para proveedores")
 
 
