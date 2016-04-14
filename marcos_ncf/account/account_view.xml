@@ -41,18 +41,18 @@
             </field>
         </record>
 
-        <record id="marcos_sequence_view" model="ir.ui.view">
-            <field name="name">marcos_ir_sequence</field>
-            <field name="model">ir.sequence</field>
-            <field name="inherit_id" ref="base.sequence_view"/>
-            <field name="arch" type="xml">
-                <field name="implementation" position="after">
-                    <field name="ncf_limit"/>
-                    <field name="user_id"/>
-                    <field name="ncf_notify"/>
-                </field>
-            </field>
-        </record>
+        <!--<record id="marcos_sequence_view" model="ir.ui.view">-->
+            <!--<field name="name">marcos_ir_sequence</field>-->
+            <!--<field name="model">ir.sequence</field>-->
+            <!--<field name="inherit_id" ref="base.sequence_view"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<field name="implementation" position="after">-->
+                    <!--<field name="ncf_limit"/>-->
+                    <!--<field name="user_id"/>-->
+                    <!--<field name="ncf_notify"/>-->
+                <!--</field>-->
+            <!--</field>-->
+        <!--</record>-->
 
 
         <record id="marcos_view_account_journal_form" model="ir.ui.view">

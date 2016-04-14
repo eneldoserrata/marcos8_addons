@@ -53,7 +53,6 @@ This is the base module to manage the accounting chart for Dominican Republic.
         'data/account.fiscal.position.tax.template.csv',
         # configuration wizard, views, reports...
         'data/l10n_do_wizard.xml',
-        'account/account_view.xml',
         'data/report_paperformat.xml'
     ],
     'test': [],

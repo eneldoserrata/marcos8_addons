@@ -59,7 +59,8 @@
         'dgii_ventas/view.xml',
         'res/res_currency_view.xml',
         'account_voucher/account_voucher_view.xml',
-        'wizard/invoice_credit_apply_view.xml'
+        'wizard/invoice_credit_apply_view.xml',
+        'account/account_view.xml'
     ],
     # 'js': ['static/src/js/ipf.js'],
     'qweb': [],
