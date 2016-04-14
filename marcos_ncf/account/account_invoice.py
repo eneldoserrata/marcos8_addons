@@ -203,7 +203,7 @@ class account_invoice(models.Model):
     nif = fields.Char("NIF", default="false", readonly=True, copy=False)
     pay_to = fields.Many2one("res.partner", "Pagar a")
     shop_ncf_config_id = fields.Many2one("shop.ncf.config", "Sucursal",
-                                         required=False, readonly=True)
+                                         required=False, readonly=True, default=lambda s: s._get_deafult_user_shop_config())
 
     _sql_constraints = [
         ('number_uniq', 'unique(number, company_id, journal_id, type, partner_id)',
