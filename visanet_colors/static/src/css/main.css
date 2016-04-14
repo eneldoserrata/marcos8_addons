@@ -1,0 +1,88 @@
+/*
+
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.navbar-inverse {
+    background-color: #f6a704; !*#222;*!
+    border-color: #f6a704; !*#080808;*!
+    font-size: 14px;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+    border-color: #f6a704; !*#101010;*!
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: white; !*#777;*!
+    background-color: #f6a704;
+}
+
+.navbar-inner {
+    background-color: red;
+    !* remove the gradient *!
+    background-image: none;
+    !* set font color to black *!
+    color: white;
+}
+
+!* set hover and focus to lightblue *!
+.navbar .nav > li > a:focus,
+.navbar .nav > li > a:hover {
+    background-color: #162368;
+    color: white;
+}
+
+!* set active item to darkgreen *!
+.navbar .nav > .active > a,
+.navbar .nav > .active > a:hover,
+.navbar .nav > .active > a:focus {
+
+    background-color: #162368;
+    color: white;
+}
+
+.openerp .oe_leftbar {
+    background: #ffffff;
+}
+
+.openerp .oe_secondary_menu_section {
+    font-weight: bold;
+    margin-left: 8px;
+    color: #162368;
+}
+
+.openerp .nav-pills > li.active > a, .openerp a.list-group-item.active > a {
+    background-color: #162368;
+    color: white;
+    border-radius: 0;
+}
+
+.openerp .nav-pills > li.active a:hover, .openerp .nav-pills > li.active a:focus, .openerp a.list-group-item.active a:hover, .openerp a.list-group-item.active a:focus {
+    background-color: #162368;
+}
+
+.openerp {
+    padding: 0;
+    margin: 0;
+    font-family: "Lucida Grande", Helvetica, Verdana, Arial, sans-serif;
+    color: #4c4c4c;
+    font-size: 13px;
+    background: white;
+}
+
+.openerp .oe_view_manager_current > .oe_view_manager_header {
+    border-bottom: 1px solid #cacaca;
+    background-color: #ffffff;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#ffffff), to(#ffffff));
+    background-image: -webkit-linear-gradient(top, #ffffff, #ffffff);
+    background-image: -moz-linear-gradient(top, #ffffff, #ffffff);
+    background-image: -ms-linear-gradient(top, #ffffff, #ffffff);
+    background-image: -o-linear-gradient(top, #ffffff, #ffffff);
+    background-image: linear-gradient(to bottom, #ffffff, #ffffff);
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 9px rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 9px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4), 0 0 9px rgba(0, 0, 0, 0.1);
+}
+*/

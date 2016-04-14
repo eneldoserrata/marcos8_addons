@@ -1,0 +1,103 @@
+<!--Invite customer-->
+<p>
+    ${object.name},
+</p>
+<p>
+Has recibido una invitación para conectarse a "${object.company_id.name}" con el fin de obtener acceso a sus documentos
+NCF desde VisaNet.
+</p>
+<p>
+Para aceptar la invitación, haga clic en el siguiente enlace:
+</p>
+<ul>
+<li>
+    <a href="${object.signup_url}">Acepte la invitación a "${object.company_id.name}"</a>
+</li>
+</ul>
+<p>
+Thanks,
+</p>
+<pre>
+--
+${object.company_id.name or ''}
+${object.company_id.email or ''}
+${object.company_id.phone or ''}
+</pre>
+
+
+<!--/reset password-->
+
+<p>Un restablecimiento de contraseña se solicitó para la cuenta VisaNet ncfPOS vinculado a este correo electrónico.</p>
+
+<p>Usted puede cambiar su contraseña siguiendo <a href="${object.signup_url}">este enlace</a>, que seguirá siendo válido durante 24 horas.</p>
+
+<p>Nota: Si usted no espera esto, se puede ignorar este correo electrónico.</p>
+
+
+<!--invoice-->
+
+
+<div style="font-family: 'Lucica Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
+
+    <p>Hola ${object.partner_id.name},</p>
+
+    <p>Una nueva factura está disponible para usted: </p>
+
+    <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+       &nbsp;&nbsp;<strong>Referencias</strong><br />
+       &nbsp;&nbsp;Número de factura: <strong>${object.number}</strong><br />
+       &nbsp;&nbsp;Total de la factura: <strong>${object.amount_total} ${object.currency_id.name}</strong><br />
+       &nbsp;&nbsp;Fecha de la factura: ${object.date_invoice}<br />
+       % if object.origin:
+       &nbsp;&nbsp;Referencia: ${object.origin}<br />
+       % endif
+       % if object.user_id:
+       &nbsp;&nbsp;Tu contacto: <a href="mailto:${object.user_id.email or ''}?subject=Invoice%20${object.number}">${object.user_id.name}</a>
+       % endif
+    </p>
+
+    % if object.paypal_url:
+    <br/>
+    <p>También es posible pagar directamente con PayPal:</p>
+        <a style="margin-left: 120px;" href="${object.paypal_url}">
+            <img class="oe_edi_paypal_button" src="/account/static/src/img/btn_paynowcc_lg.gif"/>
+        </a>
+    % endif
+
+    <br/>
+    <p>Si usted tiene cualquier pregunta, no dude en contactar con nosotros.</p>
+    <p>Gracias por escoger ${object.company_id.name or 'us'}!</p>
+    <br/>
+    <br/>
+    <div style="width: 375px; margin: 0px; padding: 0px; background-color: #8E0000; border-top-left-radius: 5px 5px; border-top-right-radius: 5px 5px; background-repeat: repeat no-repeat;">
+        <h3 style="margin: 0px; padding: 2px 14px; font-size: 12px; color: #DDD;">
+            <strong style="text-transform:uppercase;">${object.company_id.name}</strong></h3>
+    </div>
+    <div style="width: 347px; margin: 0px; padding: 5px 14px; line-height: 16px; background-color: #F2F2F2;">
+        <span style="color: #222; margin-bottom: 5px; display: block; ">
+        % if object.company_id.street:
+            ${object.company_id.street}<br/>
+        % endif
+        % if object.company_id.street2:
+            ${object.company_id.street2}<br/>
+        % endif
+        % if object.company_id.city or object.company_id.zip:
+            ${object.company_id.zip} ${object.company_id.city}<br/>
+        % endif
+        % if object.company_id.country_id:
+            ${object.company_id.state_id and ('%s, ' % object.company_id.state_id.name) or ''} ${object.company_id.country_id.name or ''}<br/>
+        % endif
+        </span>
+        % if object.company_id.phone:
+            <div style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; padding-top: 0px; padding-right: 0px; padding-bottom: 0px; padding-left: 0px; ">
+                Phone:&nbsp; ${object.company_id.phone}
+            </div>
+        % endif
+        % if object.company_id.website:
+            <div>
+                Web :&nbsp;<a href="${object.company_id.website}">${object.company_id.website}</a>
+            </div>
+        %endif
+        <p></p>
+    </div>
+</div>
