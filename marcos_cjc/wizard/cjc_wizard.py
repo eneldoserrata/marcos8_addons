@@ -197,4 +197,3 @@ class cjc_invoice_line_wizard(models.TransientModel):
     concept_id = fields.Many2one("marcos.cjc.concept", "Conceptos", required=True)
     amount = fields.Float('Amount', digits_compute=dp.get_precision('Account'), required=True, default=1)
     invoice_id = fields.Many2one("cjc.invoice.wizard", "Factura", ondelete='cascade', select=True)
-    # "quantity": fields.float('Quantity', digits_compute= dp.get_precision('Product Unit of Measure'), required=True),
