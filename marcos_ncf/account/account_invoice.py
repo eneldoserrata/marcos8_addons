@@ -345,7 +345,7 @@ class account_invoice(models.Model):
             self.env.cr.execute("select id from account_invoice where number = %(number)s and partner_id = %(partner_id)s",{"number": number, "partner_id": partner_id})
             exist = self.env.cr.fetchone()
             if exist:
-                raise except_orm("Advertencia!", u'Este nümero de comprobante fiscal ya fue registrado para esta empresa')
+                raise except_orm("Advertencia!", u'El comprobante fiscal número {} ya fue registrado para la empresa {}'.format(number, self.partner_id.name))
         return super(account_invoice, self).action_move_create()
 
 
@@ -357,7 +357,9 @@ class account_invoice(models.Model):
             self.reference_type = self.parent_id.reference_type
         elif self.type in ["in_invoice", "in_refund"] and self.reference_type == "none":
             raise except_orm("Advertencia!",
-                             u'No puede validar una factura de compra con el tipo pendiente de digitar!')
+                             u'No puede validar una factura de compra con el tipo pendiente de digitar'
+                             u'verifique de tipo de gasto para el comprbante fiscal número {} de la'
+                             u'empresa {}!'.format(self.internal_number, self.partner_id.name))
         res = super(account_invoice, self).invoice_validate()
         return res
 
