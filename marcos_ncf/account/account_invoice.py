@@ -19,13 +19,12 @@
 #
 ##############################################################################
 
-from openerp import models, fields, api, exceptions
+from openerp import models, fields, api
 from ..tools import is_ncf, is_identification, _internet_on
 from openerp.exceptions import ValidationError
 import requests
 from openerp.tools.translate import _
-from openerp.exceptions import except_orm, Warning, RedirectWarning
-from psycopg2 import IntegrityError
+from openerp.exceptions import except_orm, Warning
 
 MAGIC_COLUMNS = ('id', 'create_uid', 'create_date', 'write_uid', 'write_date')
 
@@ -49,31 +48,30 @@ class account_invoice(models.Model):
 
     def _invoice_ncf_validate(self):
 
-        if self.type in ['in_invoice', "in_refund"] and not self.reference_type in ['none', 'ext'] \
-                and not self.journal_id.ncf_special in ['gasto', 'informal'] and self.ncf_required == True:
+        if not self._context.get("from_legalizaciones", False) == True:
 
-            # if not self.internal_number and self.ncf_required:
-            #     raise ValidationError("Debe colocar el NCF de la factura proveedor")
+            if self.type in ['in_invoice', "in_refund"] and not self.reference_type in ['none', 'ext'] \
+                    and not self.journal_id.ncf_special in ['gasto', 'informal'] and self.ncf_required == True:
 
-            if self.internal_number:
-                if self.internal_number[9:11] == '02':
-                    raise ValidationError("El numero de comprobante fiscal no es valido "
-                                          "verifique de que no esta digitando un comprobante "
-                                          "de consumidor final codigo 02")
-                elif self.type == "in_refund" and not self.internal_number[9:11] == '04':
-                    raise ValidationError(u"Codigo de NCF para notas de crédito invalido debe de ser codigo 04")
-
-                if _internet_on():
-                    result = self._check_ncf(self.partner_id.ref, self.internal_number)
-                    if not result.get("valid", False):
+                if self.internal_number:
+                    if self.internal_number[9:11] == '02':
                         raise ValidationError("El numero de comprobante fiscal no es valido "
-                                              "no paso la validacion en DGII")
+                                              "verifique de que no esta digitando un comprobante "
+                                              "de consumidor final codigo 02")
+                    elif self.type == "in_refund" and not self.internal_number[9:11] == '04':
+                        raise ValidationError(u"Codigo de NCF para notas de crédito invalido debe de ser codigo 04")
 
-                elif not is_ncf(self.internal_number, self.env.context.get("type", False)) and self.ncf_required:
-                    raise ValidationError("El numero de comprobante fiscal no es valido"
-                                          "verifique de que no esta digitando un comprobante"
-                                          "de consumidor final codigo 02 o revise si lo ha"
-                                          "digitado incorrectamente")
+                    if _internet_on():
+                        result = self._check_ncf(self.partner_id.ref, self.internal_number)
+                        if not result.get("valid", False):
+                            raise ValidationError("El numero de comprobante fiscal no es valido "
+                                                  "no paso la validacion en DGII")
+
+                    elif not is_ncf(self.internal_number, self.env.context.get("type", False)) and self.ncf_required:
+                        raise ValidationError("El numero de comprobante fiscal no es valido"
+                                              "verifique de que no esta digitando un comprobante"
+                                              "de consumidor final codigo 02 o revise si lo ha"
+                                              "digitado incorrectamente")
 
     @api.model
     def _get_reference_type(self):
