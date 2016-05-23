@@ -46,8 +46,8 @@
         </record>
 
         <record id="dgii_sale_report_view_tree" model="ir.ui.view">
-            <field name="name">dgii sale report view tree</field>
-            <field name="model">Reporte 607</field>
+            <field name="name">Lista reporte 607 ventas</field>
+            <field name="model">dgii.sale.report</field>
             <field name="arch" type="xml">
                 <tree string="Reporte de ventas 607">
                     <field name="company_id"/>
