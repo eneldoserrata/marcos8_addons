@@ -193,14 +193,6 @@ class account_bank_statement_line(orm.Model):
         "invoice_id": fields.many2one("account.invoice", "Factura", copy=False)
     }
 
-    # def unlink(self, cr, uid, ids, context=None):
-    #     context = context or {}
-    #     for line in self.browse(cr, uid, ids):
-    #         if context.get("journal_type", False) == "cash" and line.invoice_id:
-    #             self.pool.get("account.invoice").unlink(cr, uid, [line.invoice_id.id], context=context)
-    #
-    #     return super(account_bank_statement_line, self).unlink(cr, uid, ids, context=context)
-
     def view_invoice(self, cr, uid, ids, context=None):
         """
         Method to open create customer invoice form

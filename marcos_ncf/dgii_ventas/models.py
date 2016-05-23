@@ -85,15 +85,18 @@ class DgiiSaleReport(models.Model):
         self.line_ids.unlink()
         lines_dict_list = []
         for line in lines:
-            lines_dict_list.append([0, False, {"sale_report_id": self.id,
-                                               "RNC_CEDULA": line[0],
-                                               "TIPO_IDENTIFICACION": line[1],
-                                               "NUMERO_COMPROBANTE_FISCAL": line[2],
-                                               "NUMERO_COMPROBANTE_MODIFICADO": line[3],
-                                               "FECHA_COMPROBANTE": line[4],
-                                               "ITBIS_FACTURADO": line[5],
-                                               "MONTO_FACTURADO": line[6],
-                                               }])
+            try:
+                lines_dict_list.append([0, False, {"sale_report_id": self.id,
+                                                   "RNC_CEDULA": line[0],
+                                                   "TIPO_IDENTIFICACION": line[1],
+                                                   "NUMERO_COMPROBANTE_FISCAL": line[2],
+                                                   "NUMERO_COMPROBANTE_MODIFICADO": line[3],
+                                                   "FECHA_COMPROBANTE": line[4],
+                                                   "ITBIS_FACTURADO": line[5],
+                                                   "MONTO_FACTURADO": line[6],
+                                                   }])
+            except:
+                raise exceptions.ValidationError(u"Favor de revisane el comprobante de esta con estas referecnias {}".format(line))
 
         self.write({"line_ids": lines_dict_list})
         path = '/tmp/606{}.txt'.format(self.company_id.vat)

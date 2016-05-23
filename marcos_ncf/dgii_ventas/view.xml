@@ -6,7 +6,7 @@
             <field name="name">Reporte 607 ventas</field>
             <field name="model">dgii.sale.report</field>
             <field name="arch" type="xml">
-                <form string="Reporte de ventas">
+                <form string="Reporte de ventas 607">
                     <header>
                         <button name="generate_file" type="object" string="Generar archivo 607" class="oe_button oe_form_button oe_highlight"/>
                     </header>
