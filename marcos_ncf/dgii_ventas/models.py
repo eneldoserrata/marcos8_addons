@@ -45,7 +45,8 @@ class DgiiSaleReport(models.Model):
 
     @api.multi
     def generate_file(self):
-        invoice_ids = self.env["account.invoice"].search([("company_id","=",self.company_id.id), ("period_id","=",self.PERIODO.id)])
+        invoice_ids = self.env["account.invoice"].search([("company_id","=",self.company_id.id), ("period_id","=",self.PERIODO.id),
+                                                          ("type","in",("out_invoice","out_refound"))])
         self.TOTAL_MONTO_FACTURADO = sum([rec.amount_total for rec in invoice_ids])
         self.CANTIDAD_REGISTROS = len([rec.amount_total for rec in invoice_ids])
         self.TOTAL_MONTO_ITBIS = sum([rec.amount_tax for rec in invoice_ids])
@@ -99,6 +100,8 @@ class DgiiSaleReport(models.Model):
         f = open(path,'w')
         header_str = ""
         header_str += "607"
+        if not self.company_id.vat:
+            raise exceptions.ValidationError("Debe colocar el rnc en la configuración de la empresa")
         header_str += self.company_id.vat.rjust(11)
         periodo = self.PERIODO.name.split("/")
         header_str += periodo[1]+periodo[0]
