@@ -143,8 +143,8 @@ class account_voucher(osv.Model):
 
     def cancel_voucher(self, cr, uid, ids, context=None):
         lines_obj = self.pool.get("account.voucher.line")
-        line_ids = lines_obj.search(cr, uid, [("voucher_id", "in", ids)])
-        if line_ids:
-            lines_obj.unlink(cr, uid, line_ids)
+        # line_ids = lines_obj.search(cr, uid, [("voucher_id", "in", ids)])
+        # if line_ids:
+        #     lines_obj.unlink(cr, uid, line_ids)
 
         return super(account_voucher, self).cancel_voucher(cr, uid, ids, context=context)
