@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="l10n_do_check_printing_check_report_config_1" model="check.report.config">
+            <field name="name">Plantilla de cheque</field>
+            <field name="date_top">0.0</field>
+            <field name="date_left">9.5</field>
+            <field name="body_top">1.0</field>
+            <field name="name_top">0.5</field>
+            <field name="name_left">0.5</field>
+            <field name="amount_top">0.5</field>
+            <field name="amount_left">9.5</field>
+            <field name="amount_letter_top">1.1</field>
+            <field name="amount_letter_left">0.5</field>
+        </record>
+
+    </data>
+</openerp>
