@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="hr_salary_rules_const_form" model="ir.ui.view">
+            <field name="name">hr_salary_rules_const_form</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="arch" type="xml">
+                <form string="">
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="amount_fix" string="Factor"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_salary_rules_const_tree" model="ir.ui.view">
+            <field name="name">hr_salary_rules_const_tree</field>
+            <field name="model">hr.salary.rule</field>
+            <field name="arch" type="xml">
+                <tree string="">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="amount_fix" string="Factor"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="hr_salary_rules_const_action" model="ir.actions.act_window">
+            <field name="name">hr_salary_rules_const_action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.salary.rule</field>
+            <!--<field name="views" ref="l10n_do_hr_payroll.hr_salary_rules_const_form ,'form')"/>-->
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="hr_salary_rules_const_form"/>
+            <field name="domain">[('rule_const','=',True)]</field>
+            <field name="context">{'default_category_id': 1,
+                                   'default_sequence': 1,
+                                   'default_appears_on_payslip': False,
+                                   'default_rule_const': True}</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                Agrege aqui las constantes que seran utilizadas en las reglas salariales
+              </p>
+                <p>
+                En las reglas salariales prodra usar el codigo para utilzar el valor en sus calculos
+              </p>
+            </field>
+        </record>
+
+        <menuitem id="hr_salary_rules_const_menu" name="Factores Salariales" parent="hr_payroll.payroll_configure" action="hr_salary_rules_const_action" sequence="4"/>
+
+    </data>
+</openerp>

@@ -27,3 +27,12 @@ class NewModule(models.Model):
 
     id_nss = fields.Char("NSS")
 
+
+class HrSalaryRule(models.Model):
+    _inherit = "hr.salary.rule"
+
+    rule_const = fields.Boolean()
+
+
+
+

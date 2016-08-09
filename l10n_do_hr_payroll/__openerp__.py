@@ -43,6 +43,7 @@ This is the base module to manage the payroll for Dominican Republic.
     'data': [
         # 'security/ir.model.access.csv',
         'views/views.xml',
+        'views/hr_salary_rules_const.xml',
         'data/hr.salary.rule.category.csv',
         'data/hr.salary.rule.csv',
         'data/hr.payroll.structure.csv',
