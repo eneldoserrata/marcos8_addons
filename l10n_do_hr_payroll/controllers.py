@@ -19,22 +19,22 @@
 #
 ##############################################################################
 
-from openerp import http
-
-class L10nDoHrPayroll(http.Controller):
-    @http.route('/l10n_do_hr_payroll/l10n_do_hr_payroll/', auth='public')
-    def index(self, **kw):
-        return "Hello, world"
+# from openerp import http
 #
-    @http.route('/l10n_do_hr_payroll/l10n_do_hr_payroll/objects/', auth='public')
-    def list(self, **kw):
-        return http.request.render('l10n_do_hr_payroll.listing', {
-            'root': '/l10n_do_hr_payroll/l10n_do_hr_payroll',
-            'objects': http.request.env['l10n_do_hr_payroll.l10n_do_hr_payroll'].search([]),
-        })
-#
-    @http.route('/l10n_do_hr_payroll/l10n_do_hr_payroll/objects/<model("l10n_do_hr_payroll.l10n_do_hr_payroll"):obj>/', auth='public')
-    def object(self, obj, **kw):
-        return http.request.render('l10n_do_hr_payroll.object', {
-            'object': obj
-        })
+# class L10nDoHrPayroll(http.Controller):
+#     @http.route('/l10n_do_hr_payroll/l10n_do_hr_payroll/', auth='public')
+#     def index(self, **kw):
+#         return "Hello, world"
+# #
+#     @http.route('/l10n_do_hr_payroll/l10n_do_hr_payroll/objects/', auth='public')
+#     def list(self, **kw):
+#         return http.request.render('l10n_do_hr_payroll.listing', {
+#             'root': '/l10n_do_hr_payroll/l10n_do_hr_payroll',
+#             'objects': http.request.env['l10n_do_hr_payroll.l10n_do_hr_payroll'].search([]),
+#         })
+# #
+#     @http.route('/l10n_do_hr_payroll/l10n_do_hr_payroll/objects/<model("l10n_do_hr_payroll.l10n_do_hr_payroll"):obj>/', auth='public')
+#     def object(self, obj, **kw):
+#         return http.request.render('l10n_do_hr_payroll.object', {
+#             'object': obj
+#         })

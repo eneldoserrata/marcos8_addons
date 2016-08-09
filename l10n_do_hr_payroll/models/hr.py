@@ -31,7 +31,7 @@ class NewModule(models.Model):
 class HrSalaryRule(models.Model):
     _inherit = "hr.salary.rule"
 
-    rule_const = fields.Boolean()
+    rule_const = fields.Boolean(help="This si tru only for contant values rules")
 
 
 
