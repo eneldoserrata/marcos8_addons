@@ -104,16 +104,24 @@
             <xpath expr="//div" position="replace">
                 <div class="footer" style="font-size: 10px; text-align:center">
 
-                    <table class="table table-condensed detail">
-                        <thead>
-                            <tr>
-                            <th>Preparado por</th>
-                            <th>Recibido por</th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="text-center" t-attf-style="border-top: 2px solid;">
+                                <span t-field="company.name"/>
+                                <br></br>
+                                Firma Autorizada
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="text-center" t-attf-style="border-top: 2px solid;">
+                                En nombre y representación de "EL ACEPTANTE"
+                                <br></br>
+                                (Firma y Sello)
+                            </div>
+                        </div>
+                    </div>
 
-                    <div t-field="company.rml_header1"/>
+
                     <t t-if="company.custom_footer">
                         <span t-raw="company.rml_footer"/>
                     </t>

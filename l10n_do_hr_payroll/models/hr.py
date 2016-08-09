@@ -25,7 +25,16 @@ from openerp import models, fields, api
 class NewModule(models.Model):
     _inherit = 'hr.employee'
 
-    id_nss = fields.Char("NSS")
+    def _get_nomina(self):
+        selecction = []
+        for i in range(1,20):
+            selecction.append((1, "Nomina {}".format(i)))
+
+        return selecction
+
+    NUMERO_NOMINA = fields.Selection(_get_nomina, string=u"ID Nómina", default=1, required=True)
+    TIPO_DE_DOCUMENTO = fields.Selection([('C',u'Cédula'),('N','NSS'),('P','Pasaporte')], required=True, string=u"Tipo de Documento", default="C")
+    NUMERO_DE_DOCUMENTO = fields.Char(string=u"Número de documento", help="Indique el numero del tipo de documento.")
 
 
 class HrSalaryRule(models.Model):

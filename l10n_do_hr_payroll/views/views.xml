@@ -28,9 +28,16 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <field name='address_id' position="before">
-                    <field name="id_nss"/>
-                </field>
+
+                <notebook>
+                    <page string="TSS">
+                        <group>
+                            <field name="NUMERO_NOMINA"/>
+                            <field name="TIPO_DE_DOCUMENTO"/>
+                            <field name="NUMERO_DE_DOCUMENTO" required="1"/>
+                        </group>
+                    </page>
+                </notebook>
             </field>
         </record>
 
