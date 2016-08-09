@@ -11,11 +11,14 @@ class HrContract(models.Model):
     _inherit = ['mail.thread', "hr.contract"]
 
     log_ids = fields.One2many("salary.log", "contract_id", string="Historial de salarios")
+    dependent_ids = fields.One2many("employee.dependent", "contract_id", string="Dependientes")
     state = fields.Selection([("draft","Borrador"),
                                ("trial",u"Período de prueba"),
                                ("active", "Activo"),
                                ("req_liquidated",u"Solicitud de Liquidación"),
                                ("liquidated", "Liquidado")], default="draft", string="Estado")
+    contract_work_type = fields.Selection([('full', "Tiempo completo"),("half","Medio tiempo")], string="Tipo de contrato", default="full", requiered=True)
+
 
     @api.onchange("trial_date_end")
     def onchacnge_trial_date_end(self):
@@ -60,6 +63,17 @@ class HrContract(models.Model):
                 self.env["salary.log"].create({"contract_id": rec.id, "wage": vals["wage"]})
         return super(HrContract, self).write(vals)
 
+
+class EmployeeDependent(models.Model):
+    _name = "employee.dependent"
+
+    contract_id = fields.Many2one("hr.contract", string="Contrato")
+    nombres = fields.Char("Nombres", requiered=True)
+    primer_apellido = fields.Char("Primer apellido")
+    segundo_apellido = fields.Char("Segundo apellido")
+    tipo_doc = fields.Selection([('C',u'Cédula'),('N','NSS')], string="Tipo del documento del dependiente adicional", requiered=True)
+    numero_doc = fields.Char(u"Número de Documento del dependiente adicional.", size=11, requiered=True)
+    deductible = fields.Boolean("Deducible del sueldo base")
 
 
 class SalaryLog(models.Model):

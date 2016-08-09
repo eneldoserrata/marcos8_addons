@@ -36,6 +36,10 @@
                     <attribute name="required">1</attribute>
                 </field>
 
+                <field name="schedule_pay" position="after">
+                    <field name="contract_work_type"/>
+                </field>
+
                 <notebook>
                     <page string="Historial de salarios">
                         <field name="log_ids" readonly="1">
@@ -43,6 +47,18 @@
                                 <field name="create_date" string="Fecha"/>
                                 <field name="create_uid" string="Usuario"/>
                                 <field name="wage" string="Salario"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Dependientes Adicionales">
+                        <field name="dependent_ids">
+                            <tree editable="top">
+                                <field name="nombres"/>
+                                <field name="primer_apellido"/>
+                                <field name="segundo_apellido"/>
+                                <field name="tipo_doc"/>
+                                <field name="numero_doc"/>
+                                <field name="deductible"/>
                             </tree>
                         </field>
                     </page>
