@@ -22,7 +22,9 @@
             <field name="name">hr_salary_rules_const_tree</field>
             <field name="model">hr.salary.rule</field>
             <field name="arch" type="xml">
-                <tree string="">
+	        <tree string="Constantes" editable="top">
+		    <field name="sequence" widget="handle"/>
+
                     <field name="name"/>
                     <field name="code"/>
                     <field name="amount_fix" string="Factor"/>
@@ -32,12 +34,12 @@
 
 
         <record id="hr_salary_rules_const_action" model="ir.actions.act_window">
-            <field name="name">hr_salary_rules_const_action</field>
+            <field name="name"> Constantes para reglas salariales</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">hr.salary.rule</field>
             <!--<field name="views" ref="l10n_do_hr_payroll.hr_salary_rules_const_form ,'form')"/>-->
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="hr_salary_rules_const_form"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr_salary_rules_const_tree"/>
             <field name="domain">[('rule_const','=',True)]</field>
             <field name="context">{'default_category_id': 1,
                                    'default_sequence': 1,
@@ -48,7 +50,7 @@
                 Agrege aqui las constantes que seran utilizadas en las reglas salariales
               </p>
                 <p>
-                En las reglas salariales prodra usar el codigo para utilzar el valor en sus calculos
+                En las reglas salariales prodrá usar el código para utilzar el valor en sus cálculos
               </p>
             </field>
         </record>

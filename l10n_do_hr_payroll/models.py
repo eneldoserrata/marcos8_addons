@@ -31,8 +31,9 @@ class NewModule(models.Model):
 class HrSalaryRule(models.Model):
     _inherit = "hr.salary.rule"
 
-    rule_const = fields.Boolean()
+    sequence   = fields.Integer('Sequence', select=True, help="Gives the sequence order when displaying a list of expense lines.")
 
+    rule_const = fields.Boolean()
 
 
 
