@@ -33,6 +33,18 @@ class HrSalaryRule(models.Model):
 
     sequence   = fields.Integer('Sequence', select=True, help="Gives the sequence order when displaying a list of expense lines.")
     rule_const = fields.Boolean()
+    tss_type = fields.Selection([
+        ('none',u'No aplica para novedades TSS'),
+        ('SALARIO_SS',u'Salario cotizable para la Seg. Social'),
+        ('APORTE_ORDINARIO',u'Aporte Voluntario Ordinario'),
+        ('SALARIO_ISR',u'Salario  cotizable para el ISR'),
+        ('OTRAS_REMUNERACIONES',u'Otras remuneraciones'),
+        ('REMUNERACIONES_OTROS_EMPLEADORES',u'Remuneración en otros empleadores'),
+        ('INGRESOS_EXENTOS_ISR ',u'Ingresos Exentos ISR'),
+        ('INFOTEP ',u'Salario  cotizable para el INFOTEP'),
+        ('SALDO_A_FAVOR ',u'Saldo a Favor'),
+        ('HORAS_EXTRAS ',u'Horas extras'),
+    ], string="Campo novedad TSS", default="none")
 
 
 

@@ -2,3 +2,4 @@
 
 import hr
 import contract
+import hr_rules
