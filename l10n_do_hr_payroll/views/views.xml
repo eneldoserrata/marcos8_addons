@@ -28,9 +28,40 @@
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form"/>
             <field name="arch" type="xml">
-                <field name='address_id' position="before">
-                    <field name="id_nss"/>
+
+                <xpath expr="//h1" position="after">
+                    <group>
+                        <label for="PRIMER_APELLIDO" class="oe_edit_only"/>
+                        <field name="PRIMER_APELLIDO" nolabel="1"/>
+                        <label for="SEGUNDO_APELLIDO" class="oe_edit_only"/>
+                        <field name="SEGUNDO_APELLIDO" nolabel="1"/>
+                    </group>
+                </xpath>
+
+                <notebook>
+                    <page string="TSS">
+                        <group>
+                            <field name="NUMERO_NOMINA"/>
+                            <field name="TIPO_DE_DOCUMENTO"/>
+                            <field name="NUMERO_DE_DOCUMENTO" required="1"/>
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
+
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="do_view_hr_payslip_form" model="ir.ui.view">
+            <field name="name">do_view_hr_payslip_form</field>
+            <field name="model">hr.payslip</field>
+            <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form"/>
+            <field name="arch" type="xml">
+
+                <field name="struct_id" position="after">
+                    <field name="TIPO_INGRESO"/>
                 </field>
+
             </field>
         </record>
 

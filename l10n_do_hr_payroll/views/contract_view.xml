@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <!-- Inherit Form View to Modify it -->
+        <record id="l10n_do_hr_payroll.hr_contract_view_form" model="ir.ui.view">
+            <field name="name">l10n_do_hr_payroll.hr_contract_view_form</field>
+            <field name="model">hr.contract</field>
+            <field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+            <field name="arch" type="xml">
+
+                <form>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+
+                <sheet position="before">
+                    <header>
+                        <button name="set_draft" type="object" string="Cambiar a borrador" states="active,trial,active,req_liquidated,liquidated" groups="base.group_hr_user"/>
+                        <button name="set_trial" type="object" string="En perído de prueba" states="draft" groups="base.group_hr_user"/>
+                        <button name="set_active" type="object" string="Activar contrato" states="trial" groups="base.group_hr_user"/>
+                        <button name="set_req_liquidated" type="object" string="Solicitar liquidación" states="active" grogroupspups="base.group_hr_user"/>
+                        <button name="set_liquidated" type="object" string="Liquidar empleado" states="req_liquidated" groups="base.group_hr_user"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,trial,active,req_liquidated,liquidated" groups="base.group_hr_user"/>
+                    </header>
+                </sheet>
+
+
+                <field name="trial_date_start" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="trial_date_end" position="attributes">
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <field name="schedule_pay" position="after">
+                    <field name="contract_work_type"/>
+                </field>
+
+                <notebook>
+                    <page string="Historial de salarios">
+                        <field name="log_ids" readonly="1">
+                            <tree>
+                                <field name="create_date" string="Fecha"/>
+                                <field name="create_uid" string="Usuario"/>
+                                <field name="wage" string="Salario"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Dependientes Adicionales">
+                        <field name="dependent_ids">
+                            <tree editable="top">
+                                <field name="nombres"/>
+                                <field name="primer_apellido"/>
+                                <field name="segundo_apellido"/>
+                                <field name="tipo_doc"/>
+                                <field name="numero_doc"/>
+                                <field name="deductible"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+
+            </field>
+        </record>
+
+    </data>
+</openerp>
