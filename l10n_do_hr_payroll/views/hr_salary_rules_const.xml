@@ -35,9 +35,9 @@
             <field name="name">hr_salary_rules_const_action</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">hr.salary.rule</field>
-            <!--<field name="views" ref="l10n_do_hr_payroll.hr_salary_rules_const_form ,'form')"/>-->
+            <field name="views">[(hr_salary_rules_const_tree),'tree'),(hr_salary_rules_const_form,'form')]</field>
             <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="hr_salary_rules_const_form"/>
+            <field name="view_id" ref="hr_salary_rules_const_tree"/>
             <field name="domain">[('rule_const','=',True)]</field>
             <field name="context">{'default_category_id': 1,
                                    'default_sequence': 1,
