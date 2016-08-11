@@ -184,9 +184,11 @@ class account_invoice(models.Model):
 
             shop_id = self._get_deafult_user_shop_config()
             shop_obj = self.env["shop.ncf.config"].browse(shop_id)
-            if partner_obj.customer:
-                journal_id = self._get_partner_journal(property_account_position.fiscal_type, shop_obj)
-                res["value"].update({"journal_id": journal_id})
+
+            if self.env.context.get("type", False) in ("out_invoice", "out_refund"):
+                if partner_obj.customer:
+                    journal_id = self._get_partner_journal(property_account_position.fiscal_type, shop_obj)
+                    res["value"].update({"journal_id": journal_id})
 
             return res
         else:
