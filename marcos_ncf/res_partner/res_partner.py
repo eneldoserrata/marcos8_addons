@@ -21,16 +21,24 @@
 
 from openerp.osv.orm import browse_null
 from ..tools import is_identification, _internet_on
+from openerp.osv import osv, fields
 import requests
-from openerp import models, fields, api, exceptions
+from openerp import api, exceptions
 
 
-class res_partner(models.Model):
+class res_partner(osv.Model):
     _name = "res.partner"
     _inherit = "res.partner"
 
+    def _check_unique_ref(self, cr, uid, ids, context=None):
+        partner = self.browse(cr, uid, ids, context=context)[0]
+        if partner.customer or partner.supplier:
+            if not self.search(cr, uid, [("ref", "=", partner.ref), ("multiple_company_rnc", "=", False)]):
+                return True
+        return False
 
-    invoice_method = fields.Selection([('manual', 'Se digitaran las facturas manualmente'),
+    _columns = {
+        'invoice_method': fields.selection([('manual', 'Se digitaran las facturas manualmente'),
                                             ('order', 'El proveedor envia factura definitiva'),
                                             (
                                                 'picking',
@@ -44,33 +52,33 @@ class res_partner(models.Model):
                                                 de los envíos entrantes: permiten crear una factura cuando se validan\n
                                                 recepciones.
                                                 """
-                                           )
-    multiple_company_rnc = fields.Boolean(u"RNC para varias compañias",
-                                               help=u"Esto permite poder utilizar el RNC en varios registros de compañias")
-    ref_type = fields.Selection([("cedula",u"Cédula"),
-                                 ("rnc", u"RNC"),
-                                 ("pasport", u"Pasaporte"),
-                                 ("none", u"No requiere"),
-                                 ], string=u"Tipo de identificación", required=True, default="none")
+                                           ),
+        'multiple_company_rnc': fields.boolean(u"RNC para varias compañias",
+                                               help=u"Esto permite poder utilizar el RNC en varios registros de compañias"),
+        'ref_type': fields.selection([("cedula",u"Cédula"),
+                                     ("rnc", u"RNC"),
+                                     ("pasport", u"Pasaporte"),
+                                     ("none", u"No requiere"),
+                                     ], string=u"Tipo de identificación", required=True, default="none")
 
 
-    @api.constrains("ref")
-    def _check_unique_ref(self):
-        partner = self
-        if partner.customer or partner.supplier:
-            if not self.search([("ref", "=", partner.ref), ("multiple_company_rnc", "=", False)]):
-                raise exceptions.ValidationError(u"Esta identificacion ya ha sido registrado! Si quiere utilizar varios relacionados con mismo RNC/Cedula debe indicarlo en el campo --RNC para varias compañias.")
-        return False
+    }
 
-    @api.model
-    def name_search(self, name, args=None, operator='ilike', limit=100):
+    _constraints = [
+        (osv.osv._check_recursion, 'You cannot create recursive Partner hierarchies.', ['parent_id']),
+        (_check_unique_ref,
+         u"Esta identificacion ya ha sido registrado! Si quiere utilizar varios relacionados con mismo RNC/Cedula debe indicarlo en el campo --RNC para varias compañias--",
+         [u"Rnc/Cédula"]),
+    ]
+
+    def name_search(self, cr, uid, name, args=None, operator='ilike', context=None, limit=100):
         if not args:
             args = []
         if name and operator in ('=', 'ilike', '=ilike', 'like', '=like'):
 
-            self.check_access_rights('read')
-            where_query = self._where_calc(args)
-            self._apply_ir_rules(where_query, 'read')
+            self.check_access_rights(cr, uid, 'read')
+            where_query = self._where_calc(cr, uid, args, context=context)
+            self._apply_ir_rules(cr, uid, where_query, 'read', context=context)
             from_clause, where_clause, where_clause_params = where_query.get_sql()
             where_str = where_clause and (" WHERE %s AND " % where_clause) or ' WHERE '
 
@@ -109,15 +117,15 @@ class res_partner(models.Model):
                 query += ' limit %s'
                 where_clause_params.append(limit)
 
-            self.env.cr.execute(query, where_clause_params)
-            ids = map(lambda x: x[0], self.env.cr.fetchall())
+            cr.execute(query, where_clause_params)
+            ids = map(lambda x: x[0], cr.fetchall())
 
             if ids:
-                return self.name_get()
+                return self.name_get(cr, uid, ids, context)
             else:
                 return []
-        return super(res_partner, self).name_search(name, args, operator=operator,limit=limit)
-
+        return super(res_partner, self).name_search(cr, uid, name, args, operator=operator, context=context,
+                                                    limit=limit)
 
     def get_rnc(self, ref):
         res = requests.get('http://api.marcos.do/rnc/%s' % ref)
@@ -135,11 +143,10 @@ class res_partner(models.Model):
 
         return False
 
-    @api.model
-    def create(self, vals):
+    def create(self, cr, uid, vals, context=None):
 
         if vals.get("fiscal_position", False):
-            fiscal_id = self.env["account.fiscal.position"].search([("fiscal_type", "=", vals["fiscal_position"])])
+            fiscal_id = self.pool.get("account.fiscal.position").search(cr, uid, [("fiscal_type", "=", vals["fiscal_position"])])
             if fiscal_id:
                 vals.update({"property_account_position": fiscal_id[0]})
 
@@ -147,7 +154,7 @@ class res_partner(models.Model):
 
         fiscal_id = self.is_fiscal_id(vals)
         if fiscal_id:
-            validation = self.validate_fiscal_id(fiscal_id)
+            validation = self.validate_fiscal_id(fiscal_id, context=context)
 
         if validation:
             if vals.get("property_account_position", False):
@@ -163,13 +170,13 @@ class res_partner(models.Model):
 
         if name_is_numeric:
             raise exceptions.ValidationError(u"El número de cédula o rnc no es valido!")
-        return super(res_partner, self).create(vals)
+        return super(res_partner, self).create(cr, uid, vals, context=context)
 
-    @api.multi
-    def write(self, vals):
+    def write(self, cr, uid, ids, vals, context=None):
+        partner = self.browse(cr, uid, ids)
 
         if vals.get("fiscal_position", False):
-            fiscal_id = self.env["account.fiscal.position"].search([("fiscal_type", "=", vals["fiscal_position"])])
+            fiscal_id = self.pool.get("account.fiscal.position").search(cr, uid, [("fiscal_type", "=", vals["fiscal_position"])])
             if fiscal_id:
                 vals.update({"property_account_position": fiscal_id[0]})
 
@@ -178,28 +185,28 @@ class res_partner(models.Model):
 
         if fiscal_id:
             if vals.get("ref", False):
-                validation = self.validate_fiscal_id(u"{}".format(vals["ref"]))
+                validation = self.validate_fiscal_id(u"{}".format(vals["ref"]), context=context)
             elif vals.get("name", False):
-                validation = self.validate_fiscal_id(u"{}".format(vals["name"]))
+                validation = self.validate_fiscal_id(u"{}".format(vals["name"]), context=context)
 
         if validation:
             if vals.get("property_account_position", False):
                 validation.update({"property_account_position": vals["property_account_position"]})
             vals.update(validation)
 
-        return super(res_partner, self).write(vals)
+        return super(res_partner, self).write(cr, uid, ids, vals, context=context)
 
-    def validate_fiscal_id(self, name):
+    def validate_fiscal_id(self, name, context=None):
         vals = {}
-        # context = context or {}
+        context = context or {}
         supplier = customer = False
 
-        if self.env.context.get('search_default_supplier', False):
+        if context.get('search_default_supplier', False):
             supplier = True
         else:
             customer = True
         if name and not len(name) in [9, 11] and name.isnumeric():
-            raise exceptions.ValidationError(u"Debe colocar un numero de RNC/Cedula valido!", u"RNC/Cedula")
+            raise osv.except_osv(u"Debe colocar un numero de RNC/Cedula valido!", u"RNC/Cedula")
 
         if name.isdigit() and len(name) in [9, 11]:
             if _internet_on():
@@ -232,9 +239,3 @@ class res_partner(models.Model):
                 raise exceptions.ValidationError("A session's instructor can't be an attendee")
         else:
             return super(res_partner, self).name_create(name)
-
-
-
-
-
-
