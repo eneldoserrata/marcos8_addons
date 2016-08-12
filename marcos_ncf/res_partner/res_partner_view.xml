@@ -26,20 +26,23 @@
             <field name="arch" type="xml">
 
                 <field name="name" position="attributes">
-                    <attribute name="placeholder">Nombre, RNC o Cédula</attribute>
+                    <attribute name="placeholder">Nombre</attribute>
                 </field>
 
                 <!--<field name="property_account_position" position="replace"/>-->
                 <field name="ref" position="replace"/>
 
                 <field name="parent_id" position="before">
+                    <field name="ref_type"/>
                     <field name="ref" placeholder="RNC/Cédula"
-                           attrs="{'invisible': [('is_company','=', False)], 'required': [('is_company','=', True)]}"/>
+                           attrs="{'invisible': [('ref_type','=', 'none')], 'required': [('ref_type','!=', 'none')]}"/>
+
                     <div attrs="{'invisible': [('is_company','=', False)], 'required': [('is_company','=', True)]}">
                         <field name="property_account_position" placeholder="Posición fiscal"
                                domain="['|',('for_supplier','=',supplier),('for_supplier','!=',customer)]"
-                               attrs="{'invisible': [('is_company','=', False)], 'required': [('is_company','=', True)]}"/>
+                               attrs="{'invisible': [('ref_type','=', 'none')], 'required': [('ref_type','in', ('cedula','rnc'))]}"/>
                     </div>
+
                 </field>
 
                 <field name="property_supplier_payment_term" position="after">
