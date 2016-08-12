@@ -109,7 +109,7 @@ class res_partner(models.Model):
                 query += ' limit %s'
                 where_clause_params.append(limit)
 
-            self.envcr.execute(query, where_clause_params)
+            self.env.cr.execute(query, where_clause_params)
             ids = map(lambda x: x[0], self.env.cr.fetchall())
 
             if ids:
