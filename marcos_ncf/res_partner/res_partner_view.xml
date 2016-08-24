@@ -48,7 +48,7 @@
                 <field name="property_supplier_payment_term" position="after">
                     <field name="invoice_method" attrs="{'invisible':[('supplier', '=', False)]}"
                            string="Método facturación"/>
-                    <field name="multiple_company_rnc"/>
+                    <!--<field name="multiple_company_rnc"/>-->
                 </field>
 
             </field>
