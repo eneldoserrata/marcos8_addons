@@ -145,7 +145,7 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
-        if self._context.get("install_mode", False):
+        if self._context.get("install_mode", False) or self._context.get("alias_model_name", False) == "res.users":
             return super(ResPartner, self).create(vals)
         elif vals:
             validation = self.check_vals(vals)
