@@ -34,8 +34,8 @@
 
                 <field name="parent_id" position="before">
                     <field name="ref_type"/>
-                    <field name="ref" placeholder="RNC/Cédula"
-                           attrs="{'invisible': [('ref_type','=', 'none')], 'required': [('ref_type','!=', 'none')]}"/>
+                    <field name="ref" placeholder="RNC/Cédula/Pasaporte/Otros" required="1"/>
+                           <!--attrs="{'invisible': [('ref_type','=', 'none')], 'required': [('ref_type','!=', 'none')]}"/>-->
 
                     <div attrs="{'invisible': [('is_company','=', False)], 'required': [('is_company','=', True)]}">
                         <field name="property_account_position" placeholder="Posición fiscal"

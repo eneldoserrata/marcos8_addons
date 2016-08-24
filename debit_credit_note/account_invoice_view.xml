@@ -21,14 +21,14 @@
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
 
-                <xpath expr="//button[@name='invoice_open'][last()]" position="after">
-                    <button name="invoice_pay_customer" type="object" string="Register Payment"
-                            attrs="{'invisible': ['|', '|', ('type','=','out_refund'), ('state','!=','open'), ('sent','=',True)]}"
-                            groups="base.group_user"/>
-                    <button name="invoice_pay_customer" type="object" string="Register Payment"
-                            attrs="{'invisible': ['|', '|', ('type','=','out_refund'), ('state','!=','open'), ('sent','=',False)]}"
-                            class="oe_highlight" groups="base.group_user"/>
-                </xpath>
+                <!--<xpath expr="//button[@name='invoice_open'][last()]" position="after">-->
+                    <!--<button name="invoice_pay_customer" type="object" string="Register Payment"-->
+                            <!--attrs="{'invisible': ['|', '|', ('type','=','out_refund'), ('state','!=','open'), ('sent','=',True)]}"-->
+                            <!--groups="base.group_user"/>-->
+                    <!--<button name="invoice_pay_customer" type="object" string="Register Payment"-->
+                            <!--attrs="{'invisible': ['|', '|', ('type','=','out_refund'), ('state','!=','open'), ('sent','=',False)]}"-->
+                            <!--class="oe_highlight" groups="base.group_user"/>-->
+                <!--</xpath>-->
 
                 <xpath expr="//form//header//button[@string='Refund Invoice']" position="replace">
                     <button name="%(account.action_account_invoice_refund)d"
@@ -121,20 +121,20 @@
             </field>
         </record>
 
-        <record id="marcs_view_invoice_customer" model="ir.ui.view">
-            <field name="name">marcos.account.invoice.customer.pay</field>
-            <field name="model">account.invoice</field>
-            <field name="inherit_id" ref="account_voucher.view_invoice_customer"/>
-            <field name="arch" type="xml">
-                <xpath expr="//button[@name='invoice_pay_customer'][last()]" position="replace">
-                    <!--<attribute name="invisible">['|', '|', ('type', '!=', 'out_invoice'), ('state','!=','open'), ('sent','=',True)]</attribute>-->
-                </xpath>
+        <!--<record id="marcs_view_invoice_customer" model="ir.ui.view">-->
+            <!--<field name="name">marcos.account.invoice.customer.pay</field>-->
+            <!--<field name="model">account.invoice</field>-->
+            <!--<field name="inherit_id" ref="account_voucher.view_invoice_customer"/>-->
+            <!--<field name="arch" type="xml">-->
+                <!--<xpath expr="//button[@name='invoice_pay_customer'][last()]" position="replace">-->
+                    <!--&lt;!&ndash;<attribute name="invisible">['|', '|', ('type', '!=', 'out_invoice'), ('state','!=','open'), ('sent','=',True)]</attribute>&ndash;&gt;-->
+                <!--</xpath>-->
 
-                <xpath expr="//button[@name='invoice_pay_customer'][1]" position="replace">
-                    <!--<attribute name="invisible">['|', '|', ('type', '!=', 'out_invoice'), ('state','!=','open'), ('sent','=',False)]</attribute>-->
-                </xpath>
-            </field>
-        </record>
+                <!--<xpath expr="//button[@name='invoice_pay_customer'][1]" position="replace">-->
+                    <!--&lt;!&ndash;<attribute name="invisible">['|', '|', ('type', '!=', 'out_invoice'), ('state','!=','open'), ('sent','=',False)]</attribute>&ndash;&gt;-->
+                <!--</xpath>-->
+            <!--</field>-->
+        <!--</record>-->
 
     </data>
 </openerp>

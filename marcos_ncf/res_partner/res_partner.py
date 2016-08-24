@@ -19,12 +19,12 @@
 #
 ##############################################################################
 
-from openerp.osv.orm import browse_null
 from ..tools import is_identification, _internet_on
 from openerp.osv import osv, fields
 import requests
 from openerp import api, exceptions
 
+import re
 
 class res_partner(osv.Model):
     _name = "res.partner"
@@ -58,8 +58,8 @@ class res_partner(osv.Model):
         'ref_type': fields.selection([("cedula",u"Cédula"),
                                      ("rnc", u"RNC"),
                                      ("pasport", u"Pasaporte"),
-                                     ("none", u"No requiere"),
-                                     ], string=u"Tipo de identificación", required=True, default="none")
+                                     ("none", u"Otro"),
+                                     ], string=u"Tipo de identificación", required=True, default="cedula")
 
 
     }
@@ -136,6 +136,7 @@ class res_partner(osv.Model):
 
     def is_fiscal_id(self, vals):
         value = vals.get("ref", False) or vals.get("name", False)
+        value = re.sub("[^0-9]", "", value.strip())
 
         if value and (len(value) == 9 or len(value) == 11):
             if value.isdigit():
