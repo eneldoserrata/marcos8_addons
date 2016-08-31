@@ -779,8 +779,8 @@ function marcos_pos_models(instance, module) {
             // Add by pos_pricelist
             var partner = this.order.get_client();
             var fiscal_position_taxes = [];
-            if (partner && partner.property_account_position) {
-                fiscal_position_taxes = self.pos.db.find_taxes_by_fiscal_position_id(partner.property_account_position[0]);
+            if (partner && partner.customer_property_account_position) {
+                fiscal_position_taxes = self.pos.db.find_taxes_by_fiscal_position_id(partner.customer_property_account_position[0]);
             }
             var product_taxes = [];
             for (var i = 0, ilen = fiscal_position_taxes.length; i < ilen; i++) {
@@ -1297,7 +1297,7 @@ function marcos_pos_models(instance, module) {
         var res_partner_model = pos_model.find_model('res.partner');
         if (_.size(res_partner_model) == 1) {
             var res_partner_index = parseInt(Object.keys(res_partner_model)[0]);
-            pos_model.models[res_partner_index].fields.push('property_account_position', 'property_product_pricelist');
+            pos_model.models[res_partner_index].fields.push('customer_property_account_position', 'property_product_pricelist');
         }
 
     }

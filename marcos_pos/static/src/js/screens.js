@@ -379,7 +379,7 @@ function marcos_pos_screens(instance, module) {
                         }
                     });
                 });
-                var fiscal_position = partner.property_account_position || [];
+                var fiscal_position = partner.customer_property_account_position || [];
                 if (fiscal_position) {
                     switch (fiscal_position[0]) {
                         case 1:

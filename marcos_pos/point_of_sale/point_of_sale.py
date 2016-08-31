@@ -585,7 +585,7 @@ class pos_order(osv.Model):
                                                                line.product_id.id,
                                                                line.product_id.uom_id.id,
                                                                line.qty, partner_id=order.partner_id.id,
-                                                               fposition_id=order.partner_id.property_account_position.id)['value'])
+                                                               fposition_id=order.partner_id.customer_property_account_position.id)['value'])
                 if not inv_line.get('account_analytic_id', False):
                     inv_line['account_analytic_id'] = self._prepare_analytic_account(cr, uid, line,context=context)
 
@@ -814,7 +814,7 @@ class pos_order_line(osv.Model):
             taxes = account_tax_obj.compute_all(cr, uid, taxes_ids, price, line.qty, product=line.product_id, partner=line.order_id.partner_id or False)
             cur = line.order_id.pricelist_id.currency_id
             res[line.id]['price_subtotal'] = taxes['total']
-            if line.order_id.partner_id.property_account_position.fiscal_type == 'special':
+            if line.order_id.partner_id.customer_property_account_position.fiscal_type == 'special':
                 res[line.id]['price_subtotal_incl'] = taxes['total']
             else:
                 res[line.id]['price_subtotal_incl'] = taxes['total_included']
@@ -838,6 +838,6 @@ class res_partner(osv.osv):
         if fiscal_position:
             fiscal_position = self.pool.get("account.fiscal.position").search(cr, uid, [('fiscal_type','=', fiscal_position)])
             if fiscal_position:
-                partner.update({"property_account_position": fiscal_position[0]})
+                partner.update({"customer_property_account_position": fiscal_position[0]})
         return super(res_partner, self).create_from_ui(cr, uid, partner, context=context)
 

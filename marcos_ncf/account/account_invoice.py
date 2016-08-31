@@ -141,8 +141,14 @@ class account_invoice(models.Model):
                         self.reference_type = self.fiscal_position.fiscal_type
                     else:
                         self.reference_type = 'none'
-        if self.partner_id.property_account_position.id != self.fiscal_position.id:
-            self.partner_id.write({"property_account_position": self.fiscal_position.id})
+
+
+        if self._context.get("type", False) == "out_invoice":
+            if self.partner_id.customer_property_account_position.id != self.fiscal_position.id:
+                self.partner_id.write({"customer_property_account_position": self.fiscal_position.id})
+        else:
+            if self.partner_id.property_account_position.id != self.fiscal_position.id:
+                self.partner_id.write({"property_account_position": self.fiscal_position.id})
 
     @api.onchange("reference_type")
     def onchange_reference_type(self):
@@ -177,10 +183,19 @@ class account_invoice(models.Model):
                                                                    company_id=company_id)
 
             partner_obj = self.env["res.partner"].browse(partner_id)
-            property_account_position = partner_obj.property_account_position
+
+            if self._context:
+                default_type = self._context.get("default_type", False)
+
+            if default_type == "out_invoice":
+                property_account_position = partner_obj.customer_property_account_position
+            else:
+                property_account_position = partner_obj.property_account_position
+
             if not property_account_position:
-                partner_obj.write({"property_account_position": 2})
-                res["value"].update({"fiscal_position": 2})
+                if default_type == "out_invoice":
+                    partner_obj.write({"property_account_position": 2})
+                    res["value"].update({"fiscal_position": 2})
 
             shop_id = self._get_deafult_user_shop_config()
             shop_obj = self.env["shop.ncf.config"].browse(shop_id)
@@ -319,15 +334,22 @@ class account_invoice(models.Model):
             if not vals.get("shop_ncf_config_id", False):
                 vals.update({"shop_ncf_config_id": self.env["shop.ncf.config"].get_default()})
             if not vals.get("fiscal_position", False):
-                vals.update(
-                    {
-                        "fiscal_position": self.env['res.partner'].browse(
-                            vals["partner_id"]).property_account_position.id})
+                partner_id = self.env['res.partner'].browse(vals["partner_id"])
+
+                fiscal_update_dict = False
+
+                if partner_id.customer:
+                    fiscal_update_dict = {"fiscal_position": partner_id.customer_property_account_position.id}
+                else:
+                    fiscal_update_dict = {"fiscal_position": property_account_position.id}
+
+                if fiscal_update_dict:
+                    vals.update(fiscal_update_dict)
 
         invoice = super(account_invoice, self).create(vals)
 
         if invoice.type == 'out_invoice':
-            invoice.journal_id = self._get_partner_journal(invoice.partner_id.property_account_position.fiscal_type,
+            invoice.journal_id = self._get_partner_journal(invoice.partner_id.customer_property_account_position.fiscal_type,
                                                            invoice.shop_ncf_config_id)
         elif invoice.type == 'out_refund':
             invoice.journal_id = self._get_partner_journal("out_refund", invoice.shop_ncf_config_id)

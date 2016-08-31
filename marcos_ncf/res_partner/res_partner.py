@@ -69,6 +69,11 @@ class ResPartner(models.Model):
                                   ("none", u"Otros"),
                                   ], string=u"Tipo de identificación", required=True, default="cedula")
 
+    customer_property_account_position = fields.Many2one('account.fiscal.position',
+        string=u"Posición fiscal de cliente", company_dependent=False, default=2,
+        help="La posición fiscal determinará los impuestos y las cuentas utilizadas para los clientes.",
+    )
+
     @api.model
     def name_search(self, name, args=None, operator='ilike', limit=100):
         res = super(ResPartner, self).name_search(name, args=args, operator=operator, limit=100)
