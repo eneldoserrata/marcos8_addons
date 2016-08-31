@@ -58,9 +58,9 @@
                 <field name="internal_number" position="replace"/>
 
                 <field name="partner_id" position="before">
-                    <field name="internal_number" attrs="{'invisible':[('state','!=','draft')]}"
-                           groups="account.group_account_user"
-                           help="Force invoice number. Use this field if you don't want to use the default numbering"/>
+                    <!--<field name="internal_number" attrs="{'invisible':[('state','!=','draft')]}"-->
+                           <!--groups="account.group_account_user"-->
+                           <!--help="Force invoice number. Use this field if you don't want to use the default numbering"/>-->
                     <field name="shop_ncf_config_id" required="1"/>
                 </field>
 
