@@ -46,11 +46,9 @@ _logger = logging.getLogger(__name__)
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    invoice_method = fields.Selection([('manual', 'Se digitaran las facturas manualmente'),
-                                        ('order', 'El proveedor envia factura definitiva'),
-                                        (
-                                            'picking',
-                                            'El proveedor envia orden de entrega y luego envia la factura')],
+    invoice_method = fields.Selection([('manual', 'Basada en las líneas de pedidos de compra'),
+                                        ('order', 'Basada en las facturas borrador generadas'),
+                                        ('picking', 'Basada en recepciones')],
                                        'Invoicing Control',
                                        help=u"""
                                                     Sobre la base de las líneas de orden de compra: Lugar de líneas\n
