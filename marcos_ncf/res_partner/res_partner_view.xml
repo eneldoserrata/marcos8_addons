@@ -39,7 +39,7 @@
 
                     <div attrs="{'invisible': [('is_company','=', False)], 'required': [('is_company','=', True)]}">
                         <field name="customer_property_account_position" placeholder="Posición fiscal cliente"
-                               domain="['|',('for_supplier','=',supplier),('for_supplier','!=',customer)]"
+                               domain="[('for_supplier','=',False)]"
                                attrs="{'invisible': [('ref_type','=', 'none')], 'required': [('ref_type','in', ('cedula','rnc'))]}"/>
                     </div>
 
@@ -47,6 +47,7 @@
 
                 <field name="property_account_position" position="attributes">
                         <attribute name="string">Posición fiscal suplidor</attribute>
+                        <attribute name="domain">[('for_supplier','=',True)]</attribute>
                     </field>
 
                 <field name="property_supplier_payment_term" position="after">
