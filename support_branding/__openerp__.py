@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) 2013-2015 Marcos Organizador de Negocios SRL http://marcos.do
-#    Write by Eneldo Serrata (eneldo@marcos.do)
+#    OpenERP, Open Source Management Solution
+#    This module copyright (C) 2012-2015 Therp BV (<http://therp.nl>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -18,10 +18,22 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
-
-from openerp import models, fields
-
-class ir_ui_menu(models.Model):
-    _inherit = 'ir.ui.menu'
-
-    active = fields.Boolean("Activo", default=True)
+{
+    "name": "Support branding",
+    "summary": "Adds your branding to an Odoo instance",
+    "category": "Dependecy/Hidden",
+    "version": "8.0.2.0.0",
+    "license": "AGPL-3",
+    "author": "Therp BV,Odoo Community Association (OCA)",
+    "website": 'http://therp.nl',
+    "depends": [
+        'web',
+    ],
+    "qweb": [
+        'static/src/xml/base.xml',
+    ],
+    "data": [
+        "data/ir_config_parameter.xml",
+        'views/qweb.xml',
+    ],
+}
