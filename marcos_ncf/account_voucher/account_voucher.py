@@ -28,50 +28,49 @@ import openerp.addons.decimal_precision as dp
 class account_voucher(osv.Model):
     _inherit = 'account.voucher'
 
-    def _get_journal(self, cr, uid, context=None):
-        return super(account_voucher, self)._get_journal(cr, uid, context=context)
+    # def _get_journal(self, cr, uid, context=None):
+    #     return super(account_voucher, self)._get_journal(cr, uid, context=context)
 
 
     _columns = {
         "authorized": fields.boolean("Authorized?", help="Voucher must be authorized before been validated."),
     }
 
-    _defaults = {
-        'journal_id': _get_journal
-    }
+    # _defaults = {
+    #     'journal_id': _get_journal
+    # }
 
-    def onchange_amount(self, cr, uid, ids, amount, rate, partner_id, journal_id, currency_id, ttype, date,
-                        payment_rate_currency_id, company_id, context=None):
-        """ Inherited - add amount_in_word and allow_check_writting in returned value dictionary """
-        if not context:
-            context = {}
-        default = super(account_voucher, self).onchange_amount(cr, uid, ids, amount, rate, partner_id, journal_id,
-                                                               currency_id, ttype, date, payment_rate_currency_id,
-                                                               company_id, context=context)
-        if 'value' in default:
-            amount = 'amount' in default['value'] and default['value']['amount'] or amount
-
-            # Currency complete name is not available in res.currency model
-            # Exceptions done here (EUR, USD, BRL) cover 75% of cases
-            # For other currencies, display the currency code
-            currency = self.pool['res.currency'].browse(cr, uid, currency_id, context=context)
-            if currency.name.upper() == 'EUR':
-                currency_name = 'Euro'
-            elif currency.name.upper() == 'USD':
-                currency_name = 'Dollars'
-            elif currency.name.upper() == 'BRL':
-                currency_name = 'reais'
-            else:
-                currency_name = currency.name
-            # TODO : generic amount_to_text is not ready yet, otherwise language (and country) and currency can be passed
-            # amount_in_word = amount_to_text(amount, context=context)
-            amount_in_word = amount_to_text(amount, "pesos")
-            default['value'].update({'amount_in_word': amount_in_word})
-            if journal_id:
-                allow_check_writing = self.pool.get('account.journal').browse(cr, uid, journal_id,
-                                                                              context=context).allow_check_writing
-                default['value'].update({'allow_check': allow_check_writing})
-        return default
+    # def onchange_amount(self, cr, uid, ids, amount, rate, partner_id, journal_id, currency_id, ttype, date, payment_rate_currency_id, company_id, context=None):
+    #     """ Inherited - add amount_in_word and allow_check_writting in returned value dictionary """
+    #     if not context:
+    #         context = {}
+    #     default = super(account_voucher, self).onchange_amount(cr, uid, ids, amount, rate, partner_id, journal_id,
+    #                                                            currency_id, ttype, date, payment_rate_currency_id,
+    #                                                            company_id, context=context)
+    #     if 'value' in default:
+    #         amount = 'amount' in default['value'] and default['value']['amount'] or amount
+    #
+    #         # Currency complete name is not available in res.currency model
+    #         # Exceptions done here (EUR, USD, BRL) cover 75% of cases
+    #         # For other currencies, display the currency code
+    #         currency = self.pool['res.currency'].browse(cr, uid, currency_id, context=context)
+    #         if currency.name.upper() == 'EUR':
+    #             currency_name = 'Euro'
+    #         elif currency.name.upper() == 'USD':
+    #             currency_name = 'Dollars'
+    #         elif currency.name.upper() == 'BRL':
+    #             currency_name = 'reais'
+    #         else:
+    #             currency_name = currency.name
+    #         # TODO : generic amount_to_text is not ready yet, otherwise language (and country) and currency can be passed
+    #         # amount_in_word = amount_to_text(amount, context=context)
+    #         amount_in_word = amount_to_text(amount, "pesos")
+    #         default['value'].update({'amount_in_word': amount_in_word})
+    #         if journal_id:
+    #             allow_check_writing = self.pool.get('account.journal').browse(cr, uid, journal_id,
+    #                                                                           context=context).allow_check_writing
+    #             default['value'].update({'allow_check': allow_check_writing})
+    #     return default
 
     def action_authorize(self, cr, uid, ids, context=None):
         """
@@ -125,26 +124,19 @@ class account_voucher(osv.Model):
             cr, uid, [], 'account_check_writing.report_check', data=data, context=context
         )
 
-    def remove_auto_paymment(self, cr, uid, ids, context=None):
-            voucher_line_obj = self.pool.get("account.voucher.line")
-            lines_dr = [line.id for line in self.browse(cr, uid, ids[0]).line_dr_ids]
-            lines_cr = [line.id for line in self.browse(cr, uid, ids[0]).line_cr_ids]
-            voucher_line_obj.write(cr, uid, lines_dr+lines_cr, {"amount": 0.00, "reconcile": False}, context=context)
-            return True
+    # def remove_auto_paymment(self, cr, uid, ids, context=None):
+    #         voucher_line_obj = self.pool.get("account.voucher.line")
+    #         lines_dr = [line.id for line in self.browse(cr, uid, ids[0]).line_dr_ids]
+    #         lines_cr = [line.id for line in self.browse(cr, uid, ids[0]).line_cr_ids]
+    #         voucher_line_obj.write(cr, uid, lines_dr+lines_cr, {"amount": 0.00, "reconcile": False}, context=context)
+    #         return True
 
-    def action_move_line_create(self, cr, uid, ids, context=None):
-        voucher_line_obj = self.pool.get("account.voucher.line")
-        line_to_remove_ids = []
-        for line in self.browse(cr, uid, ids[0]).line_dr_ids+self.browse(cr, uid, ids[0]).line_cr_ids:
-            if line.amount == 0:
-                line_to_remove_ids.append(line.id)
-        voucher_line_obj.unlink(cr, uid, line_to_remove_ids)
-        return super(account_voucher, self).action_move_line_create(cr, uid, ids, context=context)
+    # def action_move_line_create(self, cr, uid, ids, context=None):
+    #     voucher_line_obj = self.pool.get("account.voucher.line")
+    #     line_to_remove_ids = []
+    #     for line in self.browse(cr, uid, ids[0]).line_dr_ids+self.browse(cr, uid, ids[0]).line_cr_ids:
+    #         if line.amount == 0:
+    #             line_to_remove_ids.append(line.id)
+    #     voucher_line_obj.unlink(cr, uid, line_to_remove_ids)
+    #     return super(account_voucher, self).action_move_line_create(cr, uid, ids, context=context)
 
-    def cancel_voucher(self, cr, uid, ids, context=None):
-        lines_obj = self.pool.get("account.voucher.line")
-        # line_ids = lines_obj.search(cr, uid, [("voucher_id", "in", ids)])
-        # if line_ids:
-        #     lines_obj.unlink(cr, uid, line_ids)
-
-        return super(account_voucher, self).cancel_voucher(cr, uid, ids, context=context)
