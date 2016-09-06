@@ -54,12 +54,3 @@ class res_currency(osv.osv):
             return new_rate
         else:
             pass
-
-
-class res_currency_rate(osv.osv):
-    _inherit = "res.currency.rate"
-
-    _columns = {
-        'rate': fields.float('Rate', digits=(12, 14), help='The rate of the currency to the currency of rate 1')
-    }
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
