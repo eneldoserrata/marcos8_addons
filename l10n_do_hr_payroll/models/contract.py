@@ -22,19 +22,21 @@ class HrContract(models.Model):
 
     @api.onchange("trial_date_end")
     def onchacnge_trial_date_end(self):
-        d2 = datetime.strptime(self.trial_date_start, "%Y-%m-%d").date()
-        d1 = datetime.strptime(self.trial_date_end, "%Y-%m-%d").date()
-        month = (d1.year - d2.year) * 12 + d1.month - d2.month
-        if month > 3:
-            raise exceptions.ValidationError("La fecha final del periodo de prueba no debe sobrepasar los 3 meses.")
+        if self.trial_date_start:
+            d2 = datetime.strptime(self.trial_date_start, "%Y-%m-%d").date()
+            d1 = datetime.strptime(self.trial_date_end, "%Y-%m-%d").date()
+            month = (d1.year - d2.year) * 12 + d1.month - d2.month
+            if month > 3:
+                raise exceptions.ValidationError("La fecha final del periodo de prueba no debe sobrepasar los 3 meses.")
 
     @api.onchange("trial_date_start")
     def onchange_trial_date_start(self):
-        trial_date_start = datetime.strptime(self.trial_date_start, "%Y-%m-%d").date()
-        trial_date_end = (trial_date_start+timedelta(3 * 365 / 12))
-        date_start = (trial_date_end+timedelta(days=1))
-        self.trial_date_end = trial_date_end.isoformat()
-        self.date_start = date_start.isoformat()
+        if self.trial_date_start:
+            trial_date_start = datetime.strptime(self.trial_date_start, "%Y-%m-%d").date()
+            trial_date_end = (trial_date_start+timedelta(3 * 365 / 12))
+            date_start = (trial_date_end+timedelta(days=1))
+            self.trial_date_end = trial_date_end.isoformat()
+            self.date_start = date_start.isoformat()
 
     @api.multi
     def set_trial(self):
