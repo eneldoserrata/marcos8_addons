@@ -553,7 +553,7 @@ openerp.marcos_ipf = function (instance, local) {
                     }
 
                     if (res) {
-                        self.showDialog(res.message)
+                        self.showDialog("Alerta", res.message)
                     } else
                     if (response.statusText === "error") {
                         self.showDialog("Error de conexion", "El sistema no pudo conectarse a la impresora verifique las conexiones.")
