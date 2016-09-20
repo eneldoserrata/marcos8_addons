@@ -103,7 +103,10 @@ class ResPartner(models.Model):
         vals = {}
 
         if not len(fiscal_id) in [9, 11]:
-            raise exceptions.ValidationError(u"Debe colocar un numero de RNC/Cedula valido!")
+            if not self._context.get("from_legalizaciones", False):
+                raise exceptions.ValidationError(u"Debe colocar un numero de RNC/Cedula valido!")
+            else:
+                return False
         else:
             if _internet_on():
                 data = self.get_rnc(fiscal_id)
@@ -148,6 +151,14 @@ class ResPartner(models.Model):
 
     @api.model
     def create(self, vals):
+
+        if self._context.get("from_legalizaciones", False):
+            if vals.get("name", False):
+                ref = re.sub("[^0-9]", "", vals["name"].strip())
+                partner = self.search([('ref', '=', ref)])
+                if partner:
+                    return partner
+
         if self._context.get("install_mode", False) or self._context.get("alias_model_name", False) == "res.users":
             return super(ResPartner, self).create(vals)
         elif vals:
@@ -155,7 +166,10 @@ class ResPartner(models.Model):
             if validation:
                 vals.update(validation)
             else:
-                raise exceptions.UserError(u"El número de RNC/Cédula no es vEalido en la DGII.")
+                if not self._context.get("from_legalizaciones", False):
+                    raise exceptions.ValidationError(u"El número de RNC/Cédula no es vEalido en la DGII.")
+                else:
+                    return False
             return super(ResPartner, self).create(vals)
 
     @api.onchange("ref")

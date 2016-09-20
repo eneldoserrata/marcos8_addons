@@ -99,6 +99,7 @@ class account_journal(models.Model):
     ncf_required = fields.Boolean("Requiere NCF del proveedor", default=False)
     active = fields.Boolean("Activo", default=True)
     nc_payment = fields.Boolean("Control de notas de credito", default=False)
+    cash_bank_type = fields.Boolean()
 
 
 class account_tax(models.Model):
