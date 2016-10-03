@@ -33,8 +33,14 @@ class NewModule(models.Model):
         return selecction
 
     NUMERO_NOMINA = fields.Selection(_get_nomina, string=u"ID Nómina", default=1, required=True)
-    TIPO_DE_DOCUMENTO = fields.Selection([('C',u'Cédula'),('N','NSS'),('P','Pasaporte')], required=True, string=u"Tipo de Documento", default="C")
-    NUMERO_DE_DOCUMENTO = fields.Char(string=u"Número de documento", help="Indique el numero del tipo de documento.")
+    TIPO_DE_DOCUMENTO = fields.Selection([("cedula", u"Cédula"),
+                                  ("rnc", u"RNC"),
+                                  ("pasport", u"Pasaporte"),
+                                  ("none", u"Otros"),
+                                  ], string=u"Tipo de identificación", required=True, default="cedula",
+                                         related="address_home_id.ref_type")
+    NUMERO_DE_DOCUMENTO = fields.Char(string=u"Número de documento", help="Indique el numero del tipo de documento.",
+                                      related="address_home_id.ref")
     PRIMER_APELLIDO = fields.Char("Primer Apellido")
     SEGUNDO_APELLIDO = fields.Char("Segundo Apellido")
 

@@ -37,7 +37,7 @@ This is the base module to manage the payroll for Dominican Republic.
     'version': '9.0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'account', "hr", "hr_payroll"],
+    'depends': ['base', 'account', "hr", "hr_payroll","marcos_ncf"],
 
     # always loaded
     'data': [

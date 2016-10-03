@@ -78,5 +78,18 @@
             </field>
         </record>
 
+        <record id="lp_view_employee_filter" model="ir.ui.view">
+            <field name="name">lp_view_employee_filter</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_filter"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//field[@name='department_id']" position="after">
+                    <field name="NUMERO_DE_DOCUMENTO"/>
+                </xpath>
+
+            </field>
+        </record>
+
     </data>
 </openerp>
