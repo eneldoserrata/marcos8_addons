@@ -22,3 +22,4 @@
 import shop
 import account_invoice
 import account
+import sale
