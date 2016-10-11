@@ -32,7 +32,7 @@ class NewModule(models.Model):
 
         return selecction
 
-    NUMERO_NOMINA = fields.Selection(_get_nomina, string=u"ID Nómina", default=1, required=True)
+    NUMERO_NOMINA = fields.Selection(_get_nomina, string=u"ID Nómina", required=True)
     TIPO_DE_DOCUMENTO = fields.Selection([("cedula", u"Cédula"),
                                   ("rnc", u"RNC"),
                                   ("pasport", u"Pasaporte"),
