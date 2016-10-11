@@ -24,6 +24,7 @@
                     <field name="itbis"/>
                     <field name="retention"/>
                     <field name="retention_isr"/>
+                    <field name="restaurant_tips"/>
                 </field>
             </field>
         </record>
