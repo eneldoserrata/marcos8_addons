@@ -109,7 +109,7 @@ class account_tax(models.Model):
     itbis = fields.Boolean("ITBIS")
     retention = fields.Boolean(u"Retención ITBIS")
     retention_isr = fields.Boolean(u"Retención ISR")
-    restaurant_tipss = fields.Boolean(u"Propina de restaurante")
+    restaurant_tips = fields.Boolean(u"Propina de restaurante")
 
     # Validate if each tax is marked as 'exempt' and zero the 'amount'
     @api.v7
