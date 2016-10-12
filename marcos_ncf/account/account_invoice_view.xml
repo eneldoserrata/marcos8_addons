@@ -23,7 +23,7 @@
                     <field name="reference_type" class="oe_inline"/>
                     <field name="internal_number" string="NCF"
                            attrs="{'required':[('ncf_required', '=', True), ('reference_type', 'not in', ('none','ext'))], 'invisible': [('ncf_required', '=', False)], 'readonly': [('state', '!=', 'draft')]}"/>
-                    <field name="reference" string="No. Factura suplidor" class="oe_inline"/>
+                    <field name="reference" string="Referencia Factura" class="oe_inline"/>
                 </xpath>
 
                 <field name="origin" position="replace"/>
