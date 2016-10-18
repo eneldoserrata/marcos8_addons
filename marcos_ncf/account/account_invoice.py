@@ -341,7 +341,7 @@ class account_invoice(models.Model):
                 if partner_id.customer:
                     fiscal_update_dict = {"fiscal_position": partner_id.customer_property_account_position.id}
                 else:
-                    fiscal_update_dict = {"fiscal_position": property_account_position.id}
+                    fiscal_update_dict = {"fiscal_position": partner_id.property_account_position.id}
 
                 if fiscal_update_dict:
                     vals.update(fiscal_update_dict)
