@@ -170,7 +170,11 @@ class ResPartner(models.Model):
                     raise exceptions.ValidationError(u"El número de RNC/Cédula no es vEalido en la DGII.")
                 else:
                     return False
-            return super(ResPartner, self).create(vals)
+
+            if self._context.get('from_legalizaciones', False):
+                return super(ResPartner, self.sudo()).create(vals)
+            else:
+                return super(ResPartner, self).create(vals)
 
     @api.onchange("ref")
     def onchange_ref(self):
